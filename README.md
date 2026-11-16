@@ -17,6 +17,8 @@ Domain chosen by the client: **smartlinepointcleaning.co.ke**
 | `make_choices.py` | One-page client tick-sheet: domain options and build decisions |
 | `logo_premium.py` | Logo system round 2 — six vector marks, Bodoni + Copperplate, brass on ink |
 | `make_logo_premium.py` | 6-page logo presentation built from those marks |
+| `site_layout.py` | **Website layout, single source of truth** — pages, sections, copy, SEO, design system |
+| `make_layout.py` | Renders it to `LAYOUT.md` (spec) and `wireframes.html` (clickable wireframe); `verify()` gates the build |
 | `logo_concepts.py` | Round 1, rejected. Kept for the record; archived output in `logo/_round1_rejected/` |
 
 ## Running
@@ -27,10 +29,12 @@ Plain `python`, not `python -I` — the scripts import `brandkit` from this fold
 python make_quotation.py        # quotation PDF
 python make_choices.py          # domain / decisions sheet
 python make_logo_premium.py     # logo concept deck
+python make_layout.py           # LAYOUT.md + wireframes.html
 ```
 
 Fonts are loaded from `C:/Windows/Fonts` (Segoe UI, Bodoni MT, Copperplate Gothic).
 
 ## Status
 
-Quote accepted. Domain chosen. Logo concepts with the client. Site build not started.
+Quote accepted. Domain chosen (smartlinepointcleaning.co.ke). Logo concepts rev B with the client.
+Website layout planned and verified — open `wireframes.html`. Build next.

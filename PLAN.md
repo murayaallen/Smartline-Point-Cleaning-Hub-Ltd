@@ -65,6 +65,8 @@ IMAP settings written into the handover sheet.
 
 ## 3. Sitemap — 8 pages
 
+> Section-by-section layout for every page: **`LAYOUT.md`** / **`wireframes.html`**.
+
 | # | Page | Purpose / primary search intent |
 |---|---|---|
 | 1 | `/` Home | Who they are, what they clean, request a quote |
@@ -112,9 +114,45 @@ tender. Add it as a service page the week the licence lands.
 
 Source file: `share_card.jpeg`.
 
+### Welcome statement (client-supplied 16/11/2026)
+
+Verbatim, as received:
+
+> Welcome to Smartline point cleaning  hub limited where cleanliness meets
+> excellence. We are dedicated to providing reliable, affordable, and
+> professional cleaning services for homes, offices,churches and commercial
+> spaces. Our team of trained cleaners works with care and attention to detail
+> to ensure every space is spotless, fresh, and habitable.We believe a clean
+> environment creates a healthier and happier place to live and work. Clean
+> spaces is our priority, and we endevour to satisfy  our clients.
+
+Web version, edited lightly, in their voice (this is what goes on the site):
+
+> Welcome to Smartline Point Cleaning Hub Ltd, where cleanliness meets
+> excellence. We provide reliable, affordable and professional cleaning for
+> homes, offices, churches and commercial spaces. Our trained cleaners work with
+> care and attention to detail, leaving every space spotless, fresh and ready to
+> use. We believe a clean environment makes for a healthier, happier place to
+> live and work. Clean spaces are our priority, and our clients' satisfaction is
+> how we measure it.
+
+Edits made: company name cased correctly; spacing and the comma before
+"churches" fixed; "endevour" → removed with the sentence recast; "Clean spaces
+is" → "are"; **"habitable" → "ready to use"** (habitable implies the space was
+unliveable before — wrong for an office or a church; revert if the client wants
+the word back).
+
+Where it is used:
+- **Home hero headline:** *Where cleanliness meets excellence.* — their phrase,
+  and the strongest line they have written. Eyebrow: SMARTLINE POINT CLEANING
+  HUB LTD. Sub-line: *Reliable, affordable, professional cleaning for homes,
+  offices, churches and commercial spaces.*
+- **Home intro block and About opening:** the full web version above.
+- *Assuring you the best* stays as the tagline under the logo, not the headline.
+
 ### Home, section by section
-1. Hero — "Assuring you the best", one line on what they do, two buttons:
-   *Request a quote* and *WhatsApp us*.
+1. Hero — headline *Where cleanliness meets excellence.*, sub-line on what
+   they clean, two buttons: *Request a quote* and *WhatsApp us*.
 2. Trust bar — since 2018 · trained and groomed staff · 9+ sites served ·
    comprehensive, quarterly, semi-annual or annual contracts.
 3. Services grid — six cards, each linking into the hub or its own page.
@@ -127,7 +165,12 @@ Source file: `share_card.jpeg`.
 8. FAQ — five questions, marked up as FAQPage.
 9. Footer — full NAP, hours, service areas, email, WhatsApp.
 
-## 4. Design direction
+## 4. Design direction — SUPERSEDED
+
+> Replaced by the round-2 identity (ink `#0E1430`, indigo `#241E63`, brass `#B8862F`,
+> paper `#FAF8F4`; Bodoni Moda over Manrope). The full web design system, page-by-page
+> layout and measured contrast now live in **`LAYOUT.md`** (generated from `site_layout.py`).
+> The orange palette below is kept only as a record of the client's original colours.
 
 Taken from their own profile and logo, not invented:
 

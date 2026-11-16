@@ -44,6 +44,12 @@ do not add anything more sensitive than that (bank statements, IDs, registers) t
   figures with `verify()` on import. Re-run it to regenerate the PDF.
 - `Smartline Point Cleaning Hub - Website Quotation.pdf` — 2-page A4 quotation.
 - `PLAN.md` — domain, sitemap, design direction, build plan, timeline.
+- `site_layout.py` — **single source of truth for the website layout**: every page, section,
+  copy, SEO title/description, palette, type scale. `make_layout.py` renders it to
+  `LAYOUT.md` (spec) and `wireframes.html` (clickable wireframe, desktop/mobile toggle,
+  deep links like `wireframes.html#page=home&w=mobile`). `verify()` fails the build on
+  titles > 60 chars, descriptions outside 110–160, contrast below AA, ≠ 8 pages,
+  ≠ 13 services, or fumigation anywhere on the site. Edit the data, never LAYOUT.md.
 - `brandkit.py` — shared ReportLab house style (palette, fonts, logo mark, masthead, footer).
 - `make_choices.py` / `Smartline Point Cleaning Hub - Domain & Choices.pdf` — one-page
   tick-sheet sent to the client: 6 available domain names (recommendation flagged) plus
@@ -93,6 +99,17 @@ move in/out, post-construction, deep, one-time, school, church, sofa set,
 toilet bowl & sink, **landscaping**.
 **Fumigation is omitted everywhere — not licensed yet.** Revisit when the licence lands.
 Source: `share_card.jpeg` (client-supplied 16/11/2026) + the company profile.
+
+## Website layout — SETTLED, build from this
+`LAYOUT.md` + `wireframes.html`, generated from `site_layout.py`. 8 content pages (64 sections),
+3 utility pages (thank-you, privacy, 404), 9 global elements incl. cookie notice (GA4 only after
+consent). Home is 10 sections: hero → proof + trusted-by → welcome → services (+ schedules)
+→ why → how we work → trained cleaners → testimonials → FAQ → CTA. Quote form is two
+steps (the job, then you), six required fields, pre-filled from `?service=`.
+- **Service copy for all 13 is DRAFT** — written by us, needs client approval. So do the
+  one-line proofs under the six reasons (incl. the re-clean promise).
+- Build standards (a11y, perf budget, SEO tech, security headers) and the image spec are in
+  LAYOUT.md §4b–4c — that is the launch bar.
 
 ## Open
 - Site build not started. Standard: zero-build static HTML/CSS/vanilla JS,
