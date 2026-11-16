@@ -33,6 +33,12 @@ Settled wording — do not re-litigate:
 - **No signatory/acceptance block** — page 2 closes with a one-line call to action.
 - Page 2 carries a value section ("What this buys the business") framing the spend as investment.
 
+## Repo
+https://github.com/murayaallen/Smartline-Point-Cleaning-Hub-Ltd — branch `main`.
+**Public by Allen's choice (16/11/2026)**, including the quotation PDF (KRA PIN,
+M-Pesa number, client pricing) and the client's profile and share card. Do not ask again;
+do not add anything more sensitive than that (bank statements, IDs, registers) to this repo.
+
 ## Files
 - `make_quotation.py` — ReportLab generator, single source of truth for the
   figures with `verify()` on import. Re-run it to regenerate the PDF.
