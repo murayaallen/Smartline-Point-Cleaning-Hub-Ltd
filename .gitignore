@@ -2,3 +2,9 @@ __pycache__/
 *.pyc
 .DS_Store
 Thumbs.db
+
+# sourced media: large binaries, kept out of the repo (folder structure is kept)
+media/incoming/**/*
+media/real/*
+!media/incoming/**/
+!**/.gitkeep

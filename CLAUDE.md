@@ -111,6 +111,21 @@ steps (the job, then you), six required fields, pre-filled from `?service=`.
 - Build standards (a11y, perf budget, SEO tech, security headers) and the image spec are in
   LAYOUT.md §4b–4c — that is the launch bar.
 
+## Media — sourced online, by Allen's decision (17/11/2026)
+`media_plan.py` is the source of truth → `MEDIA.md` (brief) + `Smartline - Image Sourcing List.xlsx`
+(tracker). 29 stock images to source (21 P1), 6 reuses, 8 real-photo items only the client can
+supply, 8 assets we produce. `verify()` fails if any image slot in site_layout.py has no media
+planned, if a service row lacks its own photo, or if a brief mentions fumigation.
+Wireframe notes now carry the image IDs (IMG-/REAL-) per section.
+- Downloads go to `media/incoming/<folder>/` under the **Save as** name; client photos to
+  `media/real/`. Both are **gitignored** — binaries stay out of the public repo.
+- Rules that are not negotiable: stock is illustration, never evidence. No stock image is
+  captioned as a Smartline job, team or client. No stock faces on testimonials. Before/after
+  sliders stay hidden until REAL-03–05 arrive; the gallery runs as “Spaces we look after”
+  until REAL-06 arrives. Google Business Profile needs REAL-07 — Google strips stock.
+- Record source URL + photographer + licence for every approved image; the tracker flags
+  any approved image with a blank licence.
+
 ## Open
 - Site build not started. Standard: zero-build static HTML/CSS/vanilla JS,
   .htaccess clean URLs + CSP, sitemap/robots, mobile sweep.

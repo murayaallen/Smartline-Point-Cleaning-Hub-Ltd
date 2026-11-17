@@ -452,10 +452,22 @@ RENDER = {
 DARK = {"band", "cta"}
 
 
+def _media_map():
+    try:
+        import media_plan
+        return media_plan.by_section()
+    except Exception:  # the layout must still build without the media plan
+        return {}
+
+
+MEDIA = _media_map()
+
+
 def note(s):
     needs = "".join('<span class="need">%s</span>' % E(n) for n in s.get("needs", []))
-    return ('<div class="note"><b>%s \u00b7 %s</b> %s <i>Mobile:</i> %s %s</div>' %
-            (E(s["id"]), E(s["name"]), E(s["what"]), E(s["mobile"]), needs))
+    media = "".join('<span class="media">%s</span>' % E(m) for m in MEDIA.get(s["id"], []))
+    return ('<div class="note"><b>%s \u00b7 %s</b> %s <i>Mobile:</i> %s %s%s</div>' %
+            (E(s["id"]), E(s["name"]), E(s["what"]), E(s["mobile"]), media, needs))
 
 
 def section(s, i):
@@ -646,6 +658,8 @@ background:var(--brass);color:var(--ink);padding:3px 8px;border-radius:2px;z-ind
 .note b{color:var(--ink);font-weight:700}.dark .note b{color:#fff}.note i{font-style:normal;font-weight:700;color:var(--brasst)}
 .need{display:inline-block;margin:4px 6px 0 0;background:#FBEFD9;color:#7F5B17;border:1px solid #EBD3A6;border-radius:2px;
 padding:1px 7px;font-weight:600;font-size:11.5px}
+.media{display:inline-block;margin:4px 6px 0 0;background:#EAF0FA;color:#241E63;border:1px solid #C9D4EA;border-radius:2px;
+padding:1px 7px;font-weight:600;font-size:11.5px;font-family:Consolas,monospace}
 body.nonotes .note,body.nonotes .tag,body.nonotes .seo{display:none}
 /* hero */
 .hero{display:grid;grid-template-columns:1.05fr 1fr;gap:48px;align-items:center}

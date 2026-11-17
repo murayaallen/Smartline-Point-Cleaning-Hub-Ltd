@@ -19,6 +19,7 @@ Domain chosen by the client: **smartlinepointcleaning.co.ke**
 | `make_logo_premium.py` | 6-page logo presentation built from those marks |
 | `site_layout.py` | **Website layout, single source of truth** — pages, sections, copy, SEO, design system |
 | `make_layout.py` | Renders it to `LAYOUT.md` (spec) and `wireframes.html` (clickable wireframe); `verify()` gates the build |
+| `media_plan.py` | **Media plan** — every image to source, with art direction; renders `MEDIA.md` and the XLSX tracker |
 | `logo_concepts.py` | Round 1, rejected. Kept for the record; archived output in `logo/_round1_rejected/` |
 
 ## Running
@@ -30,6 +31,7 @@ python make_quotation.py        # quotation PDF
 python make_choices.py          # domain / decisions sheet
 python make_logo_premium.py     # logo concept deck
 python make_layout.py           # LAYOUT.md + wireframes.html
+python media_plan.py            # MEDIA.md + image sourcing tracker
 ```
 
 Fonts are loaded from `C:/Windows/Fonts` (Segoe UI, Bodoni MT, Copperplate Gothic).
