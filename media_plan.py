@@ -52,7 +52,7 @@ STOCK = [
      "Careful hands: a gloved cleaner measuring or diluting a cleaning product, or putting on PPE.",
      "Gloves; labelled bottles with no brand legible; a controlled, careful action; darker tones",
      "Respirators or fogging that read as fumigation; " + AVOID,
-     "3:4 portrait", "1200 × 1600", "None (sits beside text on ink)",
+     "4:3", "1200 × 900", "None (sits beside text on ink)",
      ["gloved hands cleaning product", "cleaner putting on gloves", "measuring cleaning chemical"],
      FREE, "home", None, "Training is the tender argument — this image should look disciplined, not domestic."),
     ("BG-01", "P2", "Global", "G-07", "Background — CTA band on every page",
@@ -306,6 +306,141 @@ ART_DIRECTION = OrderedDict([
     ]),
 ])
 
+# ------------------------------------------------------------------ what we hold
+# Allen's call, 17/11/2026: use the five images whose provenance was unclear, plus
+# themightynelson and the South Africa file. Recorded as his decision; the licence
+# column in the tracker stays blank for those until a source is found.
+SRC_DIR = "media/all"
+
+# slot -> (file, crop / treatment note)
+ASSIGNED = {
+    # ---- home
+    "IMG-H01": ("corridor+4.webp",
+                "Crop 4:5 from the full 2500\u00d73333. Keep the corridor vanishing into light on the right; "
+                "the headline sits over the darker left wall. Warm the floor slightly."),
+    "IMG-H07": ("cleaning.jpg",
+                "Crop 4:3 \u2014 gloved hands, spray and cloth only. Slot changed from portrait to landscape to "
+                "fit this file; it is 1000\u00d7667, so it is shown at 400\u00d7300 and no larger."),
+    # ---- services, one per row
+    "IMG-S01": ("bg11.jpg",
+                "Crop 4:3 around the cleaner and trolley; keep the glass and daylight. Our only strong people shot."),
+    "IMG-S02": ("Cleaning-Company-South-Africa.webp",
+                "Crop 4:3 to the rotary machine on the carpet. Square original, so the crop is tight; "
+                "no text or logo visible in frame."),
+    "IMG-S03": ("hospital floor.avif",
+                "Crop 4:3 of the glazed corridor. Reads institutional rather than specifically school \u2014 "
+                "acceptable at row size, first to be replaced."),
+    "IMG-S05": ("pexels-pixabay-48889.jpg", "Crop 4:3 to the mop head and floor grain."),
+    "IMG-S09": ("pexels-arina-krasnikova-6653891.jpg", "Crop 4:3 on the basin and tiling; leave the toilet out of frame."),
+    "IMG-S10": ("post-construction-cleaning-1.webp", "Crop 4:3 to the broom and plaster debris."),
+    "IMG-S11": ("pexels-alejandro-robles-duque-420889274-32908422.jpg", "Crop 4:3 to the brush, suds and tile edge."),
+    "IMG-S12": ("pexels-caleboquendo-34516664.jpg", "Crop 4:3 to the caddy and bin; drop the ceiling."),
+    "IMG-S13": ("pexels-jessicairoh-33123333.jpg", "Crop 4:3 around the operator; keep the green."),
+    # ---- service page hero
+    "IMG-D01": ("office floor.jpg", "Crop 4:3 of the lobby; keep the glazing. Shown at 520\u00d7390."),
+    # ---- backgrounds and utility
+    "BG-01": ("window cleaning.jpg",
+              "Crop 21:9 across the glass and squeegee. Sits under the 85% ink overlay, so detail does not matter; "
+              "it reads as texture."),
+    "IMG-N01": ("cleaning (1).jpg",
+                "Crop 4:3, mop and sign. 500\u00d7500 original \u2014 shown at 300\u00d7225 on the 404 page only."),
+    # ---- gallery tiles (Clients \u201cSpaces we look after\u201d until the real jobs arrive)
+    "IMG-C02": ("photo-1721620958961-cccc239cbb49.avif",
+                "Portrait tile. Squeegee on patterned glass \u2014 stands in for the banking/commercial tile."),
+    "IMG-C05": ("post-construction-cleaning-768x1020.webp", "Portrait tile. Renovated kitchen before handover."),
+    "IMG-C07": ("why-professional-deep-cleaning-services-are-vital-after-heavy-rain-in-dubai.webp",
+                "Landscape tile. Floor polisher indoors."),
+    "IMG-C09": ("pexels-themightynelson-6014518.jpg",
+                "Landscape tile, compounds. **Crop hard to the grass, tool and torso \u2014 the red timber barn "
+                "must be out of frame**, it reads North American. Portrait original gives room to do this."),
+}
+
+# extra tiles beyond the named gallery slots (the masonry grid takes 9\u201312)
+GALLERY_EXTRA = [
+    ("images.jfif", "Cleaner at a trolley by a window. 678\u00d7452 \u2014 tile only, never larger."),
+    ("images (2).jfif", "Tropical lawn and planting, convincingly Kenyan. 447\u00d7447 \u2014 small square tile."),
+    ("closeup-janitor-using-mop-clean-office-floor-maintain-workspace-hygiene-concept-janitorial-services-workplace-cleanliness-commercial-cleaning-office-hygiene-professional-janitor_91883.avif",
+     "Mop on an office floor, 740\u00d7370 \u2014 wide tile."),
+    ("photo-1740657254989-42fe9c3b8cce.avif", "Gloved hands on a wet floor, 1012\u00d7580 \u2014 wide tile."),
+    ("pexels-karola-g-4239088.jpg", "Washroom detail. Large file, use as the quality tile in the grid."),
+]
+
+DROPPED = {
+    "images (1).jfif": "Formal brick-edged English garden, 447\u00d7447. Wrong place and far too small.",
+    "65cc88b4602feef69a73e8bf82a3edf7.jpg": "Manicured English garden, 474\u00d7599. Wrong place, too small.",
+    "caution wet floor.avif": "A caution sign sells hazard, not finish. Nothing on the site needs it.",
+}
+
+# what each slot is actually displayed at on a desktop, in CSS pixels
+DISPLAY = {
+    "IMG-H01": (560, 700), "IMG-H01b": (560, 700), "IMG-H05": (420, 560), "IMG-H07": (400, 300),
+    "IMG-A01": (460, 345), "IMG-A02": (420, 525), "IMG-A06": (420, 525),
+    "IMG-D01": (520, 390), "IMG-D02": (520, 390), "IMG-D03": (520, 390),
+    "BG-01": (1440, 600), "BG-02": (1440, 420), "IMG-N01": (300, 225),
+}
+for _i in range(1, 14):
+    DISPLAY["IMG-S%02d" % _i] = (240, 180)
+for _i in range(1, 10):
+    DISPLAY["IMG-C%02d" % _i] = (260, 195)
+DISPLAY["IMG-C02"] = (260, 390)
+DISPLAY["IMG-C05"] = (260, 390)
+
+
+def _aspect(slot):
+    for it in items():
+        if it["id"] == slot:
+            a = it["aspect"]
+            break
+    else:
+        a = "4:3"
+    a = a.split()[0]
+    if ":" in a:
+        w, h = a.split(":")
+        return float(w) / float(h)
+    return 4 / 3.0
+
+
+def source_size(fn):
+    from PIL import Image
+    try:
+        with Image.open(os.path.join(SRC_DIR, fn)) as im:
+            return im.size
+    except Exception:
+        return (0, 0)
+
+
+def quality(slot, fn):
+    """how the file holds up at the size the slot is shown: 2x, 1x or short"""
+    w, h = source_size(fn)
+    if not w:
+        return "missing", 0, 0
+    ar = _aspect(slot)
+    cw, ch = min(w, h * ar), min(h, w / ar)          # largest crop at the slot's aspect
+    dw, dh = DISPLAY.get(slot, (240, 180))
+    if cw >= dw * 2 and ch >= dh * 2:
+        return "2x \u2014 sharp on retina", int(cw), int(ch)
+    if cw >= dw and ch >= dh:
+        return "1x \u2014 soft on retina, fine on a normal screen", int(cw), int(ch)
+    return "short of 1x \u2014 do not enlarge", int(cw), int(ch)
+
+
+def assignment_rows():
+    rows = []
+    for slot, (fn, note) in sorted(ASSIGNED.items()):
+        q, cw, ch = quality(slot, fn)
+        slot_item = next((i for i in items() if i["id"] == slot), None)
+        rows.append(dict(slot=slot, file=fn, note=note, q=q, cw=cw, ch=ch,
+                         role=slot_item["role"] if slot_item else slot,
+                         pri=slot_item["pri"] if slot_item else "\u2014",
+                         display="%d\u00d7%d" % DISPLAY.get(slot, (240, 180))))
+    return rows
+
+
+def missing():
+    have = set(ASSIGNED)
+    return [i for i in items() if not i["reuse_of"] and i["id"] not in have]
+
+
 FOLDERS = ["home", "about", "services", "service-pages", "clients", "backgrounds", "utility"]
 
 
@@ -373,6 +508,18 @@ def verify():
                 errs.append("%s has unknown folder %s" % (i["id"], i["folder"]))
         if i["pri"] not in ("P1", "P2", "P3"):
             errs.append("%s bad priority" % i["id"])
+    import os as _os
+    supplied = set()
+    if _os.path.isdir(SRC_DIR):
+        supplied = {f for f in _os.listdir(SRC_DIR) if not f.startswith(".")}
+    accounted = set(f for f, _ in ASSIGNED.values()) | set(f for f, _ in GALLERY_EXTRA) | set(DROPPED)
+    for f in sorted(accounted - supplied):
+        errs.append("assigned file not in %s: %s" % (SRC_DIR, f))
+    for f in sorted(supplied - accounted):
+        errs.append("supplied file with no decision: %s" % f)
+    for slot in ASSIGNED:
+        if slot not in {i["id"] for i in its}:
+            errs.append("assignment to unknown slot: %s" % slot)
     covered = by_section()
     for sid in image_slots():
         if sid not in covered:
@@ -432,6 +579,26 @@ def build_md(its):
             o.append("  - **Save as:** `media/incoming/%s/%s`" % (i["folder"], save_as(i)))
         o.append("")
 
+    rows = assignment_rows()
+    o.append("## What we already hold \u2014 %d slots filled\n" % len(rows))
+    o.append("Files live in `%s`. Crop and export happen at build time.\n" % SRC_DIR)
+    o.append("| Slot | Pri | File | Shown at | Largest crop | Holds up | Treatment |\n|---|---|---|---|---|---|---|")
+    for r in rows:
+        o.append("| **%s** | %s | `%s` | %s | %d\u00d7%d | %s | %s |" %
+                 (r["slot"], r["pri"], r["file"][:40], r["display"], r["cw"], r["ch"], r["q"], r["note"]))
+    o.append("\n**Extra gallery tiles** (small files, tile size only):\n")
+    for fn, why in GALLERY_EXTRA:
+        o.append("- `%s` \u2014 %s" % (fn[:50], why))
+    o.append("\n**Dropped:**\n")
+    for fn, why in DROPPED.items():
+        o.append("- `%s` \u2014 %s" % (fn[:50], why))
+    miss = missing()
+    o.append("\n## Still missing \u2014 %d slots\n" % len(miss))
+    o.append("| Slot | Pri | What | Aspect | Min size | Where to look |\n|---|---|---|---|---|---|")
+    for i in sorted(miss, key=lambda x: (x["pri"], x["id"])):
+        o.append("| %s | %s | %s | %s | %s | %s |" %
+                 (i["id"], i["pri"], i["role"], i["aspect"], i["min_px"], i["where"]))
+    o.append("")
     o.append("## Real photographs — only the client can supply\n")
     o.append("These are proof. Stock cannot stand in for them.\n")
     for rid, name, where, what, how in REAL:
@@ -597,7 +764,13 @@ def build():
     with open("MEDIA.md", "w", encoding="utf-8") as f:
         f.write(md)
     xlsx = "Smartline - Image Sourcing List.xlsx"
-    n_rows, _ = build_xlsx(its, xlsx)
+    try:
+        n_rows, _ = build_xlsx(its, xlsx)
+    except PermissionError:
+        xlsx = "Smartline - Image Sourcing List (new).xlsx"
+        n_rows, _ = build_xlsx(its, xlsx)
+        print("NOTE: the tracker was open in Excel, so the update went to '%s'." % xlsx)
+        print("      Close the original, delete it, and rename this one over it.")
     make_folders()
     to_source = [i for i in its if not i["reuse_of"]]
     pri = Counter(i["pri"] for i in to_source)

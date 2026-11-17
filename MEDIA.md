@@ -72,7 +72,7 @@ Save each download as the **Save as** name into `media/incoming/<folder>/`.
   - **Keep clear for text:** None (sits beside text)
   - **Note:** Caption must not say “our team” while this is stock. Replaced by REAL-01 when it exists.
   - **Save as:** `media/incoming/home/IMG-H05_home-beside-the-six-reasons.jpg`
-- [ ] **IMG-H07** · P1 · Main — on the ink training band · `H-07` · 3:4 portrait, min 1200 × 1600
+- [ ] **IMG-H07** · P1 · Main — on the ink training band · `H-07` · 4:3, min 1200 × 900
   - **Find:** Careful hands: a gloved cleaner measuring or diluting a cleaning product, or putting on PPE.
   - **Must show:** Gloves; labelled bottles with no brand legible; a controlled, careful action; darker tones
   - **Search:** “gloved hands cleaning product” · “cleaner putting on gloves” · “measuring cleaning chemical”  ·  **Where:** Pexels · Unsplash (free, commercial use)
@@ -248,6 +248,62 @@ Save each download as the **Save as** name into `media/incoming/<folder>/`.
   - **Keep clear for text:** Right half
   - **Note:** Optional.
   - **Save as:** `media/incoming/utility/IMG-N01_404-page.jpg`
+
+## What we already hold — 18 slots filled
+
+Files live in `media/all`. Crop and export happen at build time.
+
+| Slot | Pri | File | Shown at | Largest crop | Holds up | Treatment |
+|---|---|---|---|---|---|---|
+| **BG-01** | P2 | `window cleaning.jpg` | 1440×600 | 3589×1538 | 2x — sharp on retina | Crop 21:9 across the glass and squeegee. Sits under the 85% ink overlay, so detail does not matter; it reads as texture. |
+| **IMG-C02** | P2 | `photo-1721620958961-cccc239cbb49.avif` | 260×390 | 687×515 | 1x — soft on retina, fine on a normal screen | Portrait tile. Squeegee on patterned glass — stands in for the banking/commercial tile. |
+| **IMG-C05** | P2 | `post-construction-cleaning-768x1020.webp` | 260×390 | 768×576 | 1x — soft on retina, fine on a normal screen | Portrait tile. Renovated kitchen before handover. |
+| **IMG-C07** | P2 | `why-professional-deep-cleaning-services-` | 260×195 | 800×600 | 2x — sharp on retina | Landscape tile. Floor polisher indoors. |
+| **IMG-C09** | P2 | `pexels-themightynelson-6014518.jpg` | 260×195 | 2520×1890 | 2x — sharp on retina | Landscape tile, compounds. **Crop hard to the grass, tool and torso — the red timber barn must be out of frame**, it reads North American. Portrait original gives room to do this. |
+| **IMG-D01** | P1 | `office floor.jpg` | 520×390 | 3905×2929 | 2x — sharp on retina | Crop 4:3 of the lobby; keep the glazing. Shown at 520×390. |
+| **IMG-H01** | P1 | `corridor+4.webp` | 560×700 | 2500×3125 | 2x — sharp on retina | Crop 4:5 from the full 2500×3333. Keep the corridor vanishing into light on the right; the headline sits over the darker left wall. Warm the floor slightly. |
+| **IMG-H07** | P1 | `cleaning.jpg` | 400×300 | 889×667 | 2x — sharp on retina | Crop 4:3 — gloved hands, spray and cloth only. Slot changed from portrait to landscape to fit this file; it is 1000×667, so it is shown at 400×300 and no larger. |
+| **IMG-N01** | P3 | `cleaning (1).jpg` | 300×225 | 500×375 | 1x — soft on retina, fine on a normal screen | Crop 4:3, mop and sign. 500×500 original — shown at 300×225 on the 404 page only. |
+| **IMG-S01** | P1 | `bg11.jpg` | 240×180 | 1333×1000 | 2x — sharp on retina | Crop 4:3 around the cleaner and trolley; keep the glass and daylight. Our only strong people shot. |
+| **IMG-S02** | P1 | `Cleaning-Company-South-Africa.webp` | 240×180 | 1080×810 | 2x — sharp on retina | Crop 4:3 to the rotary machine on the carpet. Square original, so the crop is tight; no text or logo visible in frame. |
+| **IMG-S03** | P1 | `hospital floor.avif` | 240×180 | 773×580 | 2x — sharp on retina | Crop 4:3 of the glazed corridor. Reads institutional rather than specifically school — acceptable at row size, first to be replaced. |
+| **IMG-S05** | P1 | `pexels-pixabay-48889.jpg` | 240×180 | 4864×3648 | 2x — sharp on retina | Crop 4:3 to the mop head and floor grain. |
+| **IMG-S09** | P1 | `pexels-arina-krasnikova-6653891.jpg` | 240×180 | 2336×1752 | 2x — sharp on retina | Crop 4:3 on the basin and tiling; leave the toilet out of frame. |
+| **IMG-S10** | P1 | `post-construction-cleaning-1.webp` | 240×180 | 1066×800 | 2x — sharp on retina | Crop 4:3 to the broom and plaster debris. |
+| **IMG-S11** | P1 | `pexels-alejandro-robles-duque-420889274-` | 240×180 | 2688×2016 | 2x — sharp on retina | Crop 4:3 to the brush, suds and tile edge. |
+| **IMG-S12** | P1 | `pexels-caleboquendo-34516664.jpg` | 240×180 | 4878×3659 | 2x — sharp on retina | Crop 4:3 to the caddy and bin; drop the ceiling. |
+| **IMG-S13** | P1 | `pexels-jessicairoh-33123333.jpg` | 240×180 | 2774×2080 | 2x — sharp on retina | Crop 4:3 around the operator; keep the green. |
+
+**Extra gallery tiles** (small files, tile size only):
+
+- `images.jfif` — Cleaner at a trolley by a window. 678×452 — tile only, never larger.
+- `images (2).jfif` — Tropical lawn and planting, convincingly Kenyan. 447×447 — small square tile.
+- `closeup-janitor-using-mop-clean-office-floor-maint` — Mop on an office floor, 740×370 — wide tile.
+- `photo-1740657254989-42fe9c3b8cce.avif` — Gloved hands on a wet floor, 1012×580 — wide tile.
+- `pexels-karola-g-4239088.jpg` — Washroom detail. Large file, use as the quality tile in the grid.
+
+**Dropped:**
+
+- `images (1).jfif` — Formal brick-edged English garden, 447×447. Wrong place and far too small.
+- `65cc88b4602feef69a73e8bf82a3edf7.jpg` — Manicured English garden, 474×599. Wrong place, too small.
+- `caution wet floor.avif` — A caution sign sells hazard, not finish. Nothing on the site needs it.
+
+## Still missing — 12 slots
+
+| Slot | Pri | What | Aspect | Min size | Where to look |
+|---|---|---|---|---|---|
+| IMG-A01 | P1 | Main — page hero | 16:9 landscape | 1920 × 1080 | Adobe Stock · iStock · Shutterstock (model-released); Pexels as fallback |
+| IMG-A02 | P1 | Main — our story | 4:5 portrait | 1200 × 1500 | Adobe Stock · iStock · Shutterstock (model-released); Pexels as fallback |
+| IMG-D02 | P1 | Main — page hero | 4:3 | 1600 × 1200 | Adobe Stock · iStock · Shutterstock (model-released); Pexels as fallback |
+| IMG-D03 | P1 | Main — page hero | 4:3 | 1600 × 1200 | Pexels · Unsplash (free, commercial use) |
+| IMG-H05 | P1 | Main — beside the six reasons | 3:4 portrait | 1200 × 1600 | Adobe Stock · iStock · Shutterstock (model-released); Pexels as fallback |
+| IMG-S04 | P1 | Service row — Church cleaning | 4:3 | 1200 × 900 | Pexels · Unsplash (free, commercial use) |
+| IMG-S06 | P1 | Service row — Apartment cleaning | 4:3 | 1200 × 900 | Pexels · Unsplash (free, commercial use) |
+| IMG-S07 | P1 | Service row — Move in / move out | 4:3 | 1200 × 900 | Pexels · Unsplash (free, commercial use) |
+| IMG-S08 | P1 | Service row — Sofa set & upholstery | 4:3 | 1200 × 900 | Pexels · Unsplash (free, commercial use) |
+| IMG-A06 | P2 | Main — community and jobs | 4:5 portrait | 1200 × 1500 | Adobe Stock · iStock · Shutterstock (model-released); Pexels as fallback |
+| IMG-H01b | P2 | Main — hero alternate | 4:5 portrait | 1600 × 2000 | Adobe Stock · iStock · Shutterstock (model-released); Pexels as fallback |
+| BG-02 | P3 | Background — compact page heroes (Services, Clients, Contact) | 21:9 landscape | 2400 × 1000 | Pexels · Unsplash (free, commercial use) |
 
 ## Real photographs — only the client can supply
 

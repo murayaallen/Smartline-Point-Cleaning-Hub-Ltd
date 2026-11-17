@@ -126,19 +126,23 @@ Wireframe notes now carry the image IDs (IMG-/REAL-) per section.
 - Record source URL + photographer + licence for every approved image; the tracker flags
   any approved image with a blank licence.
 
-## Images supplied so far — reviewed 17/11/2026
-26 files in `media/all` (not the per-slot folders). `review_media.py` holds the verdict per file and
-renders `MEDIA-REVIEW.md` + `Smartline - Image Review.pdf`. Re-run it as more arrive.
-- **6 USE** (all Pexels): S05 residential, S09 toilet/sink (+alt), S11 deep clean, S12 one-time,
-  **S13 landscaping — the best image in the set**.
-- **5 CHECK LICENCE**: `corridor+4.webp` (best hero candidate), `bg11.jpg` (best people shot),
-  `office floor.jpg`, `window cleaning.jpg`, `post-construction-cleaning-1.webp`. Good pictures,
-  no provenance — re-source the licensed original before they ship.
-- **10 TOO SMALL**, **5 REPLACE** (English gardens, a US red barn, competitor-site scrapes).
-- **17 of 26 have no provenance.** `.jfif` = Google Images; `*-768x1020.webp` = a competitor's
-  WordPress upload. These cannot go on a client site — the client carries that risk.
-- **19 slots still empty**, and every face-showing slot is among them (H05 team, A01, A02, A06):
-  those need model-released stock, not Pexels.
+## Images — decided 17/11/2026
+26 supplied files in `media/all`: **18 placed in slots, 5 as gallery tiles, 3 dropped.**
+`media_plan.ASSIGNED` holds slot → file + crop note; `review_media.py` renders the decision
+sheet (`MEDIA-REVIEW.md`, `Smartline - Image Review.pdf`). Both read the same data.
+- **Allen's call: use the files whose provenance is unclear** (corridor+4, bg11, office floor,
+  window cleaning, post-construction-cleaning-1, Cleaning-Company-South-Africa, themightynelson).
+  Do not re-raise it. If one is ever challenged: reverse image search, find the licensed original,
+  swap the file — slot, crop and layout stay as they are.
+- `quality()` checks the largest crop at the slot's aspect against the slot's **display size**:
+  14 are sharp at 2x, 4 are 1x-only and are placed only where they are shown small
+  (IMG-N01 404, IMG-C02/C05 gallery tiles).
+- IMG-H07 (training band) was **switched from portrait to landscape 4:3** to fit `cleaning.jpg`;
+  site_layout H-07 and the image spec were updated to match.
+- themightynelson: **crop the red barn out** — it reads North American.
+- **12 slots still empty**, 9 of them P1: H05 team, A01 About hero, A02 supervisor, A06 training,
+  S04 church, S06 apartment, S07 move in/out, S08 sofa, D02 homes hero, D03 post-construction hero,
+  plus H01b and BG-02 (optional). The four face-showing ones need model-released stock.
 
 ## Open
 - Site build not started. Standard: zero-build static HTML/CSS/vanilla JS,

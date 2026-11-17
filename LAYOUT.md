@@ -318,7 +318,8 @@ Six required fields in all. Step 1 asks about the job (low commitment, so people
 | Service page hero | 4:3 | 1600 × 1200 | The exact service on a real site |
 | About hero | 16:9 | 1920 × 1080 | The team in uniform |
 | Service row | 4:3 | 800 × 600 | One per service — 13 in all |
-| Why / training | 3:4 | 1200 × 1600 | Cleaners at work, PPE visible |
+| Why — team (H-05) | 3:4 | 1200 × 1600 | Cleaners at work, PPE visible |
+| Training band (H-07) | 4:3 | 1200 × 900 | Hands, gloves, product — close and disciplined |
 | Before / after | 4:3, a matched pair | 1600 × 1200 each | Same spot, same angle, same light — or it is not proof |
 | Gallery | Free | 1200 long edge | 9–12 real jobs |
 | Share image (Open Graph) | 1.91:1 | 1200 × 630 | One per content page, built from the brand template |
