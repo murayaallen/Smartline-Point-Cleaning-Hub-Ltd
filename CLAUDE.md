@@ -126,56 +126,24 @@ Wireframe notes now carry the image IDs (IMG-/REAL-) per section.
 - Record source URL + photographer + licence for every approved image; the tracker flags
   any approved image with a blank licence.
 
-## Images — decided 17/11/2026
-26 supplied files in `media/all`: **18 placed in slots, 5 as gallery tiles, 3 dropped.**
-`media_plan.ASSIGNED` holds slot → file + crop note; `review_media.py` renders the decision
-sheet (`MEDIA-REVIEW.md`, `Smartline - Image Review.pdf`). Both read the same data.
-- **Allen's call: use the files whose provenance is unclear** (corridor+4, bg11, office floor,
-  window cleaning, post-construction-cleaning-1, Cleaning-Company-South-Africa, themightynelson).
-  Do not re-raise it. If one is ever challenged: reverse image search, find the licensed original,
-  swap the file — slot, crop and layout stay as they are.
-- `quality()` checks the largest crop at the slot's aspect against the slot's **display size**:
-  14 are sharp at 2x, 4 are 1x-only and are placed only where they are shown small
-  (IMG-N01 404, IMG-C02/C05 gallery tiles).
-- IMG-H07 (training band) was **switched from portrait to landscape 4:3** to fit `cleaning.jpg`;
-  site_layout H-07 and the image spec were updated to match.
-- themightynelson: **crop the red barn out** — it reads North American.
-- **12 slots still empty**, 9 of them P1: H05 team, A01 About hero, A02 supervisor, A06 training,
-  S04 church, S06 apartment, S07 move in/out, S08 sofa, D02 homes hero, D03 post-construction hero,
-  plus H01b and BG-02 (optional). The four face-showing ones need model-released stock.
-
-## Sector research — 17/11/2026 (`SECTOR-RESEARCH.md`)
-Studied Cleanology + Julius Rutherfoord (London premium), ISS (global), Bestcare +
-Nairobi Cleaning Service Centre (the local competitors), plus CRO and local-SEO sources.
-Changes already in the layout:
-- **A-06 Vetting, insurance and compliance** — the biggest gap in the local market; both
-  London firms put vetting in the main nav, neither Nairobi site answers it.
-- **S-07 Guide prices** (3 tiers, "final figure after a site visit") — both Nairobi
-  competitors publish KES tables; showing nothing would make us the least transparent.
-  **Needs three figures from the client, or a decision to show none.**
-- **H-09 Clean Quality Guaranteed band** — 24-hour re-clean, named supervisor, checked
-  against the written scope. The competitor publishes the same promise; this is parity.
-- **S-08 sector chips**, **A-08 Work with us** (recruitment is constant in this trade),
-  hero chip "Reply within one working day", proof beside the contact form.
-- Phase-2 roadmap in LAYOUT.md §7a: area pages (one blanket areas page does not rank),
-  sector pages, case notes, client portal, instant estimate.
-Deliberately not copied: unverifiable claims, an empty blog, identical CTAs everywhere,
-split funnels, fully price-gated booking.
-
-## SEO — `seo_plan.py` → `SEO.md`
-Keyword map tied to the real pages; `verify()` fails on a page with no keyword, two pages
-sharing a primary (cannibalisation), a keyword missing from its own title/H1/hero, a title
-over 60, a description outside 110–160, a service with no term, or a page that does not
-link to the quote form. It already caught two: About and Contact did not carry their terms
-— both titles and hero sub-lines were rewritten.
-Order of work: **technical → on-page → Google Business Profile → reviews → content.**
-- Primary category **Commercial cleaning service**, service-area business (Nairobi + Kiambu).
-  GBP matters more than the website for this trade; REAL-07 photos required (Google strips stock).
-- One `CleaningService` JSON-LD node with an `@id` that everything else references.
-- **No `aggregateRating` markup until real reviews exist.** No invented stats, no bought reviews.
-- Honest expectation written into SEO.md: brand + local pack + `post construction cleaning
-  Nairobi` + long tail inside 90 days; `cleaning services in Nairobi` is a year-one goal.
-- Real keyword data gets written back into `seo_plan.py` from Search Console at day 30.
+## Images — COMPLETE, nothing is waiting (17/11/2026)
+**Allen: do not wait for the real photographs.** Every slot is filled; `media_plan.missing()`
+returns empty. 45 files in `media/all`: **29 placed, 9 gallery tiles, 7 dropped.**
+- 19 new Pexels images downloaded at 2400px to close the last 12 gaps (team, About hero,
+  supervisor, community, church, apartment linen, move in/out, sofa, homes hero,
+  post-construction hero, hero alternate, BG-02). `review_media.py` holds the decision per file.
+- `IMG-S10` upgraded from the scraped webp to `pexels-15798784.jpg` — same subject, licensed,
+  three times the resolution. Provenance of placed images: 19 Pexels/Unsplash, 11 unknown
+  (Allen's call, already settled).
+- Only 3 of 30 are 1x-only, and each sits somewhere small (404 page, two gallery tiles).
+- **Before/after sliders**: a stock pair would pass off another company's job as ours, so
+  CC/RA/PC-05 ship as **“What finished looks like”** — photo + the written standard + the
+  24-hour promise. The slider drops into the same slot when REAL-03–05 arrive. No layout change.
+- **Gallery** ships now as “Spaces we look after” (true of stock); becomes “The work” when real
+  job photos replace it.
+- **Team photo caption stays generic** — “Trained, supervised teams”, never “our team”, while stock.
+- Still genuinely blocked, and not by us: **REAL-07** (10+ real photos for Google Business
+  Profile — Google strips stock), real **testimonial quotes**, and **permission to name clients**.
 
 ## Open
 - Site build not started. Standard: zero-build static HTML/CSS/vanilla JS,

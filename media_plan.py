@@ -231,6 +231,8 @@ STOCK = [
 ]
 
 # ------------------------------------------------------------------ real photos only the client can supply
+# These replace stock when they arrive. Allen's instruction, 17/11/2026: the build does not
+# wait for them. Only REAL-07 is a hard dependency, and that is Google's rule, not ours.
 REAL = [
     ("REAL-01", "Team photograph", "Home H-05, About A-01",
      "The whole team in uniform at the office or on a site. Replaces stock IMG-H05 and IMG-A01.",
@@ -244,8 +246,8 @@ REAL = [
      "Sofa set and bathroom, before and after.", "Same spot, same angle, same light"),
     ("REAL-05", "Before / after — post-construction (2 pairs)", "Post-construction PC-05",
      "Before handover and the floor finish.", "Same spot, same angle, same light"),
-    ("REAL-06", "Job gallery (9–12)", "Clients C-05 “The work”",
-     "Real jobs across sectors. Until they exist the section runs as “Spaces we look after” using IMG-C01…C09.",
+    ("REAL-06", "Job gallery (9\u201312)", "Clients C-05 \u201cThe work\u201d",
+     "Swaps into the gallery as jobs are photographed. The section ships now as \u201cSpaces we look after\u201d.",
      "Landscape and portrait mix; no client faces without consent"),
     ("REAL-07", "Google Business Profile set (10+)", "Google Business Profile",
      "Logo, cover, office exterior or signage, interior, team, and at least five at-work shots. Google removes stock photos from profiles.",
@@ -302,7 +304,7 @@ ART_DIRECTION = OrderedDict([
     ("Honesty", [
         "Stock is illustration, never evidence. No stock image is captioned as a Smartline job, team member or client.",
         "No stock faces on testimonials — testimonials run as text with name and title.",
-        "The before/after sliders stay hidden until REAL-03 to REAL-05 exist. The gallery runs as “Spaces we look after” until REAL-06 exists.",
+        "The before/after sliders wait for REAL-03–05: a stock pair would be passing off another company's job as ours. Until then the same slot carries the written standard. The gallery ships now under “Spaces we look after”, which is true of stock, and becomes “The work” when the real photographs replace it.",
     ]),
 ])
 
@@ -332,7 +334,9 @@ ASSIGNED = {
                 "acceptable at row size, first to be replaced."),
     "IMG-S05": ("pexels-pixabay-48889.jpg", "Crop 4:3 to the mop head and floor grain."),
     "IMG-S09": ("pexels-arina-krasnikova-6653891.jpg", "Crop 4:3 on the basin and tiling; leave the toilet out of frame."),
-    "IMG-S10": ("post-construction-cleaning-1.webp", "Crop 4:3 to the broom and plaster debris."),
+    "IMG-S10": ("pexels-15798784.jpg",
+                "Crop 4:3. Renovation debris across a bare floor, daylight from the window. Replaces the "
+                "scraped webp \u2014 same subject, licensed, and three times the resolution."),
     "IMG-S11": ("pexels-alejandro-robles-duque-420889274-32908422.jpg", "Crop 4:3 to the brush, suds and tile edge."),
     "IMG-S12": ("pexels-caleboquendo-34516664.jpg", "Crop 4:3 to the caddy and bin; drop the ceiling."),
     "IMG-S13": ("pexels-jessicairoh-33123333.jpg", "Crop 4:3 around the operator; keep the green."),
@@ -344,6 +348,36 @@ ASSIGNED = {
               "it reads as texture."),
     "IMG-N01": ("cleaning (1).jpg",
                 "Crop 4:3, mop and sign. 500\u00d7500 original \u2014 shown at 300\u00d7225 on the 404 page only."),
+    # ---- sourced 17/11/2026 to close the gaps (Pexels, free commercial use)
+    "IMG-H05": ("pexels-6196222.jpg",
+                "Crop 3:4 to the crew and their equipment. A team lineup, not a posed studio shot. "
+                "Caption it \u201cTrained, supervised teams\u201d \u2014 never \u201cour team\u201d while it is stock."),
+    "IMG-H01b": ("pexels-6197124.jpg",
+                 "Crop 4:5. Cleaner working on glass, daylight behind her \u2014 the alternate hero if the "
+                 "corridor reads too cold once the brand colours are on it."),
+    "IMG-A01": ("pexels-6195121.jpg",
+                "Crop 16:9 across the three cleaners. Reads as a crew at the start of a shift."),
+    "IMG-A02": ("pexels-6196695.jpg",
+                "Crop 4:5. One cleaner working a kitchen wall, properly equipped. Sits beside the founding story."),
+    "IMG-A06": ("pexels-6195895.jpg",
+                "Crop 4:5 to the van and the equipment going in. The job-creation section needs an operation, "
+                "not a hug."),
+    "IMG-S04": ("pexels-8468417.jpg",
+                "Crop 4:3 down the aisle. Bright, wooden benches, arched windows \u2014 reads as a hall a congregation "
+                "uses, not a cathedral."),
+    "IMG-S06": ("pexels-9462733.jpg", "Crop 4:3 on the linen change. The Airbnb turnover in one frame."),
+    "IMG-S07": ("pexels-4246098.jpg",
+                "Crop 4:3. Furniture under dust sheets, boxes stacked \u2014 the move, mid-move."),
+    "IMG-S08": ("pexels-4401535.jpg",
+                "Crop 4:3 to the machine head on the fabric. The only one of the set that shows upholstery "
+                "actually being cleaned rather than sat on."),
+    "IMG-D02": ("pexels-6196692.jpg",
+                "Crop 4:3. Two cleaners working a modern apartment kitchen \u2014 the homes page hero."),
+    "IMG-D03": ("pexels-7937304.jpg",
+                "Crop 4:3. Fresh plaster, bare openings, nothing installed yet \u2014 the moment before handover."),
+    "BG-02": ("office floor.jpg",
+              "Crop 21:9 from a different part of the frame than IMG-D01 uses. Sits under a 90% paper overlay "
+              "on the compact page heroes, so it reads as tone, not as a photograph."),
     # ---- gallery tiles (Clients \u201cSpaces we look after\u201d until the real jobs arrive)
     "IMG-C02": ("photo-1721620958961-cccc239cbb49.avif",
                 "Portrait tile. Squeegee on patterned glass \u2014 stands in for the banking/commercial tile."),
@@ -357,6 +391,10 @@ ASSIGNED = {
 
 # extra tiles beyond the named gallery slots (the masonry grid takes 9\u201312)
 GALLERY_EXTRA = [
+    ("pexels-6197122.jpg", "Cleaner working a full-height window. Portrait tile."),
+    ("pexels-4401538.jpg", "Upholstery tool on a cushion. Landscape tile."),
+    ("pexels-4568707.jpg", "Doorway onto stacked boxes. Portrait tile, quiet."),
+    ("post-construction-cleaning-1.webp", "Broom and plaster debris. Demoted to a tile now that S10 is licensed."),
     ("images.jfif", "Cleaner at a trolley by a window. 678\u00d7452 \u2014 tile only, never larger."),
     ("images (2).jfif", "Tropical lawn and planting, convincingly Kenyan. 447\u00d7447 \u2014 small square tile."),
     ("closeup-janitor-using-mop-clean-office-floor-maintain-workspace-hygiene-concept-janitorial-services-workplace-cleanliness-commercial-cleaning-office-hygiene-professional-janitor_91883.avif",
@@ -366,6 +404,10 @@ GALLERY_EXTRA = [
 ]
 
 DROPPED = {
+    "pexels-6196225.jpg": "Downloaded as a team candidate, rejected: black and white, hard hats, reads construction site.",
+    "pexels-6196682.jpg": "Downloaded as an About-hero candidate, rejected: black and white clashes with the rest of the set.",
+    "pexels-13804490.jpg": "Downloaded as a supervisor candidate, rejected: a warehouse stock check, nothing to do with cleaning.",
+    "pexels-28637039.jpg": "Downloaded as a church candidate, rejected: dark and theatre-like, reads as an auditorium.",
     "images (1).jfif": "Formal brick-edged English garden, 447\u00d7447. Wrong place and far too small.",
     "65cc88b4602feef69a73e8bf82a3edf7.jpg": "Manicured English garden, 474\u00d7599. Wrong place, too small.",
     "caution wet floor.avif": "A caution sign sells hazard, not finish. Nothing on the site needs it.",

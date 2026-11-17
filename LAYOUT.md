@@ -55,7 +55,7 @@ Page skeleton, top to bottom: **G-01 utility bar → G-02 header → page sectio
 | H-02 | Proof strip | Four facts, then a quiet “Trusted by” row of client names — social proof in the first scroll, not the ninth. | Facts 2 × 2; names scroll sideways. |
 | H-03 | Welcome | The client's welcome statement, edited for the web, set large beside a short heading. | Heading above, body below. |
 | H-04 | Services | Four group cards listing all 13 services, closed by the schedule options (one-time to annual) on one line. | Cards stacked; each shows three services and “+ n more”. |
-| H-05 | Why Smartline | The client's six reasons, each with a one-line proof, beside a photo of the team. | Photo on top, reasons in one column. |
+| H-05 | Why Smartline | The client's six reasons, each with a one-line proof, beside a photograph of cleaners at work. While that photograph is stock the caption stays generic — “Trained, supervised teams” — and never claims to be Smartline staff. | Photo on top, reasons in one column. |
 | H-06 | How we work | Five-step method, numbered, joined by a hairline. | Vertical timeline. |
 | H-07 | Trained cleaners | Ink-navy band listing the six training areas — the differentiator in a tender. | Photo first, list in two columns. |
 | H-08 | Testimonials | Three testimonials with name, title and sector, placed after the method and training they vouch for. | Swipe carousel. |
@@ -63,7 +63,7 @@ Page skeleton, top to bottom: **G-01 utility bar → G-02 header → page sectio
 | H-10 | FAQ | Five questions, marked up as FAQPage for search. | Accordion. |
 | H-11 | Closing CTA | Shared CTA band (G-07). | Stacked. |
 
-**Blocked by client input:** Real job photographs (H-01, H-05, H-07); Permission to name clients (H-02); Sign-off on the one-line proofs under each reason (they are draft commitments, incl. the re-clean promise) (H-05, H-09); 3–5 testimonials with name and title (H-08); Client answers to the FAQ questions (H-10)
+**Blocked by client input:** Permission to name clients (H-02); Sign-off on the one-line proofs under each reason (they are draft commitments, incl. the re-clean promise) (H-05, H-09); 3–5 testimonials with name and title (H-08); Client answers to the FAQ questions (H-10)
 
 ### About — `/about`
 
@@ -84,7 +84,7 @@ Page skeleton, top to bottom: **G-01 utility bar → G-02 header → page sectio
 | A-09 | Company details | The facts a procurement officer copies into a supplier form, plus the profile PDF. | Two-column key/value list. |
 | A-10 | Closing CTA | Shared CTA band. | Stacked. |
 
-**Blocked by client input:** Real job photographs (A-01); Confirm which of these are true today, with documents — publish nothing we cannot evidence (A-06); Any CSR activity or photographs to show (A-07)
+**Blocked by client input:** Confirm which of these are true today, with documents — publish nothing we cannot evidence (A-06); Any CSR activity or photographs to show (A-07)
 
 ### Services — `/services`
 
@@ -119,13 +119,13 @@ Page skeleton, top to bottom: **G-01 utility bar → G-02 header → page sectio
 | CC-02 | Who it is for | Sector chips so a visitor recognises themselves in two seconds. | Chips wrap; horizontal scroll if more than two rows. |
 | CC-03 | What is included | The scope, by area, as a checklist — what the client is actually buying. | One column; each area is an expandable group, first one open. |
 | CC-04 | How it runs | The working method for this service, step by step. | Vertical timeline with a brass spine. |
-| CC-05 | Proof | Drag-to-compare before/after on real jobs, with the relevant clients named beside it. | Slider full width; client names below it. |
+| CC-05 | The standard | Ships now with a sourced photograph and the written standard. A stock before/after pair would be passing off someone else's job as ours, so the drag-to-compare slider waits for REAL-03–05 and drops into this same slot when they exist — no layout change needed. | Image, then the standard, then the two checkpoints. |
 | CC-06 | Schedule options | Frequencies offered, pushing visitors from a one-off job toward a contract. | Two-column chip grid. |
 | CC-07 | Questions | Four page-specific questions, marked up as FAQPage. | Accordion, unchanged. |
 | CC-08 | Related services | Three related services to keep the visitor moving through the site. | Horizontal swipe row, one and a half cards visible. |
 | CC-09 | Quick quote | Short form — name, phone, location — with this service pre-selected. Same handler as the contact page. | Fields stacked, submit full width. |
 
-**Blocked by client input:** Real job photographs (CC-01, CC-05); Permission to name clients (CC-05); Client answers to the FAQ questions (CC-07)
+**Blocked by client input:** Client answers to the FAQ questions (CC-07)
 
 ### Homes & apartments — `/residential-apartment-cleaning`
 
@@ -139,13 +139,13 @@ Page skeleton, top to bottom: **G-01 utility bar → G-02 header → page sectio
 | RA-02 | Who it is for | Sector chips so a visitor recognises themselves in two seconds. | Chips wrap; horizontal scroll if more than two rows. |
 | RA-03 | What is included | The scope, by area, as a checklist — what the client is actually buying. | One column; each area is an expandable group, first one open. |
 | RA-04 | How it runs | The working method for this service, step by step. | Vertical timeline with a brass spine. |
-| RA-05 | Proof | Drag-to-compare before/after on real jobs, with the relevant clients named beside it. | Slider full width; client names below it. |
+| RA-05 | The standard | Ships now with a sourced photograph and the written standard. A stock before/after pair would be passing off someone else's job as ours, so the drag-to-compare slider waits for REAL-03–05 and drops into this same slot when they exist — no layout change needed. | Image, then the standard, then the two checkpoints. |
 | RA-06 | Schedule options | Frequencies offered, pushing visitors from a one-off job toward a contract. | Two-column chip grid. |
 | RA-07 | Questions | Four page-specific questions, marked up as FAQPage. | Accordion, unchanged. |
 | RA-08 | Related services | Three related services to keep the visitor moving through the site. | Horizontal swipe row, one and a half cards visible. |
 | RA-09 | Quick quote | Short form — name, phone, location — with this service pre-selected. Same handler as the contact page. | Fields stacked, submit full width. |
 
-**Blocked by client input:** Real job photographs (RA-01, RA-05); Permission to name clients (RA-05); Client answers to the FAQ questions (RA-07)
+**Blocked by client input:** Client answers to the FAQ questions (RA-07)
 
 ### Post-construction — `/post-construction-cleaning`
 
@@ -159,13 +159,13 @@ Page skeleton, top to bottom: **G-01 utility bar → G-02 header → page sectio
 | PC-02 | Who it is for | Sector chips so a visitor recognises themselves in two seconds. | Chips wrap; horizontal scroll if more than two rows. |
 | PC-03 | What is included | The scope, by area, as a checklist — what the client is actually buying. | One column; each area is an expandable group, first one open. |
 | PC-04 | How it runs | The working method for this service, step by step. | Vertical timeline with a brass spine. |
-| PC-05 | Proof | Drag-to-compare before/after on real jobs, with the relevant clients named beside it. | Slider full width; client names below it. |
+| PC-05 | The standard | Ships now with a sourced photograph and the written standard. A stock before/after pair would be passing off someone else's job as ours, so the drag-to-compare slider waits for REAL-03–05 and drops into this same slot when they exist — no layout change needed. | Image, then the standard, then the two checkpoints. |
 | PC-06 | Schedule options | Frequencies offered, pushing visitors from a one-off job toward a contract. | Two-column chip grid. |
 | PC-07 | Questions | Four page-specific questions, marked up as FAQPage. | Accordion, unchanged. |
 | PC-08 | Related services | Three related services to keep the visitor moving through the site. | Horizontal swipe row, one and a half cards visible. |
 | PC-09 | Quick quote | Short form — name, phone, location — with this service pre-selected. Same handler as the contact page. | Fields stacked, submit full width. |
 
-**Blocked by client input:** Real job photographs (PC-01, PC-05); Permission to name clients (PC-05); Client answers to the FAQ questions (PC-07)
+**Blocked by client input:** Client answers to the FAQ questions (PC-07)
 
 ### Clients — `/clients`
 
@@ -179,10 +179,10 @@ Page skeleton, top to bottom: **G-01 utility bar → G-02 header → page sectio
 | C-02 | Client list | Every named client with sector — or, without permission, the same grid by sector only. | One column list. |
 | C-03 | Sectors | Sector band — tells a new prospect their kind of premises is familiar ground. | Chip grid. |
 | C-04 | Testimonials | Three testimonials, name and title, sector tag. | Swipe carousel. |
-| C-05 | Work gallery | Masonry grid of real jobs, before/after pairs, keyboard-accessible lightbox. | Two-column grid. |
+| C-05 | Spaces we look after | Masonry grid with a keyboard-accessible lightbox. Ships with the sourced set under a heading that is true of stock — these are the kinds of premises, not photographs of our jobs. Real job photos replace them one at a time, and the heading becomes “The work” on the day they do. | Two-column grid. |
 | C-06 | Closing CTA | Shared CTA band. | Stacked. |
 
-**Blocked by client input:** Permission to name clients (C-02); 3–5 testimonials with name and title (C-04); Real job photographs (C-05)
+**Blocked by client input:** Permission to name clients (C-02); 3–5 testimonials with name and title (C-04)
 
 ### Contact — `/contact`
 
@@ -393,7 +393,7 @@ Every section is one of these 25 components — build each once, reuse everywher
 | pricing | 1 | S-07 |
 | chips | 10 | S-08, S-09, CC-02, CC-06, RA-02, RA-06, PC-02, PC-06, C-03, K-04 |
 | checklist | 3 | CC-03, RA-03, PC-03 |
-| beforeafter | 3 | CC-05, RA-05, PC-05 |
+| standard | 3 | CC-05, RA-05, PC-05 |
 | quickquote | 3 | CC-09, RA-09, PC-09 |
 | logos | 1 | C-02 |
 | gallery | 1 | C-05 |
@@ -404,9 +404,8 @@ Every section is one of these 25 components — build each once, reuse everywher
 
 | Input | Sections waiting | Where |
 |---|---|---|
-| Real job photographs | 11 | H-01, H-05, H-07, A-01, CC-01, CC-05, RA-01, RA-05, PC-01, PC-05, C-05 |
-| Permission to name clients | 5 | H-02, CC-05, RA-05, PC-05, C-02 |
 | Client answers to the FAQ questions | 5 | H-10, CC-07, RA-07, PC-07, K-05 |
+| Permission to name clients | 2 | H-02, C-02 |
 | Sign-off on the one-line proofs under each reason (they are draft commitments, incl. the re-clean promise) | 2 | H-05, H-09 |
 | 3–5 testimonials with name and title | 2 | H-08, C-04 |
 | Decision: show starting prices or quote-only | 2 | S-03, S-07 |

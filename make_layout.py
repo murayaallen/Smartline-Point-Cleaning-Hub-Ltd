@@ -462,6 +462,16 @@ def r_pricing(p):
             '<p class="body small">%s</p>' % (E(p["note"]), tiers, E(p["foot"])))
 
 
+def r_standard(p):
+    chips = "".join('<span class="chip sm">%s</span>' % E(x) for x in p["items"])
+    return (h2(p["heading"]) + '<div class="split">%s<div><p class="body lg">%s</p>'
+            '<ul class="ticks dark"><li>Checked against the written scope</li>'
+            '<li>Signed off by a named supervisor</li></ul>'
+            '<div class="chips">%s</div>'
+            '<p class="body small">Before / after sliders drop into this slot when the real pairs exist.</p>'
+            '</div></div>' % (img("Photo: this service, finished", "tall"), E(p["body"]), chips))
+
+
 RENDER = {
     "hero_split": r_hero_split, "page_hero": r_page_hero, "stats": r_stats, "two_col": r_two_col,
     "cards": r_cards, "icon_grid": r_icon_grid, "steps": r_steps, "band": r_band, "chips": r_chips,
@@ -469,7 +479,7 @@ RENDER = {
     "checklist": r_checklist, "gallery": r_gallery, "service_rows": r_service_rows,
     "split_media": r_split_media, "facts": r_facts, "map": r_map, "subnav": r_subnav,
     "beforeafter": r_beforeafter, "quickquote": r_quickquote, "doc": r_doc,
-    "guarantee": r_guarantee, "pricing": r_pricing,
+    "guarantee": r_guarantee, "pricing": r_pricing, "standard": r_standard,
 }
 
 DARK = {"band", "cta", "guarantee"}
