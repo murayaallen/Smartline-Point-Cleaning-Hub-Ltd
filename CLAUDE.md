@@ -126,6 +126,20 @@ Wireframe notes now carry the image IDs (IMG-/REAL-) per section.
 - Record source URL + photographer + licence for every approved image; the tracker flags
   any approved image with a blank licence.
 
+## Images supplied so far — reviewed 17/11/2026
+26 files in `media/all` (not the per-slot folders). `review_media.py` holds the verdict per file and
+renders `MEDIA-REVIEW.md` + `Smartline - Image Review.pdf`. Re-run it as more arrive.
+- **6 USE** (all Pexels): S05 residential, S09 toilet/sink (+alt), S11 deep clean, S12 one-time,
+  **S13 landscaping — the best image in the set**.
+- **5 CHECK LICENCE**: `corridor+4.webp` (best hero candidate), `bg11.jpg` (best people shot),
+  `office floor.jpg`, `window cleaning.jpg`, `post-construction-cleaning-1.webp`. Good pictures,
+  no provenance — re-source the licensed original before they ship.
+- **10 TOO SMALL**, **5 REPLACE** (English gardens, a US red barn, competitor-site scrapes).
+- **17 of 26 have no provenance.** `.jfif` = Google Images; `*-768x1020.webp` = a competitor's
+  WordPress upload. These cannot go on a client site — the client carries that risk.
+- **19 slots still empty**, and every face-showing slot is among them (H05 team, A01, A02, A06):
+  those need model-released stock, not Pexels.
+
 ## Open
 - Site build not started. Standard: zero-build static HTML/CSS/vanilla JS,
   .htaccess clean URLs + CSP, sitemap/robots, mobile sweep.

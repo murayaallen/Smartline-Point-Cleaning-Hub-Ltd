@@ -4,7 +4,11 @@ __pycache__/
 Thumbs.db
 
 # sourced media: large binaries, kept out of the repo (folder structure is kept)
+media/all/*
 media/incoming/**/*
 media/real/*
 !media/incoming/**/
 !**/.gitkeep
+
+# Office lock files
+~$*
