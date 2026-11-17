@@ -76,7 +76,7 @@ STOCK = [
      AVOID, "4:5 portrait", "1200 × 1500", "None",
      ["supervisor inspection checklist cleaning", "facility manager clipboard office", "african woman supervisor tablet"],
      PAID, "about", None, "Replaced by REAL-02 when it exists."),
-    ("IMG-A06", "P2", "About", "A-06", "Main — community and jobs",
+    ("IMG-A06", "P2", "About", "A-07", "Main — community and jobs",
      "A training session: a trainer demonstrating equipment to a small group of new cleaners.",
      KE_PEOPLE + "; learning in progress; hands-on",
      AVOID, "4:5 portrait", "1200 × 1500", "None",

@@ -158,7 +158,7 @@ GLOBAL = [
      "what": "Shared closing band on every page: Book your clean today, phone in large type, quote button.",
      "mobile": "Stacked, buttons full width.", "needs": []},
     {"id": "G-08", "name": "Footer", "type": "footer",
-     "what": "Four columns — brand and tagline · services · company and profile PDF · contact and hours. Social icons. Bottom bar: \u00a9 2026, privacy notice, cookie settings.",
+     "what": "Four columns — brand and tagline · services · company, careers and profile PDF · contact and hours. Social icons. Bottom bar: \u00a9 2026, privacy notice, cookie settings.",
      "mobile": "Columns become accordions; contact column stays open.", "needs": [NEEDS_SOCIAL]},
     {"id": "G-09", "name": "Cookie notice", "type": "cookie",
      "what": "Slim bar: “We use analytics cookies to improve this site.” Accept / Decline. GA4 loads only after Accept; the choice is kept 12 months. Needed for analytics under the Data Protection Act 2019.",
@@ -228,7 +228,7 @@ PAGES = [
                "h1": "Where cleanliness meets excellence.",
                "sub": "Reliable, affordable, professional cleaning for homes, offices, churches and commercial spaces across Nairobi.",
                "ctas": ["Request a quote", "WhatsApp us"],
-               "trust": ["Trained and vetted", "Supervised teams", "Since 2018"],
+               "trust": ["Trained and vetted", "Supervised teams", "Since 2018", "Reply within one working day"],
                "image": "Photo: a finished commercial clean, people-free, daylight",
                "seal": True, "float": "Book your clean today  ·  " + PHONE},
          "what": "Client's own headline, the promise in one line, two actions, three trust points; the Clean Quality Guaranteed seal sits on the photo.",
@@ -272,7 +272,16 @@ PAGES = [
          "p": {"heading": "In their words", "n": 3},
          "what": "Three testimonials with name, title and sector, placed after the method and training they vouch for.",
          "mobile": "Swipe carousel.", "needs": [NEEDS_TESTIMONIALS]},
-        {"id": "H-09", "name": "FAQ", "type": "faq",
+        {"id": "H-09", "name": "Clean Quality Guaranteed", "type": "guarantee",
+         "p": {"heading": "Clean Quality Guaranteed",
+               "promise": "If something is missed, tell us within 24 hours and we come back and re-clean it \u2014 no argument, no extra charge.",
+               "points": ["One named supervisor on your account",
+                          "Work checked against the written scope on every visit",
+                          "Monthly review; the schedule changes when your premises do"]},
+         "what": "The seal, written out as a promise with a time limit on it. Both large Nairobi competitors publish a "
+                 "24-hour re-clean guarantee \u2014 this is parity, and it answers the trust question that stops people booking.",
+         "mobile": "Seal above, promise, then the three points.", "needs": [NEEDS_PROOF]},
+        {"id": "H-10", "name": "FAQ", "type": "faq",
          "p": {"heading": "Questions we are asked",
                "items": ["Do you bring your own equipment and chemicals?",
                          "Do you charge for a site visit?",
@@ -281,7 +290,7 @@ PAGES = [
                          "Which areas do you cover?"]},
          "what": "Five questions, marked up as FAQPage for search.",
          "mobile": "Accordion.", "needs": [NEEDS_FAQ]},
-        {"id": "H-10", "name": "Closing CTA", "type": "cta",
+        {"id": "H-11", "name": "Closing CTA", "type": "cta",
          "p": {"heading": "Book your clean today", "sub": PHONE},
          "what": "Shared CTA band (G-07).", "mobile": "Stacked.", "needs": []},
      ]},
@@ -289,13 +298,13 @@ PAGES = [
     # ============================================================== ABOUT
     {"slug": "/about", "nav": "About", "h1": "About Smartline",
      "keyword": "professional cleaning company Nairobi",
-     "title": "About Us — Trained Cleaners Since 2018 | Smartline",
+     "title": "About Our Cleaning Company in Nairobi | Smartline",
      "desc": "Since 2018, Smartline has kept Nairobi offices, homes, schools and churches clean with trained, supervised teams and a single point of contact.",
      "schema": "AboutPage, Organization, BreadcrumbList",
      "sections": [
         {"id": "A-01", "name": "Page hero", "type": "page_hero",
          "p": {"crumb": "Home / About", "h1": "About Smartline",
-               "sub": "A single point of contact for every clean, since 2018.", "image": True},
+               "sub": "A professional cleaning company in Nairobi — one point of contact for every clean, since 2018.", "image": True},
          "what": "Compact hero with breadcrumb and a team photograph.",
          "mobile": "Image becomes a 16:9 band under the title.", "needs": [NEEDS_PHOTOS]},
         {"id": "A-02", "name": "Our story", "type": "split_media",
@@ -320,13 +329,37 @@ PAGES = [
          "p": {"heading": "How our cleaners are trained", "items": TRAINING, "image": False},
          "what": "The six training areas, each with a line on what it means on site.",
          "mobile": "One column.", "needs": []},
-        {"id": "A-06", "name": "Community", "type": "split_media",
+        {"id": "A-06", "name": "Vetting, insurance and compliance", "type": "facts",
+         "p": {"heading": "Vetting, insurance and compliance",
+               "rows": [("Staff vetting", "ID checked, referenced, and known to a named supervisor"),
+                        ("Employment", "Directly employed, not day labour"),
+                        ("Statutory", "NSSF and SHIF compliant; KRA registered"),
+                        ("Insurance", "Public liability cover \u2014 certificate on request"),
+                        ("Products", "Approved cleaning chemicals, correctly diluted and labelled"),
+                        ("Waste", "Segregated and taken to the agreed collection point")],
+               "download": "Request our compliance pack"},
+         "what": "The questions a facility manager or school asks before awarding a contract, answered in one table. "
+                 "Every premium commercial cleaner researched puts vetting in the main navigation; none of the Nairobi "
+                 "sites answer it at all.",
+         "mobile": "Two-column key/value list.",
+         "needs": ["Confirm which of these are true today, with documents \u2014 publish nothing we cannot evidence"]},
+        {"id": "A-07", "name": "Community", "type": "split_media",
          "p": {"heading": "Jobs, and a cleaner community",
                "body": "Growing Smartline means employing and training more people. Corporate social responsibility is written into our vision, not added to it.",
                "image_left": True},
          "what": "Job creation and CSR, from the vision statement.",
          "mobile": "Image then text.", "needs": ["Any CSR activity or photographs to show"]},
-        {"id": "A-07", "name": "Company details", "type": "facts",
+        {"id": "A-08", "name": "Work with us", "type": "two_col",
+         "p": {"label": "CAREERS", "heading": "We are always training the next team.",
+               "body": "Growing Smartline means hiring and training more people \u2014 it is written into our vision, not "
+                       "added to it. If you are reliable, teachable and want to be trained properly, send your details "
+                       "and we will call you when the next intake opens.",
+               "link": "Apply to join the team \u2192"},
+         "what": "Recruitment is a standing need in this trade \u2014 Cleanology puts \u201cApply for a job\u201d in the header, ISS has "
+                 "a whole \u201cGrow with us\u201d section. It also makes the job-creation claim in the vision visible rather than "
+                 "stated. Applications go to operations@ via the same form handler.",
+         "mobile": "Stacked; the apply button is full width.", "needs": []},
+        {"id": "A-09", "name": "Company details", "type": "facts",
          "p": {"heading": "Company details",
                "rows": [("Registered name", "Smartline Point Cleaning Hub Ltd"), ("Established", "2018"),
                         ("Office", "ICIPE Road, Sports Drive, Suite 8, Kasarani"),
@@ -334,7 +367,7 @@ PAGES = [
                "download": "Download the company profile (PDF)"},
          "what": "The facts a procurement officer copies into a supplier form, plus the profile PDF.",
          "mobile": "Two-column key/value list.", "needs": []},
-        {"id": "A-08", "name": "Closing CTA", "type": "cta",
+        {"id": "A-10", "name": "Closing CTA", "type": "cta",
          "p": {"heading": "Book your clean today", "sub": PHONE},
          "what": "Shared CTA band.", "mobile": "Stacked.", "needs": []},
      ]},
@@ -363,10 +396,31 @@ PAGES = [
          "mobile": "Rows become cards, image on top.", "needs": [NEEDS_PRICES] if i == 0 else []}
         for i, (g, _, items) in enumerate(GROUPS)
     ] + [
-        {"id": "S-07", "name": "Schedules", "type": "chips",
+        {"id": "S-07", "name": "Guide prices", "type": "pricing",
+         "p": {"heading": "What it costs",
+               "note": "Guide prices so you can budget. The final figure comes after a site visit \u2014 size, frequency "
+                       "and access change it.",
+               "tiers": [("Per clean", "One-time, deep and move-out work", "From KES \u2014 per visit"),
+                         ("Monthly contract", "Daily or weekly cleaning, one invoice", "From KES \u2014 per month"),
+                         ("By area", "Offices and large floors", "From KES \u2014 per m\u00b2")],
+               "foot": "VAT where applicable. Contract rates are lower than one-off rates."},
+         "what": "Both large Nairobi competitors publish KES price tables; a site with no numbers at all now reads as "
+                 "the least transparent of the three. Guide prices with \u201cfinal price after a site visit\u201d keeps the site "
+                 "visit in the process while still answering the first question every visitor has.",
+         "mobile": "Three stacked cards; the figure stays large.",
+         "needs": [NEEDS_PRICES, "Three guide figures from the client, or a decision to show none"]},
+        {"id": "S-08", "name": "Sectors we know", "type": "chips",
+         "p": {"heading": "Premises we already clean",
+               "items": ["Offices", "Banks", "Schools", "Churches", "Apartment blocks", "Airbnb and short-stay",
+                         "Lounges and hospitality", "New builds and sites"],
+               "sub": "Every chip links to the clients page filtered to that sector."},
+         "what": "The premium commercial cleaners researched organise by sector, not by task \u2014 a facility manager "
+                 "looks for their own building type first. This is the cheap version of that: one chip row, no new pages.",
+         "mobile": "Chip grid, two columns.", "needs": []},
+        {"id": "S-09", "name": "Schedules", "type": "chips",
          "p": {"heading": "Once, or on a schedule", "items": SCHEDULES},
          "what": "Shared frequency band.", "mobile": "Two-column chip grid.", "needs": []},
-        {"id": "S-08", "name": "Not sure what you need?", "type": "cta",
+        {"id": "S-10", "name": "Not sure what you need?", "type": "cta",
          "p": {"heading": "Not sure what you need?", "sub": "Book a site visit — we will scope it with you."},
          "what": "Routes undecided visitors to a site visit instead of losing them.",
          "mobile": "Stacked.", "needs": []},
@@ -475,21 +529,26 @@ PAGES = [
     # ============================================================== CONTACT
     {"slug": "/contact", "nav": "Contact", "h1": "Book your clean",
      "keyword": "book cleaning services Nairobi",
-     "title": "Book a Clean or Request a Quote | Smartline",
+     "title": "Cleaning Services Quote, Nairobi | Smartline",
      "desc": "Request a quote or book a site visit with Smartline Point Cleaning Hub, Kasarani, Nairobi. Call or WhatsApp +254 711 128736.",
      "schema": "ContactPage, CleaningService, BreadcrumbList",
      "sections": [
         {"id": "K-01", "name": "Page hero", "type": "page_hero",
          "p": {"crumb": "Home / Contact", "h1": "Book your clean",
-               "sub": "Tell us about the space. We reply within one working day.", "image": False},
+               "sub": "Request a cleaning quote anywhere in Nairobi. Tell us about the space and we reply within one working day.", "image": False},
          "what": "Compact hero; the reply-time promise is the subheading.",
          "mobile": "Unchanged.", "needs": [NEEDS_HOURS]},
         {"id": "K-02", "name": "Quote form and contact card", "type": "form",
          "p": {"heading": "Request a quote", "steps": QUOTE_STEPS,
                "aside": ["Call  " + PHONE, "WhatsApp  " + PHONE, "Email  " + EMAIL,
                          "ICIPE Road, Sports Drive, Suite 8, Kasarani",
-                         "P.O. Box 48018-00100, Nairobi", "Hours: to confirm"]},
-         "what": "Two-step form \u2014 the job, then you \u2014 beside the contact card; six required fields in all. Pre-filled from ?service= on every service page. PHP handler: honeypot, time-trap, rate limit, server-side validation; mails info@; success goes to /thank-you.",
+                         "P.O. Box 48018-00100, Nairobi", "Hours: to confirm"],
+               "proof": ["\u201cReliable, and the same team every week.\u201d \u2014 testimonial, short",
+                         "Clean Quality Guaranteed \u00b7 24-hour re-clean",
+                         "Trained, vetted, directly employed"]},
+         "what": "Two-step form \u2014 the job, then you \u2014 beside the contact card, with a testimonial and the guarantee "
+                 "directly under the submit button (every conversion source researched puts proof next to the form). "
+                 "Six required fields in all. Pre-filled from ?service= on every service page. PHP handler: honeypot, time-trap, rate limit, server-side validation; mails info@; success goes to /thank-you.",
          "mobile": "Call and WhatsApp buttons first, then the form, then the address.", "needs": []},
         {"id": "K-03", "name": "Map", "type": "map",
          "p": {"heading": "Find us",
@@ -649,4 +708,32 @@ BUILD_STANDARDS = [
         "Form handler: honeypot, minimum fill time, per-IP rate limit, server-side validation, authenticated SMTP to info@",
         "No third-party embeds: static map image, no iframes",
     ]),
+]
+
+
+ROADMAP = [  # (what, why, when)
+    ("Area pages \u2014 Kasarani, Ruiru, Roysambu, Westlands, CBD",
+     "Local-search guidance is consistent: one blanket \u201careas we serve\u201d page rarely ranks, while a page per area does. "
+     "Five short pages, each with the services, a local job and the same quote form.",
+     "Phase 2, after launch \u2014 outside the quoted eight pages"),
+    ("Sector pages \u2014 schools, churches, apartment blocks",
+     "Every premium commercial cleaner researched sells by sector, because a facility manager searches for their own "
+     "building type. The chip row on /services is the cheap version; real pages are the full one.",
+     "Phase 2, by demand"),
+    ("Case notes \u2014 three one-paragraph results",
+     "A Nairobi competitor runs \u201cWestlands law firm, 30% fewer sick days\u201d. One honest result per sector beats any "
+     "amount of adjectives \u2014 but it waits for real numbers from real jobs.",
+     "Once REAL-03\u201306 photographs and a client agrees to be quoted"),
+    ("Client area \u2014 schedules, visit reports, invoices",
+     "Both London firms researched run a client portal. For Smartline the useful first version is a per-client page "
+     "with the cleaning schedule and the last visit report.",
+     "Phase 3, if contracts grow"),
+    ("Recruitment intake form",
+     "The careers block on About starts as a mailto. If applications become regular, make it a real form to "
+     "operations@ with a simple pipeline.",
+     "When the careers block earns its keep"),
+    ("Instant estimate",
+     "Justlife in Dubai publishes an hourly rate and books in under a minute; both Nairobi competitors publish tables. "
+     "If Smartline settles its rate card, the guide-price block becomes a three-field estimator.",
+     "Once the rate card is fixed"),
 ]

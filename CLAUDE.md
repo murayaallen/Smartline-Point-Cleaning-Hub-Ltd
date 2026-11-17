@@ -144,6 +144,39 @@ sheet (`MEDIA-REVIEW.md`, `Smartline - Image Review.pdf`). Both read the same da
   S04 church, S06 apartment, S07 move in/out, S08 sofa, D02 homes hero, D03 post-construction hero,
   plus H01b and BG-02 (optional). The four face-showing ones need model-released stock.
 
+## Sector research — 17/11/2026 (`SECTOR-RESEARCH.md`)
+Studied Cleanology + Julius Rutherfoord (London premium), ISS (global), Bestcare +
+Nairobi Cleaning Service Centre (the local competitors), plus CRO and local-SEO sources.
+Changes already in the layout:
+- **A-06 Vetting, insurance and compliance** — the biggest gap in the local market; both
+  London firms put vetting in the main nav, neither Nairobi site answers it.
+- **S-07 Guide prices** (3 tiers, "final figure after a site visit") — both Nairobi
+  competitors publish KES tables; showing nothing would make us the least transparent.
+  **Needs three figures from the client, or a decision to show none.**
+- **H-09 Clean Quality Guaranteed band** — 24-hour re-clean, named supervisor, checked
+  against the written scope. The competitor publishes the same promise; this is parity.
+- **S-08 sector chips**, **A-08 Work with us** (recruitment is constant in this trade),
+  hero chip "Reply within one working day", proof beside the contact form.
+- Phase-2 roadmap in LAYOUT.md §7a: area pages (one blanket areas page does not rank),
+  sector pages, case notes, client portal, instant estimate.
+Deliberately not copied: unverifiable claims, an empty blog, identical CTAs everywhere,
+split funnels, fully price-gated booking.
+
+## SEO — `seo_plan.py` → `SEO.md`
+Keyword map tied to the real pages; `verify()` fails on a page with no keyword, two pages
+sharing a primary (cannibalisation), a keyword missing from its own title/H1/hero, a title
+over 60, a description outside 110–160, a service with no term, or a page that does not
+link to the quote form. It already caught two: About and Contact did not carry their terms
+— both titles and hero sub-lines were rewritten.
+Order of work: **technical → on-page → Google Business Profile → reviews → content.**
+- Primary category **Commercial cleaning service**, service-area business (Nairobi + Kiambu).
+  GBP matters more than the website for this trade; REAL-07 photos required (Google strips stock).
+- One `CleaningService` JSON-LD node with an `@id` that everything else references.
+- **No `aggregateRating` markup until real reviews exist.** No invented stats, no bought reviews.
+- Honest expectation written into SEO.md: brand + local pack + `post construction cleaning
+  Nairobi` + long tail inside 90 days; `cleaning services in Nairobi` is a year-one goal.
+- Real keyword data gets written back into `seo_plan.py` from Search Console at day 30.
+
 ## Open
 - Site build not started. Standard: zero-build static HTML/CSS/vanilla JS,
   .htaccess clean URLs + CSP, sitemap/robots, mobile sweep.

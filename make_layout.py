@@ -225,6 +225,10 @@ def build_md(n_services):
              "- `click_whatsapp` \u2014 floating button, action bar, contact card\n"
              "- `file_download` \u2014 company profile PDF\n")
 
+    o.append("## 7a. Phase 2 \u2014 from the sector research\n")
+    o.append("Not in the quoted eight pages. Listed so the decision is deliberate, not forgotten.\n")
+    o.append(md_table(L.ROADMAP, ["What", "Why", "When"]))
+    o.append("")
     o.append("## 8. Build order\n")
     o.append("1. Design tokens, type, grid \u2192 global header, footer, action bar, CTA band\n"
              "2. Home (sets every component) \u2192 Services hub \u2192 three service pages (one template)\n"
@@ -359,17 +363,20 @@ def r_cta(p):
 
 
 def r_form(p):
+    proof = ""
+    if p.get("proof"):
+        proof = '<div class="proofbox">%s</div>' % "".join("<span>%s</span>" % E(x) for x in p["proof"])
     fields = ""
     for i, (step, fl) in enumerate(p["steps"]):
         fields += '<div class="stephead%s"><b>%s</b></div>' % (" dim" if i else "", E(step))
         fields += "".join('<div class="field%s"><label>%s</label><div></div></div>' % (" dim" if i else "", E(f))
                           for f in fl)
     aside = "".join("<li>%s</li>" % E(a) for a in p["aside"])
-    return ('<div class="formwrap"><div class="formcol">%s<div class="fields">%s</div>'
-            '<span class="btn primary">Continue \u2192</span></div>'
+    return ('<div class="formwrap"><div class="formcol">' + h2(p["heading"]) +
+            '<div class="fields">' + fields + '</div>'
+            '<span class="btn primary">Continue →</span>' + proof + '</div>'
             '<aside class="contactcard"><div class="quick"><span class="btn primary">Call</span>'
-            '<span class="btn ghost">WhatsApp</span></div><ul>%s</ul></aside></div>' %
-            (h2(p["heading"]), fields, aside))
+            '<span class="btn ghost">WhatsApp</span></div><ul>' + aside + '</ul></aside></div>')
 
 
 def r_checklist(p):
@@ -440,6 +447,21 @@ def r_doc(p):
         for i, x in enumerate(p["items"]))
 
 
+def r_guarantee(p):
+    pts = "".join("<li>%s</li>" % E(x) for x in p["points"])
+    return ('<div class="guarantee"><div class="seal lg"><span>CLEAN<br>QUALITY<br>GUARANTEED</span></div>'
+            '<div><h2 class="h2 on-ink">%s</h2><p class="promise">%s</p><ul class="ticks">%s</ul></div></div>'
+            % (E(p["heading"]), E(p["promise"]), pts))
+
+
+def r_pricing(p):
+    tiers = "".join('<div class="tier"><h3 class="h3">%s</h3><p class="body small">%s</p>'
+                    '<div class="fig">%s</div><span class="btn ghost">Get a quote</span></div>'
+                    % (E(t), E(d), E(f)) for t, d, f in p["tiers"])
+    return (h2(p["heading"]) + '<p class="body lg">%s</p><div class="tiers">%s</div>'
+            '<p class="body small">%s</p>' % (E(p["note"]), tiers, E(p["foot"])))
+
+
 RENDER = {
     "hero_split": r_hero_split, "page_hero": r_page_hero, "stats": r_stats, "two_col": r_two_col,
     "cards": r_cards, "icon_grid": r_icon_grid, "steps": r_steps, "band": r_band, "chips": r_chips,
@@ -447,9 +469,10 @@ RENDER = {
     "checklist": r_checklist, "gallery": r_gallery, "service_rows": r_service_rows,
     "split_media": r_split_media, "facts": r_facts, "map": r_map, "subnav": r_subnav,
     "beforeafter": r_beforeafter, "quickquote": r_quickquote, "doc": r_doc,
+    "guarantee": r_guarantee, "pricing": r_pricing,
 }
 
-DARK = {"band", "cta"}
+DARK = {"band", "cta", "guarantee"}
 
 
 def _media_map():
@@ -548,7 +571,7 @@ def global_article():
     blocks.append(('G-03', 'Services mega menu', '<div class="mega">%s</div>' % groups))
     drawer = "".join("<li>%s</li>" % x for x in ["Home", "About", "Services +", "Clients", "Contact"])
     blocks.append(('G-04 \u00b7 G-05', 'Mobile drawer and action bar',
-                   '<div class="phone"><div class="drawer"><ul>%s</ul><span class="btn primary">Request a quote</span>'
+                   '<div class="phonemock"><div class="drawer"><ul>%s</ul><span class="btn primary">Request a quote</span>'
                    '<span class="btn ghost">WhatsApp us</span><p>%s</p></div><div class="g-actionbar show">'
                    '<span>\u260e Call</span><span>WhatsApp</span><span class="q">Get a quote</span></div></div>'
                    % (drawer, E(L.PHONE))))
@@ -761,8 +784,8 @@ font:700 13px var(--sans);display:flex;align-items:center;justify-content:center
 .mega h4{font:600 11px var(--sans);letter-spacing:.16em;color:var(--brasst);margin-bottom:10px}
 .mega ul{list-style:none;font-size:14px}.mega li{padding:6px 0;border-bottom:1px solid var(--stone)}
 .gblock{position:relative;padding:44px 0 0;border-bottom:1px solid var(--stone)}.gblock>.tag{top:12px}
-.phone{width:340px;margin:20px auto 40px;border:10px solid var(--ink);border-radius:30px;overflow:hidden;background:#fff}
-.drawer{padding:24px 20px;display:flex;flex-direction:column;gap:12px}.drawer ul{list-style:none;font:500 22px var(--serif)}
+.phonemock{width:340px;margin:20px auto 40px;border:10px solid var(--ink);border-radius:30px;overflow:hidden;background:#fff}
+.phonemock .drawer{padding:24px 20px;display:flex;flex-direction:column;gap:12px}.drawer ul{list-style:none;font:500 22px var(--serif)}
 .drawer li{padding:10px 0;border-bottom:1px solid var(--stone)}.drawer p{font-weight:600;color:var(--brasst)}
 /* overview + system */
 .tree{border:1px solid var(--stone);padding:24px;margin:20px 0;background:var(--paper)}
@@ -796,7 +819,9 @@ font:700 13px var(--sans);display:flex;align-items:center;justify-content:center
  .g-footer{padding:40px 16px 90px}.fcols{grid-template-columns:1fr}.cta .phone{font-size:24px}
  .mega{grid-template-columns:1fr 1fr;padding:20px 16px}.steps{grid-template-columns:1fr}
  .steps li{border-top:0;border-left:1px solid var(--brass);padding:0 0 0 14px}
- .note{font-size:12px}.contactcard{order:-1}.cookie{padding:14px 16px}.trusted{flex-wrap:nowrap;overflow:auto}
+ .note{font-size:12px}.contactcard{order:-1}
+ .guarantee{grid-template-columns:1fr;gap:18px}.seal.lg{width:92px;height:92px}.promise{font-size:17px}
+ .tiers{grid-template-columns:1fr}.cookie{padding:14px 16px}.trusted{flex-wrap:nowrap;overflow:auto}
 }
 .trusted{display:flex;flex-wrap:wrap;gap:8px 26px;align-items:baseline;padding:18px 2px 0;font-size:13px;color:var(--muted)}
 .trusted span{font:600 10.5px var(--sans);letter-spacing:.18em;color:var(--brasst)}.trusted b{font-weight:600;color:#3A3832}
@@ -812,6 +837,17 @@ font:700 13px var(--sans);display:flex;align-items:center;justify-content:center
 .cookie span:first-child{flex:1;min-width:220px}
 .umenu{display:none;position:absolute;top:44px;background:var(--ink);border:1px solid var(--brass);padding:6px;gap:4px;flex-direction:column;z-index:60}
 .umenu.open{display:flex}.tabs{position:relative}
+.guarantee{display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:center}
+.seal.lg{position:static;width:132px;height:132px;flex:none}
+.promise{font:500 20px/1.4 var(--serif);color:#fff;max-width:52ch;margin:4px 0 14px}
+.guarantee .ticks{grid-template-columns:1fr;gap:6px;color:#C9CCD8}
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:18px 0 14px}
+.tier{background:#fff;border:1px solid var(--stone);border-top:2px solid var(--brass);padding:22px}
+.alt .tier{background:var(--paper)}
+.tier .fig{font:500 24px var(--serif);color:var(--ink);margin:10px 0 14px}
+.proofbox{margin-top:18px;border-top:1px solid var(--stone);padding-top:12px;display:grid;gap:6px}
+.proofbox span{font-size:12.5px;color:var(--muted)}
+.proofbox span:first-child{font:italic 500 15px/1.4 var(--serif);color:var(--ink)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 """
 

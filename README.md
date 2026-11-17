@@ -12,6 +12,8 @@ Domain chosen by the client: **smartlinepointcleaning.co.ke**
 |---|---|
 | `CLAUDE.md` | Project memory — settled figures, settled wording, decisions not to re-open |
 | `PLAN.md` | Website plan: domain, sitemap, services, design direction, build spec, timeline |
+| `SECTOR-RESEARCH.md` | What good cleaning sites do worldwide, the Nairobi competitors, and what we took |
+| `seo_plan.py` | Keyword map, schema, GBP and technical SEO; renders `SEO.md`, verified against the real pages |
 | `brandkit.py` | Shared ReportLab house style for every client document |
 | `make_quotation.py` | 2-page quotation (single source of truth for the figures, `verify()` on import) |
 | `make_choices.py` | One-page client tick-sheet: domain options and build decisions |
@@ -33,6 +35,7 @@ python make_choices.py          # domain / decisions sheet
 python make_logo_premium.py     # logo concept deck
 python make_layout.py           # LAYOUT.md + wireframes.html
 python media_plan.py            # MEDIA.md + image sourcing tracker
+python seo_plan.py              # SEO.md
 python review_media.py          # review whatever is in media/all
 ```
 

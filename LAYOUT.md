@@ -8,9 +8,9 @@ Domain `smartlinepointcleaning.co.ke` · 8 content pages + 3 utility pages · 13
 
 | URL | Nav | H1 | Primary keyword | Sections |
 |---|---|---|---|---|
-| / | Home | Where cleanliness meets excellence. | cleaning services Nairobi | 10 |
-| /about | About | About Smartline | professional cleaning company Nairobi | 8 |
-| /services | Services | Our services | cleaning services Nairobi commercial residential | 8 |
+| / | Home | Where cleanliness meets excellence. | cleaning services Nairobi | 11 |
+| /about | About | About Smartline | professional cleaning company Nairobi | 10 |
+| /services | Services | Our services | cleaning services Nairobi commercial residential | 10 |
 | /commercial-cleaning | Commercial cleaning | Commercial and office cleaning in Nairobi | commercial cleaning Nairobi | 9 |
 | /residential-apartment-cleaning | Homes & apartments | Home, apartment and Airbnb cleaning in Nairobi | apartment cleaning Nairobi | 9 |
 | /post-construction-cleaning | Post-construction | Post-construction cleaning in Nairobi | post construction cleaning Nairobi | 9 |
@@ -36,7 +36,7 @@ Utility pages (built and wireframed, not counted in the eight):
 | G-05 | Mobile action bar | Sticky bottom bar: Call · WhatsApp · Get a quote. The single most-used element on a phone. | Mobile only, 60px, respects the iPhone safe-area inset. |
 | G-06 | WhatsApp button | Floating bottom-right on desktop, opens a pre-filled chat: “Hello Smartline, I’d like a quote for…”. | Replaced by the action bar. |
 | G-07 | CTA band | Shared closing band on every page: Book your clean today, phone in large type, quote button. | Stacked, buttons full width. |
-| G-08 | Footer | Four columns — brand and tagline · services · company and profile PDF · contact and hours. Social icons. Bottom bar: © 2026, privacy notice, cookie settings. | Columns become accordions; contact column stays open. |
+| G-08 | Footer | Four columns — brand and tagline · services · company, careers and profile PDF · contact and hours. Social icons. Bottom bar: © 2026, privacy notice, cookie settings. | Columns become accordions; contact column stays open. |
 | G-09 | Cookie notice | Slim bar: “We use analytics cookies to improve this site.” Accept / Decline. GA4 loads only after Accept; the choice is kept 12 months. Needed for analytics under the Data Protection Act 2019. | Sits above the action bar; never covers the Call button. |
 
 Page skeleton, top to bottom: **G-01 utility bar → G-02 header → page sections → G-07 CTA band → G-08 footer**, with G-06 (desktop) or G-05 (mobile) fixed on top.
@@ -59,14 +59,15 @@ Page skeleton, top to bottom: **G-01 utility bar → G-02 header → page sectio
 | H-06 | How we work | Five-step method, numbered, joined by a hairline. | Vertical timeline. |
 | H-07 | Trained cleaners | Ink-navy band listing the six training areas — the differentiator in a tender. | Photo first, list in two columns. |
 | H-08 | Testimonials | Three testimonials with name, title and sector, placed after the method and training they vouch for. | Swipe carousel. |
-| H-09 | FAQ | Five questions, marked up as FAQPage for search. | Accordion. |
-| H-10 | Closing CTA | Shared CTA band (G-07). | Stacked. |
+| H-09 | Clean Quality Guaranteed | The seal, written out as a promise with a time limit on it. Both large Nairobi competitors publish a 24-hour re-clean guarantee — this is parity, and it answers the trust question that stops people booking. | Seal above, promise, then the three points. |
+| H-10 | FAQ | Five questions, marked up as FAQPage for search. | Accordion. |
+| H-11 | Closing CTA | Shared CTA band (G-07). | Stacked. |
 
-**Blocked by client input:** Real job photographs (H-01, H-05, H-07); Permission to name clients (H-02); Sign-off on the one-line proofs under each reason (they are draft commitments, incl. the re-clean promise) (H-05); 3–5 testimonials with name and title (H-08); Client answers to the FAQ questions (H-09)
+**Blocked by client input:** Real job photographs (H-01, H-05, H-07); Permission to name clients (H-02); Sign-off on the one-line proofs under each reason (they are draft commitments, incl. the re-clean promise) (H-05, H-09); 3–5 testimonials with name and title (H-08); Client answers to the FAQ questions (H-10)
 
 ### About — `/about`
 
-- **Title:** About Us — Trained Cleaners Since 2018 | Smartline *(50 chars)*
+- **Title:** About Our Cleaning Company in Nairobi | Smartline *(49 chars)*
 - **Meta description:** Since 2018, Smartline has kept Nairobi offices, homes, schools and churches clean with trained, supervised teams and a single point of contact. *(143 chars)*
 - **H1:** About Smartline  ·  **Keyword:** professional cleaning company Nairobi  ·  **Schema:** AboutPage, Organization, BreadcrumbList
 
@@ -77,11 +78,13 @@ Page skeleton, top to bottom: **G-01 utility bar → G-02 header → page sectio
 | A-03 | Vision and mission | The two statements from the profile, set as a matched pair. | Stacked. |
 | A-04 | How we work with you | The culture-fit argument from the profile — why Smartline is a partner, not a contractor. | Stacked. |
 | A-05 | Training standards | The six training areas, each with a line on what it means on site. | One column. |
-| A-06 | Community | Job creation and CSR, from the vision statement. | Image then text. |
-| A-07 | Company details | The facts a procurement officer copies into a supplier form, plus the profile PDF. | Two-column key/value list. |
-| A-08 | Closing CTA | Shared CTA band. | Stacked. |
+| A-06 | Vetting, insurance and compliance | The questions a facility manager or school asks before awarding a contract, answered in one table. Every premium commercial cleaner researched puts vetting in the main navigation; none of the Nairobi sites answer it at all. | Two-column key/value list. |
+| A-07 | Community | Job creation and CSR, from the vision statement. | Image then text. |
+| A-08 | Work with us | Recruitment is a standing need in this trade — Cleanology puts “Apply for a job” in the header, ISS has a whole “Grow with us” section. It also makes the job-creation claim in the vision visible rather than stated. Applications go to operations@ via the same form handler. | Stacked; the apply button is full width. |
+| A-09 | Company details | The facts a procurement officer copies into a supplier form, plus the profile PDF. | Two-column key/value list. |
+| A-10 | Closing CTA | Shared CTA band. | Stacked. |
 
-**Blocked by client input:** Real job photographs (A-01); Any CSR activity or photographs to show (A-06)
+**Blocked by client input:** Real job photographs (A-01); Confirm which of these are true today, with documents — publish nothing we cannot evidence (A-06); Any CSR activity or photographs to show (A-07)
 
 ### Services — `/services`
 
@@ -97,10 +100,12 @@ Page skeleton, top to bottom: **G-01 utility bar → G-02 header → page sectio
 | S-04 | Homes & apartments | Each service as a row: photo, name, one-line description, three inclusions, who it is for, and Get a quote (pre-fills the form). Services with their own page link through. | Rows become cards, image on top. |
 | S-05 | Specialist cleans | Each service as a row: photo, name, one-line description, three inclusions, who it is for, and Get a quote (pre-fills the form). Services with their own page link through. | Rows become cards, image on top. |
 | S-06 | Outdoor | Each service as a row: photo, name, one-line description, three inclusions, who it is for, and Get a quote (pre-fills the form). Services with their own page link through. | Rows become cards, image on top. |
-| S-07 | Schedules | Shared frequency band. | Two-column chip grid. |
-| S-08 | Not sure what you need? | Routes undecided visitors to a site visit instead of losing them. | Stacked. |
+| S-07 | Guide prices | Both large Nairobi competitors publish KES price tables; a site with no numbers at all now reads as the least transparent of the three. Guide prices with “final price after a site visit” keeps the site visit in the process while still answering the first question every visitor has. | Three stacked cards; the figure stays large. |
+| S-08 | Sectors we know | The premium commercial cleaners researched organise by sector, not by task — a facility manager looks for their own building type first. This is the cheap version of that: one chip row, no new pages. | Chip grid, two columns. |
+| S-09 | Schedules | Shared frequency band. | Two-column chip grid. |
+| S-10 | Not sure what you need? | Routes undecided visitors to a site visit instead of losing them. | Stacked. |
 
-**Blocked by client input:** Decision: show starting prices or quote-only (S-03)
+**Blocked by client input:** Decision: show starting prices or quote-only (S-03, S-07); Three guide figures from the client, or a decision to show none (S-07)
 
 ### Commercial cleaning — `/commercial-cleaning`
 
@@ -181,14 +186,14 @@ Page skeleton, top to bottom: **G-01 utility bar → G-02 header → page sectio
 
 ### Contact — `/contact`
 
-- **Title:** Book a Clean or Request a Quote | Smartline *(43 chars)*
+- **Title:** Cleaning Services Quote, Nairobi | Smartline *(44 chars)*
 - **Meta description:** Request a quote or book a site visit with Smartline Point Cleaning Hub, Kasarani, Nairobi. Call or WhatsApp +254 711 128736. *(124 chars)*
 - **H1:** Book your clean  ·  **Keyword:** book cleaning services Nairobi  ·  **Schema:** ContactPage, CleaningService, BreadcrumbList
 
 | # | Section | What it does | Under 768px |
 |---|---|---|---|
 | K-01 | Page hero | Compact hero; the reply-time promise is the subheading. | Unchanged. |
-| K-02 | Quote form and contact card | Two-step form — the job, then you — beside the contact card; six required fields in all. Pre-filled from ?service= on every service page. PHP handler: honeypot, time-trap, rate limit, server-side validation; mails info@; success goes to /thank-you. | Call and WhatsApp buttons first, then the form, then the address. |
+| K-02 | Quote form and contact card | Two-step form — the job, then you — beside the contact card, with a testimonial and the guarantee directly under the submit button (every conversion source researched puts proof next to the form). Six required fields in all. Pre-filled from ?service= on every service page. PHP handler: honeypot, time-trap, rate limit, server-side validation; mails info@; success goes to /thank-you. | Call and WhatsApp buttons first, then the form, then the address. |
 | K-03 | Map | Static map with an Open in Google Maps link. | Full-width map, 4:3. |
 | K-04 | Areas we serve | Service areas — also feeds areaServed in the schema. | Chip grid. |
 | K-05 | Questions | Three pre-booking questions. | Accordion. |
@@ -365,26 +370,28 @@ Six required fields in all. Step 1 asks about the job (low commitment, so people
 
 ## 5. Component inventory
 
-Every section is one of these 23 components — build each once, reuse everywhere.
+Every section is one of these 25 components — build each once, reuse everywhere.
 
 | Component | Uses | Where |
 |---|---|---|
 | hero_split | 4 | H-01, CC-01, RA-01, PC-01 |
 | stats | 1 | H-02 |
-| two_col | 2 | H-03, A-04 |
+| two_col | 3 | H-03, A-04, A-08 |
 | cards | 5 | H-04, A-03, CC-08, RA-08, PC-08 |
 | icon_grid | 2 | H-05, A-05 |
 | steps | 4 | H-06, CC-04, RA-04, PC-04 |
 | band | 1 | H-07 |
 | testimonials | 2 | H-08, C-04 |
-| faq | 5 | H-09, CC-07, RA-07, PC-07, K-05 |
-| cta | 4 | H-10, A-08, S-08, C-06 |
+| guarantee | 1 | H-09 |
+| faq | 5 | H-10, CC-07, RA-07, PC-07, K-05 |
+| cta | 4 | H-11, A-10, S-10, C-06 |
 | page_hero | 4 | A-01, S-01, C-01, K-01 |
-| split_media | 2 | A-02, A-06 |
-| facts | 1 | A-07 |
+| split_media | 2 | A-02, A-07 |
+| facts | 2 | A-06, A-09 |
 | subnav | 1 | S-02 |
 | service_rows | 4 | S-03, S-04, S-05, S-06 |
-| chips | 9 | S-07, CC-02, CC-06, RA-02, RA-06, PC-02, PC-06, C-03, K-04 |
+| pricing | 1 | S-07 |
+| chips | 10 | S-08, S-09, CC-02, CC-06, RA-02, RA-06, PC-02, PC-06, C-03, K-04 |
 | checklist | 3 | CC-03, RA-03, PC-03 |
 | beforeafter | 3 | CC-05, RA-05, PC-05 |
 | quickquote | 3 | CC-09, RA-09, PC-09 |
@@ -399,12 +406,14 @@ Every section is one of these 23 components — build each once, reuse everywher
 |---|---|---|
 | Real job photographs | 11 | H-01, H-05, H-07, A-01, CC-01, CC-05, RA-01, RA-05, PC-01, PC-05, C-05 |
 | Permission to name clients | 5 | H-02, CC-05, RA-05, PC-05, C-02 |
-| Client answers to the FAQ questions | 5 | H-09, CC-07, RA-07, PC-07, K-05 |
+| Client answers to the FAQ questions | 5 | H-10, CC-07, RA-07, PC-07, K-05 |
+| Sign-off on the one-line proofs under each reason (they are draft commitments, incl. the re-clean promise) | 2 | H-05, H-09 |
 | 3–5 testimonials with name and title | 2 | H-08, C-04 |
+| Decision: show starting prices or quote-only | 2 | S-03, S-07 |
 | Working hours and reply-time commitment | 2 | K-01, G-01 |
-| Sign-off on the one-line proofs under each reason (they are draft commitments, incl. the re-clean promise) | 1 | H-05 |
-| Any CSR activity or photographs to show | 1 | A-06 |
-| Decision: show starting prices or quote-only | 1 | S-03 |
+| Confirm which of these are true today, with documents — publish nothing we cannot evidence | 1 | A-06 |
+| Any CSR activity or photographs to show | 1 | A-07 |
+| Three guide figures from the client, or a decision to show none | 1 | S-07 |
 | Confirmed service areas | 1 | K-04 |
 | Which WhatsApp number | 1 | G-06 |
 | Social media handles (Facebook, Instagram, LinkedIn, TikTok) | 1 | G-08 |
@@ -417,6 +426,19 @@ Everything not listed here can be built today with the copy already supplied.
 - `click_call` — any `tel:` link, header, action bar, CTA band
 - `click_whatsapp` — floating button, action bar, contact card
 - `file_download` — company profile PDF
+
+## 7a. Phase 2 — from the sector research
+
+Not in the quoted eight pages. Listed so the decision is deliberate, not forgotten.
+
+| What | Why | When |
+|---|---|---|
+| Area pages — Kasarani, Ruiru, Roysambu, Westlands, CBD | Local-search guidance is consistent: one blanket “areas we serve” page rarely ranks, while a page per area does. Five short pages, each with the services, a local job and the same quote form. | Phase 2, after launch — outside the quoted eight pages |
+| Sector pages — schools, churches, apartment blocks | Every premium commercial cleaner researched sells by sector, because a facility manager searches for their own building type. The chip row on /services is the cheap version; real pages are the full one. | Phase 2, by demand |
+| Case notes — three one-paragraph results | A Nairobi competitor runs “Westlands law firm, 30% fewer sick days”. One honest result per sector beats any amount of adjectives — but it waits for real numbers from real jobs. | Once REAL-03–06 photographs and a client agrees to be quoted |
+| Client area — schedules, visit reports, invoices | Both London firms researched run a client portal. For Smartline the useful first version is a per-client page with the cleaning schedule and the last visit report. | Phase 3, if contracts grow |
+| Recruitment intake form | The careers block on About starts as a mailto. If applications become regular, make it a real form to operations@ with a simple pipeline. | When the careers block earns its keep |
+| Instant estimate | Justlife in Dubai publishes an hourly rate and books in under a minute; both Nairobi competitors publish tables. If Smartline settles its rate card, the guide-price block becomes a three-field estimator. | Once the rate card is fixed |
 
 ## 8. Build order
 

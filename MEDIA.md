@@ -112,7 +112,7 @@ Save each download as the **Save as** name into `media/incoming/<folder>/`.
   - **Search:** “supervisor inspection checklist cleaning” · “facility manager clipboard office” · “african woman supervisor tablet”  ·  **Where:** Adobe Stock · iStock · Shutterstock (model-released); Pexels as fallback
   - **Note:** Replaced by REAL-02 when it exists.
   - **Save as:** `media/incoming/about/IMG-A02_about-our-story.jpg`
-- [ ] **IMG-A06** · P2 · Main — community and jobs · `A-06` · 4:5 portrait, min 1200 × 1500
+- [ ] **IMG-A06** · P2 · Main — community and jobs · `A-07` · 4:5 portrait, min 1200 × 1500
   - **Find:** A training session: a trainer demonstrating equipment to a small group of new cleaners.
   - **Must show:** Black African people; Kenyan / East African setting; learning in progress; hands-on
   - **Search:** “cleaning training session” · “workplace training demonstration africa” · “vocational training group”  ·  **Where:** Adobe Stock · iStock · Shutterstock (model-released); Pexels as fallback
