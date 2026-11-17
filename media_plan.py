@@ -184,35 +184,35 @@ STOCK = [
      FREE, "service-pages", None, None),
 
     # ---------------- CLIENTS — stock fallback for the gallery only
-    ("IMG-C01", "P2", "Clients", "C-05", "Gallery fallback — Offices", "Reuse IMG-D01.", "", "", "4:3", "—", "None",
+    ("IMG-C01", "P2", "Clients", "C-04", "Gallery fallback — Offices", "Reuse IMG-D01.", "", "", "4:3", "—", "None",
      [], "—", "clients", "IMG-D01", None),
-    ("IMG-C02", "P2", "Clients", "C-05", "Gallery fallback — Banking",
+    ("IMG-C02", "P2", "Clients", "C-04", "Gallery fallback — Banking",
      "A clean banking hall: polished floor, counters, no customers, no bank branding.",
      "Marble or terrazzo; order", "Bank logos; customers' faces; " + AVOID,
      "4:3", "1200 × 900", "None",
      ["bank interior empty", "banking hall marble floor", "bank lobby clean"],
      FREE, "clients", None, None),
-    ("IMG-C03", "P2", "Clients", "C-05", "Gallery fallback — Education", "Reuse IMG-S03.", "", "", "4:3", "—", "None",
+    ("IMG-C03", "P2", "Clients", "C-04", "Gallery fallback — Education", "Reuse IMG-S03.", "", "", "4:3", "—", "None",
      [], "—", "clients", "IMG-S03", None),
-    ("IMG-C04", "P2", "Clients", "C-05", "Gallery fallback — Churches", "Reuse IMG-S04.", "", "", "4:3", "—", "None",
+    ("IMG-C04", "P2", "Clients", "C-04", "Gallery fallback — Churches", "Reuse IMG-S04.", "", "", "4:3", "—", "None",
      [], "—", "clients", "IMG-S04", None),
-    ("IMG-C05", "P2", "Clients", "C-05", "Gallery fallback — Residential complexes",
+    ("IMG-C05", "P2", "Clients", "C-04", "Gallery fallback — Residential complexes",
      "A mid-rise apartment block or its clean common stairwell — Nairobi-style architecture.",
      "Kenyan apartment architecture", AVOID,
      "4:3", "1200 × 900", "None",
      ["nairobi apartment building", "apartment block stairwell clean", "residential building africa"],
      FREE, "clients", None, None),
-    ("IMG-C06", "P2", "Clients", "C-05", "Gallery fallback — Short-stay", "Reuse IMG-S06.", "", "", "4:3", "—", "None",
+    ("IMG-C06", "P2", "Clients", "C-04", "Gallery fallback — Short-stay", "Reuse IMG-S06.", "", "", "4:3", "—", "None",
      [], "—", "clients", "IMG-S06", None),
-    ("IMG-C07", "P2", "Clients", "C-05", "Gallery fallback — Hospitality",
+    ("IMG-C07", "P2", "Clients", "C-04", "Gallery fallback — Hospitality",
      "A lounge or bar before opening: chairs up, floor clean, soft light.",
      "Order before service", "Drinking customers; liquor brands; " + AVOID,
      "4:3", "1200 × 900", "None",
      ["empty lounge interior", "bar before opening chairs", "restaurant interior clean empty"],
      FREE, "clients", None, None),
-    ("IMG-C08", "P2", "Clients", "C-05", "Gallery fallback — Construction", "Reuse IMG-D03.", "", "", "4:3", "—", "None",
+    ("IMG-C08", "P2", "Clients", "C-04", "Gallery fallback — Construction", "Reuse IMG-D03.", "", "", "4:3", "—", "None",
      [], "—", "clients", "IMG-D03", None),
-    ("IMG-C09", "P2", "Clients", "C-05", "Gallery fallback — Compounds", "Reuse IMG-S13.", "", "", "4:3", "—", "None",
+    ("IMG-C09", "P2", "Clients", "C-04", "Gallery fallback — Compounds", "Reuse IMG-S13.", "", "", "4:3", "—", "None",
      [], "—", "clients", "IMG-S13", None),
 
     # ---------------- UTILITY + QUIET BACKGROUNDS
@@ -253,7 +253,7 @@ REAL = [
      "Logo, cover, office exterior or signage, interior, team, and at least five at-work shots. Google removes stock photos from profiles.",
      "Real premises and people only"),
     ("REAL-08", "Client logos", "Home H-02, Clients C-02",
-     "Logo files from clients who give written permission to be named.", "SVG or large PNG"),
+     "Permission granted 17/11/2026, so the names ship as set type now. Logo files are an upgrade, not a blocker — collect them as clients send them.", "SVG or large PNG"),
 ]
 
 # ------------------------------------------------------------------ we produce (not sourced)
@@ -303,7 +303,7 @@ ART_DIRECTION = OrderedDict([
     ]),
     ("Honesty", [
         "Stock is illustration, never evidence. No stock image is captioned as a Smartline job, team member or client.",
-        "No stock faces on testimonials — testimonials run as text with name and title.",
+        "There are no testimonials on this site at all (Allen, 17/11/2026) — the named clients carry the proof instead, published with permission.",
         "The before/after sliders wait for REAL-03–05: a stock pair would be passing off another company's job as ours. Until then the same slot carries the written standard. The gallery ships now under “Spaces we look after”, which is true of stock, and becomes “The work” when the real photographs replace it.",
     ]),
 ])

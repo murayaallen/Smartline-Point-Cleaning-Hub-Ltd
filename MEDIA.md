@@ -44,7 +44,7 @@ Save each download as the **Save as** name into `media/incoming/<folder>/`.
 **Honesty**
 
 - Stock is illustration, never evidence. No stock image is captioned as a Smartline job, team member or client.
-- No stock faces on testimonials — testimonials run as text with name and title.
+- There are no testimonials on this site at all (Allen, 17/11/2026) — the named clients carry the proof instead, published with permission.
 - The before/after sliders wait for REAL-03–05: a stock pair would be passing off another company's job as ours. Until then the same slot carries the written standard. The gallery ships now under “Spaces we look after”, which is true of stock, and becomes “The work” when the real photographs replace it.
 
 ## Images to source, by page
@@ -218,20 +218,20 @@ Save each download as the **Save as** name into `media/incoming/<folder>/`.
 ### Clients
 
 - [ ] **IMG-C01** · P2 · Gallery fallback — Offices — *reuse IMG-D01, nothing to source*
-- [ ] **IMG-C02** · P2 · Gallery fallback — Banking · `C-05` · 4:3, min 1200 × 900
+- [ ] **IMG-C02** · P2 · Gallery fallback — Banking · `C-04` · 4:3, min 1200 × 900
   - **Find:** A clean banking hall: polished floor, counters, no customers, no bank branding.
   - **Must show:** Marble or terrazzo; order
   - **Search:** “bank interior empty” · “banking hall marble floor” · “bank lobby clean”  ·  **Where:** Pexels · Unsplash (free, commercial use)
   - **Save as:** `media/incoming/clients/IMG-C02_clients-banking.jpg`
 - [ ] **IMG-C03** · P2 · Gallery fallback — Education — *reuse IMG-S03, nothing to source*
 - [ ] **IMG-C04** · P2 · Gallery fallback — Churches — *reuse IMG-S04, nothing to source*
-- [ ] **IMG-C05** · P2 · Gallery fallback — Residential complexes · `C-05` · 4:3, min 1200 × 900
+- [ ] **IMG-C05** · P2 · Gallery fallback — Residential complexes · `C-04` · 4:3, min 1200 × 900
   - **Find:** A mid-rise apartment block or its clean common stairwell — Nairobi-style architecture.
   - **Must show:** Kenyan apartment architecture
   - **Search:** “nairobi apartment building” · “apartment block stairwell clean” · “residential building africa”  ·  **Where:** Pexels · Unsplash (free, commercial use)
   - **Save as:** `media/incoming/clients/IMG-C05_clients-residential-complexes.jpg`
 - [ ] **IMG-C06** · P2 · Gallery fallback — Short-stay — *reuse IMG-S06, nothing to source*
-- [ ] **IMG-C07** · P2 · Gallery fallback — Hospitality · `C-05` · 4:3, min 1200 × 900
+- [ ] **IMG-C07** · P2 · Gallery fallback — Hospitality · `C-04` · 4:3, min 1200 × 900
   - **Find:** A lounge or bar before opening: chairs up, floor clean, soft light.
   - **Must show:** Order before service
   - **Search:** “empty lounge interior” · “bar before opening chairs” · “restaurant interior clean empty”  ·  **Where:** Pexels · Unsplash (free, commercial use)
@@ -324,7 +324,7 @@ These are proof. Stock cannot stand in for them.
 - [ ] **REAL-05 · Before / after — post-construction (2 pairs)** (Post-construction PC-05) — Before handover and the floor finish. *Same spot, same angle, same light.*
 - [ ] **REAL-06 · Job gallery (9–12)** (Clients C-05 “The work”) — Swaps into the gallery as jobs are photographed. The section ships now as “Spaces we look after”. *Landscape and portrait mix; no client faces without consent.*
 - [ ] **REAL-07 · Google Business Profile set (10+)** (Google Business Profile) — Logo, cover, office exterior or signage, interior, team, and at least five at-work shots. Google removes stock photos from profiles. *Real premises and people only.*
-- [ ] **REAL-08 · Client logos** (Home H-02, Clients C-02) — Logo files from clients who give written permission to be named. *SVG or large PNG.*
+- [ ] **REAL-08 · Client logos** (Home H-02, Clients C-02) — Permission granted 17/11/2026, so the names ship as set type now. Logo files are an upgrade, not a blocker — collect them as clients send them. *SVG or large PNG.*
 
 Save to `media/real/` as they arrive.
 

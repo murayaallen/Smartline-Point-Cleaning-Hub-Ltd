@@ -124,8 +124,8 @@ QUOTE_STEPS = [  # two steps: the job first (low commitment), then contact detai
 ]
 
 NEEDS_PHOTOS = "Real job photographs"
-NEEDS_PERMISSION = "Permission to name clients"
-NEEDS_TESTIMONIALS = "3–5 testimonials with name and title"
+NEEDS_PERMISSION = "(granted 17/11/2026 — clients may be named on the site)"
+NEEDS_TESTIMONIALS = "(not used — Allen 17/11/2026: no testimonials anywhere on this site)"
 NEEDS_HOURS = "Working hours and reply-time commitment"
 NEEDS_AREAS = "Confirmed service areas"
 NEEDS_FAQ = "Client answers to the FAQ questions"
@@ -244,8 +244,8 @@ PAGES = [
          "p": {"items": [("2018", "Trading since"), ("9+", "Sites served"), ("13", "Services"),
                          ("Daily \u2192 annual", "Schedules")],
                "trusted": [n for n, _ in CLIENTS[:6]]},
-         "what": "Four facts, then a quiet \u201cTrusted by\u201d row of client names \u2014 social proof in the first scroll, not the ninth.",
-         "mobile": "Facts 2 \u00d7 2; names scroll sideways.", "needs": [NEEDS_PERMISSION]},
+         "what": "Four facts, then a “Trusted by” row of client names — published with permission (17/11/2026). With no testimonials on this site, the named clients are the proof, and they are harder to fake than a quote.",
+         "mobile": "Facts 2 \u00d7 2; names scroll sideways.", "needs": []},
         {"id": "H-03", "name": "Welcome", "type": "two_col",
          "p": {"label": "WELCOME", "heading": "A single point of contact for every clean.",
                "body": WELCOME, "link": "About Smartline \u2192"},
@@ -276,11 +276,7 @@ PAGES = [
          "p": {"heading": "Every Smartline cleaner is trained in", "items": [t for t, _ in TRAINING], "image": True},
          "what": "Ink-navy band listing the six training areas \u2014 the differentiator in a tender.",
          "mobile": "Photo first, list in two columns.", "needs": []},
-        {"id": "H-08", "name": "Testimonials", "type": "testimonials",
-         "p": {"heading": "In their words", "n": 3},
-         "what": "Three testimonials with name, title and sector, placed after the method and training they vouch for.",
-         "mobile": "Swipe carousel.", "needs": [NEEDS_TESTIMONIALS]},
-        {"id": "H-09", "name": "Clean Quality Guaranteed", "type": "guarantee",
+        {"id": "H-08", "name": "Clean Quality Guaranteed", "type": "guarantee",
          "p": {"heading": "Clean Quality Guaranteed",
                "promise": "If something is missed, tell us within 24 hours and we come back and re-clean it \u2014 no argument, no extra charge.",
                "points": ["One named supervisor on your account",
@@ -289,7 +285,7 @@ PAGES = [
          "what": "The seal, written out as a promise with a time limit on it. Both large Nairobi competitors publish a "
                  "24-hour re-clean guarantee \u2014 this is parity, and it answers the trust question that stops people booking.",
          "mobile": "Seal above, promise, then the three points.", "needs": [NEEDS_PROOF]},
-        {"id": "H-10", "name": "FAQ", "type": "faq",
+        {"id": "H-09", "name": "FAQ", "type": "faq",
          "p": {"heading": "Questions we are asked",
                "items": ["Do you bring your own equipment and chemicals?",
                          "Do you charge for a site visit?",
@@ -298,7 +294,7 @@ PAGES = [
                          "Which areas do you cover?"]},
          "what": "Five questions, marked up as FAQPage for search.",
          "mobile": "Accordion.", "needs": [NEEDS_FAQ]},
-        {"id": "H-11", "name": "Closing CTA", "type": "cta",
+        {"id": "H-10", "name": "Closing CTA", "type": "cta",
          "p": {"heading": "Book your clean today", "sub": PHONE},
          "what": "Shared CTA band (G-07).", "mobile": "Stacked.", "needs": []},
      ]},
@@ -513,25 +509,21 @@ PAGES = [
                "sub": "Banks, schools, churches, apartments, short-stay and hospitality.", "image": False},
          "what": "Compact hero.", "mobile": "Unchanged.", "needs": []},
         {"id": "C-02", "name": "Client list", "type": "logos",
-         "p": {"heading": "Clients served", "items": CLIENTS, "testimonials": False},
-         "what": "Every named client with sector — or, without permission, the same grid by sector only.",
-         "mobile": "One column list.", "needs": [NEEDS_PERMISSION]},
+         "p": {"heading": "Clients served", "items": CLIENTS},
+         "what": "Every client named, with their sector. This is the page a facility manager checks before calling, and with testimonials off the site it carries the whole proof burden — so it leads with the institutions: the bank, the school, the church.",
+         "mobile": "One column list.", "needs": []},
         {"id": "C-03", "name": "Sectors", "type": "chips",
          "p": {"heading": "Sectors", "items": ["Banking", "Education", "Churches", "Residential complexes",
                                                "Short-stay and Airbnb", "Hospitality", "Construction"]},
          "what": "Sector band — tells a new prospect their kind of premises is familiar ground.",
          "mobile": "Chip grid.", "needs": []},
-        {"id": "C-04", "name": "Testimonials", "type": "testimonials",
-         "p": {"heading": "In their words", "n": 3},
-         "what": "Three testimonials, name and title, sector tag.",
-         "mobile": "Swipe carousel.", "needs": [NEEDS_TESTIMONIALS]},
-        {"id": "C-05", "name": "Spaces we look after", "type": "gallery",
+        {"id": "C-04", "name": "Spaces we look after", "type": "gallery",
          "p": {"heading": "Spaces we look after", "n": 9},
          "what": "Masonry grid with a keyboard-accessible lightbox. Ships with the sourced set under a heading that "
                  "is true of stock \u2014 these are the kinds of premises, not photographs of our jobs. Real job photos "
                  "replace them one at a time, and the heading becomes \u201cThe work\u201d on the day they do.",
          "mobile": "Two-column grid.", "needs": []},
-        {"id": "C-06", "name": "Closing CTA", "type": "cta",
+        {"id": "C-05", "name": "Closing CTA", "type": "cta",
          "p": {"heading": "Book your clean today", "sub": PHONE},
          "what": "Shared CTA band.", "mobile": "Stacked.", "needs": []},
      ]},
@@ -553,10 +545,10 @@ PAGES = [
                "aside": ["Call  " + PHONE, "WhatsApp  " + PHONE, "Email  " + EMAIL,
                          "ICIPE Road, Sports Drive, Suite 8, Kasarani",
                          "P.O. Box 48018-00100, Nairobi", "Hours: to confirm"],
-               "proof": ["\u201cReliable, and the same team every week.\u201d \u2014 testimonial, short",
+               "proof": ["Trusted by Uwezo Microfinance Bank, St Christopher’s International School and Jewel Complex",
                          "Clean Quality Guaranteed \u00b7 24-hour re-clean",
                          "Trained, vetted, directly employed"]},
-         "what": "Two-step form \u2014 the job, then you \u2014 beside the contact card, with a testimonial and the guarantee "
+         "what": "Two-step form \u2014 the job, then you \u2014 beside the contact card, with named clients and the guarantee "
                  "directly under the submit button (every conversion source researched puts proof next to the form). "
                  "Six required fields in all. Pre-filled from ?service= on every service page. PHP handler: honeypot, time-trap, rate limit, server-side validation; mails info@; success goes to /thank-you.",
          "mobile": "Call and WhatsApp buttons first, then the form, then the address.", "needs": []},

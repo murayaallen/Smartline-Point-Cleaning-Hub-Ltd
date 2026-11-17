@@ -145,8 +145,22 @@ returns empty. 45 files in `media/all`: **29 placed, 9 gallery tiles, 7 dropped.
 - Still genuinely blocked, and not by us: **REAL-07** (10+ real photos for Google Business
   Profile — Google strips stock), real **testimonial quotes**, and **permission to name clients**.
 
+## Client decisions — SETTLED 17/11/2026
+- **No testimonials anywhere on the site.** Both testimonial sections removed (Home and
+  Clients). Do not propose them again. The **named clients carry the proof instead** —
+  stronger than a quote and impossible to fake.
+- **Permission granted to name clients.** All nine publish: Jewel Complex, Uwezo Microfinance
+  Bank, Richland Pointe, ACK St Paul's Mukuyuini, St Christopher's International School,
+  Canon Kimani's House Airbnbs, Pataya Properties, Seven Point, Steph Underground Lounge.
+  They appear in the Home proof strip, the Clients page and beside the contact form.
+- Home 10 sections, Clients 5. Client logo files are an upgrade, not a blocker.
+
 ## Open
-- Site build not started. Standard: zero-build static HTML/CSS/vanilla JS,
+- **Build not started — Allen will say when to begin.** Everything upstream is settled:
+  domain, logo concepts (awaiting his pick), layout, media (every slot filled), SEO.
+- Still outstanding from the client, none of it blocking the build:
+  REAL-07 (10+ real photos for Google Business Profile — Google strips stock),
+  three guide-price figures or a decision to show none (S-07),
+  confirmation of the compliance lines with documents (A-06),
+  working hours, social handles, FAQ answers, confirmed service areas. Standard: zero-build static HTML/CSS/vanilla JS,
   .htaccess clean URLs + CSP, sitemap/robots, mobile sweep.
-- Waiting on client: logo vector, job photographs, permission to name clients,
-  testimonials, hours.

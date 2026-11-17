@@ -8,13 +8,13 @@ Domain `smartlinepointcleaning.co.ke` · 8 content pages + 3 utility pages · 13
 
 | URL | Nav | H1 | Primary keyword | Sections |
 |---|---|---|---|---|
-| / | Home | Where cleanliness meets excellence. | cleaning services Nairobi | 11 |
+| / | Home | Where cleanliness meets excellence. | cleaning services Nairobi | 10 |
 | /about | About | About Smartline | professional cleaning company Nairobi | 10 |
 | /services | Services | Our services | cleaning services Nairobi commercial residential | 10 |
 | /commercial-cleaning | Commercial cleaning | Commercial and office cleaning in Nairobi | commercial cleaning Nairobi | 9 |
 | /residential-apartment-cleaning | Homes & apartments | Home, apartment and Airbnb cleaning in Nairobi | apartment cleaning Nairobi | 9 |
 | /post-construction-cleaning | Post-construction | Post-construction cleaning in Nairobi | post construction cleaning Nairobi | 9 |
-| /clients | Clients | Who we clean for | cleaning company Nairobi clients | 6 |
+| /clients | Clients | Who we clean for | cleaning company Nairobi clients | 5 |
 | /contact | Contact | Book your clean | book cleaning services Nairobi | 5 |
 
 Navigation: **Home · About · Services ▾ · Clients · Contact** + brass *Request a quote* button. The three service pages sit under the Services mega menu.
@@ -52,18 +52,17 @@ Page skeleton, top to bottom: **G-01 utility bar → G-02 header → page sectio
 | # | Section | What it does | Under 768px |
 |---|---|---|---|
 | H-01 | Hero | Client's own headline, the promise in one line, two actions, three trust points; the Clean Quality Guaranteed seal sits on the photo. | Headline and buttons first, photo 4:5 below, seal shrinks to 64px, float card hidden. |
-| H-02 | Proof strip | Four facts, then a quiet “Trusted by” row of client names — social proof in the first scroll, not the ninth. | Facts 2 × 2; names scroll sideways. |
+| H-02 | Proof strip | Four facts, then a “Trusted by” row of client names — published with permission (17/11/2026). With no testimonials on this site, the named clients are the proof, and they are harder to fake than a quote. | Facts 2 × 2; names scroll sideways. |
 | H-03 | Welcome | The client's welcome statement, edited for the web, set large beside a short heading. | Heading above, body below. |
 | H-04 | Services | Four group cards listing all 13 services, closed by the schedule options (one-time to annual) on one line. | Cards stacked; each shows three services and “+ n more”. |
 | H-05 | Why Smartline | The client's six reasons, each with a one-line proof, beside a photograph of cleaners at work. While that photograph is stock the caption stays generic — “Trained, supervised teams” — and never claims to be Smartline staff. | Photo on top, reasons in one column. |
 | H-06 | How we work | Five-step method, numbered, joined by a hairline. | Vertical timeline. |
 | H-07 | Trained cleaners | Ink-navy band listing the six training areas — the differentiator in a tender. | Photo first, list in two columns. |
-| H-08 | Testimonials | Three testimonials with name, title and sector, placed after the method and training they vouch for. | Swipe carousel. |
-| H-09 | Clean Quality Guaranteed | The seal, written out as a promise with a time limit on it. Both large Nairobi competitors publish a 24-hour re-clean guarantee — this is parity, and it answers the trust question that stops people booking. | Seal above, promise, then the three points. |
-| H-10 | FAQ | Five questions, marked up as FAQPage for search. | Accordion. |
-| H-11 | Closing CTA | Shared CTA band (G-07). | Stacked. |
+| H-08 | Clean Quality Guaranteed | The seal, written out as a promise with a time limit on it. Both large Nairobi competitors publish a 24-hour re-clean guarantee — this is parity, and it answers the trust question that stops people booking. | Seal above, promise, then the three points. |
+| H-09 | FAQ | Five questions, marked up as FAQPage for search. | Accordion. |
+| H-10 | Closing CTA | Shared CTA band (G-07). | Stacked. |
 
-**Blocked by client input:** Permission to name clients (H-02); Sign-off on the one-line proofs under each reason (they are draft commitments, incl. the re-clean promise) (H-05, H-09); 3–5 testimonials with name and title (H-08); Client answers to the FAQ questions (H-10)
+**Blocked by client input:** Sign-off on the one-line proofs under each reason (they are draft commitments, incl. the re-clean promise) (H-05, H-08); Client answers to the FAQ questions (H-09)
 
 ### About — `/about`
 
@@ -176,13 +175,10 @@ Page skeleton, top to bottom: **G-01 utility bar → G-02 header → page sectio
 | # | Section | What it does | Under 768px |
 |---|---|---|---|
 | C-01 | Page hero | Compact hero. | Unchanged. |
-| C-02 | Client list | Every named client with sector — or, without permission, the same grid by sector only. | One column list. |
+| C-02 | Client list | Every client named, with their sector. This is the page a facility manager checks before calling, and with testimonials off the site it carries the whole proof burden — so it leads with the institutions: the bank, the school, the church. | One column list. |
 | C-03 | Sectors | Sector band — tells a new prospect their kind of premises is familiar ground. | Chip grid. |
-| C-04 | Testimonials | Three testimonials, name and title, sector tag. | Swipe carousel. |
-| C-05 | Spaces we look after | Masonry grid with a keyboard-accessible lightbox. Ships with the sourced set under a heading that is true of stock — these are the kinds of premises, not photographs of our jobs. Real job photos replace them one at a time, and the heading becomes “The work” on the day they do. | Two-column grid. |
-| C-06 | Closing CTA | Shared CTA band. | Stacked. |
-
-**Blocked by client input:** Permission to name clients (C-02); 3–5 testimonials with name and title (C-04)
+| C-04 | Spaces we look after | Masonry grid with a keyboard-accessible lightbox. Ships with the sourced set under a heading that is true of stock — these are the kinds of premises, not photographs of our jobs. Real job photos replace them one at a time, and the heading becomes “The work” on the day they do. | Two-column grid. |
+| C-05 | Closing CTA | Shared CTA band. | Stacked. |
 
 ### Contact — `/contact`
 
@@ -193,7 +189,7 @@ Page skeleton, top to bottom: **G-01 utility bar → G-02 header → page sectio
 | # | Section | What it does | Under 768px |
 |---|---|---|---|
 | K-01 | Page hero | Compact hero; the reply-time promise is the subheading. | Unchanged. |
-| K-02 | Quote form and contact card | Two-step form — the job, then you — beside the contact card, with a testimonial and the guarantee directly under the submit button (every conversion source researched puts proof next to the form). Six required fields in all. Pre-filled from ?service= on every service page. PHP handler: honeypot, time-trap, rate limit, server-side validation; mails info@; success goes to /thank-you. | Call and WhatsApp buttons first, then the form, then the address. |
+| K-02 | Quote form and contact card | Two-step form — the job, then you — beside the contact card, with named clients and the guarantee directly under the submit button (every conversion source researched puts proof next to the form). Six required fields in all. Pre-filled from ?service= on every service page. PHP handler: honeypot, time-trap, rate limit, server-side validation; mails info@; success goes to /thank-you. | Call and WhatsApp buttons first, then the form, then the address. |
 | K-03 | Map | Static map with an Open in Google Maps link. | Full-width map, 4:3. |
 | K-04 | Areas we serve | Service areas — also feeds areaServed in the schema. | Chip grid. |
 | K-05 | Questions | Three pre-booking questions. | Accordion. |
@@ -370,7 +366,7 @@ Six required fields in all. Step 1 asks about the job (low commitment, so people
 
 ## 5. Component inventory
 
-Every section is one of these 25 components — build each once, reuse everywhere.
+Every section is one of these 24 components — build each once, reuse everywhere.
 
 | Component | Uses | Where |
 |---|---|---|
@@ -381,10 +377,9 @@ Every section is one of these 25 components — build each once, reuse everywher
 | icon_grid | 2 | H-05, A-05 |
 | steps | 4 | H-06, CC-04, RA-04, PC-04 |
 | band | 1 | H-07 |
-| testimonials | 2 | H-08, C-04 |
-| guarantee | 1 | H-09 |
-| faq | 5 | H-10, CC-07, RA-07, PC-07, K-05 |
-| cta | 4 | H-11, A-10, S-10, C-06 |
+| guarantee | 1 | H-08 |
+| faq | 5 | H-09, CC-07, RA-07, PC-07, K-05 |
+| cta | 4 | H-10, A-10, S-10, C-05 |
 | page_hero | 4 | A-01, S-01, C-01, K-01 |
 | split_media | 2 | A-02, A-07 |
 | facts | 2 | A-06, A-09 |
@@ -396,7 +391,7 @@ Every section is one of these 25 components — build each once, reuse everywher
 | standard | 3 | CC-05, RA-05, PC-05 |
 | quickquote | 3 | CC-09, RA-09, PC-09 |
 | logos | 1 | C-02 |
-| gallery | 1 | C-05 |
+| gallery | 1 | C-04 |
 | form | 1 | K-02 |
 | map | 1 | K-03 |
 
@@ -404,10 +399,8 @@ Every section is one of these 25 components — build each once, reuse everywher
 
 | Input | Sections waiting | Where |
 |---|---|---|
-| Client answers to the FAQ questions | 5 | H-10, CC-07, RA-07, PC-07, K-05 |
-| Permission to name clients | 2 | H-02, C-02 |
-| Sign-off on the one-line proofs under each reason (they are draft commitments, incl. the re-clean promise) | 2 | H-05, H-09 |
-| 3–5 testimonials with name and title | 2 | H-08, C-04 |
+| Client answers to the FAQ questions | 5 | H-09, CC-07, RA-07, PC-07, K-05 |
+| Sign-off on the one-line proofs under each reason (they are draft commitments, incl. the re-clean promise) | 2 | H-05, H-08 |
 | Decision: show starting prices or quote-only | 2 | S-03, S-07 |
 | Working hours and reply-time commitment | 2 | K-01, G-01 |
 | Confirm which of these are true today, with documents — publish nothing we cannot evidence | 1 | A-06 |
