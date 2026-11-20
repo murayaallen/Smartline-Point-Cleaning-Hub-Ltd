@@ -1,0 +1,5 @@
+# only the handler is reachable in this folder
+Options -Indexes
+<FilesMatch "^(?!enquiry\.php$).*$">
+Require all denied
+</FilesMatch>

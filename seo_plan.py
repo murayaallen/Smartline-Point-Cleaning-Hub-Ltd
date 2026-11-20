@@ -141,14 +141,14 @@ ONPAGE_RULES = [
 
 SCHEMA = [
     ("Every page", "`Organization` + `BreadcrumbList`", "Name, logo, url, sameAs (the social profiles)."),
-    ("Home", "`CleaningService` (a LocalBusiness subtype) + `WebSite` + `FAQPage`",
+    ("Home", "`LocalBusiness` (schema.org has no CleaningService type) + `WebSite` + `FAQPage`",
      "address, geo, telephone, email, openingHours, areaServed (Nairobi, Kiambu), priceRange, image, "
      "hasOfferCatalog listing all 13 services."),
     ("Service pages", "`Service` + `FAQPage`",
-     "serviceType, provider (@id of the CleaningService), areaServed, hasOfferCatalog of what is included."),
+     "serviceType, provider (@id of the LocalBusiness node), areaServed, hasOfferCatalog of what is included."),
     ("Services hub", "`CollectionPage` + `OfferCatalog`", "All 13 services as `Offer` items with names and urls."),
     ("Clients", "`CollectionPage`", "No fake `Review` or `aggregateRating` markup \u2014 see the warning below."),
-    ("Contact", "`ContactPage` + the `CleaningService` node", "Identical NAP to the GBP, character for character."),
+    ("Contact", "`ContactPage` + the `LocalBusiness` node", "Identical NAP to the GBP, character for character."),
     ("Thank you / 404", "none", "`noindex, follow`."),
 ]
 
@@ -353,14 +353,14 @@ def build_md():
                    ["From", "Links to"]))
 
     o.append("\n## 4. Structured data\n")
-    o.append("Hand-written JSON-LD, validated in the Rich Results Test before launch. One `CleaningService` "
+    o.append("Hand-written JSON-LD, validated in the Rich Results Test before launch. One `LocalBusiness` "
              "node with an `@id`, referenced by everything else rather than repeated.\n")
     o.append(table(SCHEMA, ["Page", "Types", "Must contain"]))
     o.append("\n```jsonc\n"
              '// the one node everything else points at\n'
              '{\n'
              '  "@context": "https://schema.org",\n'
-             '  "@type": "CleaningService",\n'
+             '  "@type": "LocalBusiness",\n'
              '  "@id": "https://%s/#business",\n'
              '  "name": "%s",\n'
              '  "url": "https://%s/",\n'

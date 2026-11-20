@@ -227,7 +227,7 @@ PAGES = [
      "keyword": "cleaning services Nairobi",
      "title": "Cleaning Services in Nairobi | Smartline Point Cleaning Hub",
      "desc": "Reliable, affordable, professional cleaning for offices, homes, churches and new builds in Nairobi. Trained, supervised teams since 2018.",
-     "schema": "CleaningService (LocalBusiness), WebSite, FAQPage",
+     "schema": "LocalBusiness, WebSite, FAQPage",
      "sections": [
         {"id": "H-01", "name": "Hero", "type": "hero_split",
          "p": {"eyebrow": "SMARTLINE POINT CLEANING HUB LTD  ·  EST. 2018",
@@ -533,7 +533,7 @@ PAGES = [
      "keyword": "book cleaning services Nairobi",
      "title": "Cleaning Services Quote, Nairobi | Smartline",
      "desc": "Request a quote or book a site visit with Smartline Point Cleaning Hub, Kasarani, Nairobi. Call or WhatsApp +254 711 128736.",
-     "schema": "ContactPage, CleaningService, BreadcrumbList",
+     "schema": "ContactPage, LocalBusiness, BreadcrumbList",
      "sections": [
         {"id": "K-01", "name": "Page hero", "type": "page_hero",
          "p": {"crumb": "Home / Contact", "h1": "Book your clean",
@@ -700,7 +700,7 @@ BUILD_STANDARDS = [
         "Canonical on every page: https apex, no trailing slash, no index.html",
         "Open Graph and Twitter cards on every content page, 1200 \u00d7 630 image",
         "sitemap.xml with lastmod; robots.txt points to it; /thank-you and /404 noindex",
-        "CleaningService schema: address, geo, telephone, openingHours, areaServed, sameAs (socials)",
+        "LocalBusiness schema: address, geo, telephone, openingHours, areaServed, sameAs (socials)",
         "Phone links tel:+254711128736; WhatsApp links https://wa.me/254711128736?text=\u2026 (no plus, no spaces)",
         "Search Console verified by DNS TXT; Google Business Profile linked both ways",
     ]),

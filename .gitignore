@@ -12,3 +12,6 @@ media/real/*
 
 # Office lock files
 ~$*
+
+# rebuilt by make_upload.py from site/
+dist/

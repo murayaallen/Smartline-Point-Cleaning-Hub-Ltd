@@ -47,7 +47,7 @@ Page skeleton, top to bottom: **G-01 utility bar → G-02 header → page sectio
 
 - **Title:** Cleaning Services in Nairobi | Smartline Point Cleaning Hub *(59 chars)*
 - **Meta description:** Reliable, affordable, professional cleaning for offices, homes, churches and new builds in Nairobi. Trained, supervised teams since 2018. *(137 chars)*
-- **H1:** Where cleanliness meets excellence.  ·  **Keyword:** cleaning services Nairobi  ·  **Schema:** CleaningService (LocalBusiness), WebSite, FAQPage
+- **H1:** Where cleanliness meets excellence.  ·  **Keyword:** cleaning services Nairobi  ·  **Schema:** LocalBusiness, WebSite, FAQPage
 
 | # | Section | What it does | Under 768px |
 |---|---|---|---|
@@ -184,7 +184,7 @@ Page skeleton, top to bottom: **G-01 utility bar → G-02 header → page sectio
 
 - **Title:** Cleaning Services Quote, Nairobi | Smartline *(44 chars)*
 - **Meta description:** Request a quote or book a site visit with Smartline Point Cleaning Hub, Kasarani, Nairobi. Call or WhatsApp +254 711 128736. *(124 chars)*
-- **H1:** Book your clean  ·  **Keyword:** book cleaning services Nairobi  ·  **Schema:** ContactPage, CleaningService, BreadcrumbList
+- **H1:** Book your clean  ·  **Keyword:** book cleaning services Nairobi  ·  **Schema:** ContactPage, LocalBusiness, BreadcrumbList
 
 | # | Section | What it does | Under 768px |
 |---|---|---|---|
@@ -353,7 +353,7 @@ Six required fields in all. Step 1 asks about the job (low commitment, so people
 - Canonical on every page: https apex, no trailing slash, no index.html
 - Open Graph and Twitter cards on every content page, 1200 × 630 image
 - sitemap.xml with lastmod; robots.txt points to it; /thank-you and /404 noindex
-- CleaningService schema: address, geo, telephone, openingHours, areaServed, sameAs (socials)
+- LocalBusiness schema: address, geo, telephone, openingHours, areaServed, sameAs (socials)
 - Phone links tel:+254711128736; WhatsApp links https://wa.me/254711128736?text=… (no plus, no spaces)
 - Search Console verified by DNS TXT; Google Business Profile linked both ways
 

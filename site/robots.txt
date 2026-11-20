@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /form/
+
+Sitemap: https://smartlinepointcleaning.co.ke/sitemap.xml

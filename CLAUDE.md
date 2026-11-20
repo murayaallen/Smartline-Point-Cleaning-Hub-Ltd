@@ -4,7 +4,8 @@
 Smartline Point Cleaning Hub Ltd — commercial, residential, post-construction
 cleaning and landscaping. Established 2018.
 ICIPE Road, Sports Drive, Suite 8, Kasarani · P.O. Box 48018-00100, Nairobi
-+254 711 128736 · info@smartlineltd.co.ke · domain wanted: **smartlineltd.co.ke**
++254 711 128736 · their printed profile shows info@smartlineltd.co.ke — superseded: the site and
+mailboxes use **@smartlinepointcleaning.co.ke** (see Domain below)
 Source material: `smart.pdf` (their current 5-page company profile).
 
 ## Quotation — settled figures (AMM-Q-2026-187, 16/11/2026; no validity period stated)
@@ -57,7 +58,8 @@ do not add anything more sensitive than that (bank statements, IDs, registers) t
   Note: run these scripts with plain `python`, not `python -I` (brandkit import).
 
 ## Status
-Quote **accepted** (16/11/2026). Planning stage — see `PLAN.md`.
+Quote **accepted** (16/11/2026). **Website BUILT and verified (20/11/2026)** — `site/`.
+Next: client's logo pick + sign-offs in `CLIENT-REVIEW.md`, then deploy per `RUNBOOK.md`.
 
 ## Domain — SETTLED
 - **Client chose `smartlinepointcleaning.co.ke`** (16/11/2026). Register this.
@@ -143,7 +145,7 @@ returns empty. 45 files in `media/all`: **29 placed, 9 gallery tiles, 7 dropped.
   job photos replace it.
 - **Team photo caption stays generic** — “Trained, supervised teams”, never “our team”, while stock.
 - Still genuinely blocked, and not by us: **REAL-07** (10+ real photos for Google Business
-  Profile — Google strips stock), real **testimonial quotes**, and **permission to name clients**.
+  Profile — Google strips stock). (Testimonials dropped and client naming granted — see below.)
 
 ## Client decisions — SETTLED 17/11/2026
 - **No testimonials anywhere on the site.** Both testimonial sections removed (Home and
@@ -155,12 +157,34 @@ returns empty. 45 files in `media/all`: **29 placed, 9 gallery tiles, 7 dropped.
   They appear in the Home proof strip, the Clients page and beside the contact form.
 - Home 10 sections, Clients 5. Client logo files are an upgrade, not a blocker.
 
+## Website build — DONE 20/11/2026
+Pipeline: `build_assets.py [--force]` → `build_site.py` (verify gates) → `make_upload.py`
+(zip in gitignored `dist/`) · preview `serve_local.py 8765` · QA `tools/qa_browser.cjs`
+(puppeteer-core 23.11.1 + installed Edge; must end `ALL CHECKS PASSED`). Full steps in `RUNBOOK.md`.
+- Content edits go in `site_layout.py` / `site_content.py`, never in `site/*.html` (generated).
+  CSS/JS in `site/assets/` ARE hand-written source — edit them directly.
+- Switches in `site_content.py`: `LOGO_CONCEPT="stamp"` (**provisional** until the client picks),
+  `GA_ID=None` (no analytics, no cookie bar), `PRICES=None` (pricing block explains quoting).
+- Last verification (20/11/2026): `verify()` OK (11 pages, JS 19 KB, fonts 70 KB, hero ≤ 200 KB);
+  browser QA all passed (11 pages × 1440/390 + menus, two-step form, filter, lightbox, loader);
+  Lighthouse local: a11y/best-practices/SEO **100** everywhere, perf 93–99 phone, 99 desktop, CLS 0.
+- Schema is **LocalBusiness** (schema.org has no CleaningService type) — no geo, openingHours,
+  sameAs or aggregateRating until the client supplies real values. The 404 page has no canonical.
+- Design rules held on the site: Bodoni Moda + Manrope self-hosted; ink/indigo/brass/paper;
+  icons are Lucide restyled to 1.25px with square caps and miter joins, framed in hairline brass —
+  **Allen rejected rounded/childish icons**; the six reasons use Bodoni numerals, not icons.
+- CSP is strict (`script-src 'self'`, `style-src 'self'`): no inline scripts or style attributes;
+  `verify()` fails on either. JSON-LD is the only inline script allowed.
+- Images: one grade, focal-point crops, WebP 1x/1.5x/2x (hero adds 700w for phones). Cached
+  30 days (filenames are not versioned); CSS/JS carry `?v=hash` and cache a year.
+- The form posts to `/form/enquiry.php`, sending **from website@** — that mailbox must exist on
+  the host. Honeypot, 3-second time trap, 5/hour per IP, customer copy.
+- `security.txt` expires 20/11/2027 — rebuild before then.
+
 ## Open
-- **Build not started — Allen will say when to begin.** Everything upstream is settled:
-  domain, logo concepts (awaiting his pick), layout, media (every slot filled), SEO.
-- Still outstanding from the client, none of it blocking the build:
-  REAL-07 (10+ real photos for Google Business Profile — Google strips stock),
-  three guide-price figures or a decision to show none (S-07),
-  confirmation of the compliance lines with documents (A-06),
-  working hours, social handles, FAQ answers, confirmed service areas. Standard: zero-build static HTML/CSS/vanilla JS,
-  .htaccess clean URLs + CSP, sitemap/robots, mobile sweep.
+- Client: logo pick, sign-off on drafted copy (13 services, 20 FAQs, re-clean promise, standards,
+  areas, privacy retention) — all listed in `CLIENT-REVIEW.md`. None blocks launch.
+- Client supplies when ready: REAL-07 photos (GBP), REAL-03–06, hours, social handles,
+  guide prices or none, map pin, GA4 yes/no.
+- Deploy: register domain, DirectAdmin + SSL, upload zip, mailboxes incl. website@,
+  SPF/DKIM/DMARC, live checks, Search Console, GBP — `RUNBOOK.md` §3–4.

@@ -92,23 +92,23 @@ The cheapest ranking lever we fully control. Every page links to the quote form;
 
 ## 4. Structured data
 
-Hand-written JSON-LD, validated in the Rich Results Test before launch. One `CleaningService` node with an `@id`, referenced by everything else rather than repeated.
+Hand-written JSON-LD, validated in the Rich Results Test before launch. One `LocalBusiness` node with an `@id`, referenced by everything else rather than repeated.
 
 | Page | Types | Must contain |
 |---|---|---|
 | Every page | `Organization` + `BreadcrumbList` | Name, logo, url, sameAs (the social profiles). |
-| Home | `CleaningService` (a LocalBusiness subtype) + `WebSite` + `FAQPage` | address, geo, telephone, email, openingHours, areaServed (Nairobi, Kiambu), priceRange, image, hasOfferCatalog listing all 13 services. |
-| Service pages | `Service` + `FAQPage` | serviceType, provider (@id of the CleaningService), areaServed, hasOfferCatalog of what is included. |
+| Home | `LocalBusiness` (schema.org has no CleaningService type) + `WebSite` + `FAQPage` | address, geo, telephone, email, openingHours, areaServed (Nairobi, Kiambu), priceRange, image, hasOfferCatalog listing all 13 services. |
+| Service pages | `Service` + `FAQPage` | serviceType, provider (@id of the LocalBusiness node), areaServed, hasOfferCatalog of what is included. |
 | Services hub | `CollectionPage` + `OfferCatalog` | All 13 services as `Offer` items with names and urls. |
 | Clients | `CollectionPage` | No fake `Review` or `aggregateRating` markup — see the warning below. |
-| Contact | `ContactPage` + the `CleaningService` node | Identical NAP to the GBP, character for character. |
+| Contact | `ContactPage` + the `LocalBusiness` node | Identical NAP to the GBP, character for character. |
 | Thank you / 404 | none | `noindex, follow`. |
 
 ```jsonc
 // the one node everything else points at
 {
   "@context": "https://schema.org",
-  "@type": "CleaningService",
+  "@type": "LocalBusiness",
   "@id": "https://smartlinepointcleaning.co.ke/#business",
   "name": "Smartline Point Cleaning Hub Ltd",
   "url": "https://smartlinepointcleaning.co.ke/",

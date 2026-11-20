@@ -1,0 +1,1534 @@
+{
+ "icons": {
+  "icons": [
+   "phone",
+   "mail",
+   "map-pin",
+   "message-circle",
+   "clock",
+   "arrow-right",
+   "arrow-up-right",
+   "check",
+   "chevron-down",
+   "chevron-left",
+   "chevron-right",
+   "menu",
+   "x",
+   "plus",
+   "minus",
+   "file-text",
+   "send",
+   "building-2",
+   "house",
+   "hard-hat",
+   "sprout",
+   "shield-check",
+   "badge-check",
+   "calendar-clock",
+   "messages-square",
+   "wrench",
+   "flask-conical",
+   "shirt",
+   "users",
+   "scale",
+   "circle-check",
+   "scan-search"
+  ],
+  "bytes": 6032
+ },
+ "logo": {
+  "logo-mark.svg": [
+   82.0,
+   82.0
+  ],
+  "logo-lockup.svg": [
+   226.96043395996094,
+   51.60000228881836
+  ],
+  "logo-mark-rev.svg": [
+   82.0,
+   82.0
+  ],
+  "logo-lockup-rev.svg": [
+   226.96043395996094,
+   51.60000228881836
+  ],
+  "mark_png": "D:\\Projects\\Smartline Point Cleaning Hub Ltd\\site\\icon-512.png"
+ },
+ "seal": {
+  "seal-core.svg": [
+   200.0,
+   200.0
+  ],
+  "seal-ring.svg": [
+   200.0,
+   200.0
+  ]
+ },
+ "images": {
+  "hero": {
+   "src": "corridor+4.webp",
+   "aspect": "4:5",
+   "display": 560,
+   "crop": [
+    2500,
+    3125
+   ],
+   "files": [
+    {
+     "file": "hero-560.webp",
+     "w": 560,
+     "h": 700,
+     "bytes": 76250
+    },
+    {
+     "file": "hero-700.webp",
+     "w": 700,
+     "h": 875,
+     "bytes": 108960
+    },
+    {
+     "file": "hero-840.webp",
+     "w": 840,
+     "h": 1050,
+     "bytes": 144460
+    },
+    {
+     "file": "hero-1000.webp",
+     "w": 1000,
+     "h": 1250,
+     "bytes": 188106
+    }
+   ],
+   "ratio": [
+    560,
+    700
+   ],
+   "alt": "A freshly cleaned corridor, its polished terrazzo floor reflecting the light"
+  },
+  "why": {
+   "src": "pexels-6196222.jpg",
+   "aspect": "3:4",
+   "display": 480,
+   "crop": [
+    2400,
+    3200
+   ],
+   "files": [
+    {
+     "file": "why-480.webp",
+     "w": 480,
+     "h": 640,
+     "bytes": 36696
+    },
+    {
+     "file": "why-720.webp",
+     "w": 720,
+     "h": 960,
+     "bytes": 66834
+    },
+    {
+     "file": "why-960.webp",
+     "w": 960,
+     "h": 1280,
+     "bytes": 101002
+    }
+   ],
+   "ratio": [
+    480,
+    640
+   ],
+   "alt": "A uniformed cleaning crew with their equipment outside a house"
+  },
+  "training": {
+   "src": "cleaning.jpg",
+   "aspect": "4:3",
+   "display": 520,
+   "crop": [
+    889,
+    667
+   ],
+   "files": [
+    {
+     "file": "training-520.webp",
+     "w": 520,
+     "h": 390,
+     "bytes": 26360
+    },
+    {
+     "file": "training-780.webp",
+     "w": 780,
+     "h": 585,
+     "bytes": 48142
+    },
+    {
+     "file": "training-889.webp",
+     "w": 889,
+     "h": 667,
+     "bytes": 57830
+    }
+   ],
+   "ratio": [
+    520,
+    390
+   ],
+   "alt": "Gloved hands spraying and wiping a surface"
+  },
+  "cta-bg": {
+   "src": "window cleaning.jpg",
+   "aspect": "21:9",
+   "display": 1440,
+   "crop": [
+    3589,
+    1538
+   ],
+   "files": [
+    {
+     "file": "cta-bg-960.webp",
+     "w": 960,
+     "h": 411,
+     "bytes": 6954
+    },
+    {
+     "file": "cta-bg-1440.webp",
+     "w": 1440,
+     "h": 617,
+     "bytes": 12350
+    },
+    {
+     "file": "cta-bg-1920.webp",
+     "w": 1920,
+     "h": 823,
+     "bytes": 19094
+    }
+   ],
+   "ratio": [
+    960,
+    411
+   ],
+   "alt": ""
+  },
+  "page-bg": {
+   "src": "office floor.jpg",
+   "aspect": "21:9",
+   "display": 1440,
+   "crop": [
+    4394,
+    1883
+   ],
+   "files": [
+    {
+     "file": "page-bg-960.webp",
+     "w": 960,
+     "h": 411,
+     "bytes": 16304
+    },
+    {
+     "file": "page-bg-1440.webp",
+     "w": 1440,
+     "h": 617,
+     "bytes": 29282
+    },
+    {
+     "file": "page-bg-1920.webp",
+     "w": 1920,
+     "h": 823,
+     "bytes": 47132
+    }
+   ],
+   "ratio": [
+    960,
+    411
+   ],
+   "alt": ""
+  },
+  "about-hero": {
+   "src": "pexels-6195121.jpg",
+   "aspect": "16:9",
+   "display": 640,
+   "crop": [
+    2400,
+    1350
+   ],
+   "files": [
+    {
+     "file": "about-hero-640.webp",
+     "w": 640,
+     "h": 360,
+     "bytes": 12800
+    },
+    {
+     "file": "about-hero-960.webp",
+     "w": 960,
+     "h": 540,
+     "bytes": 22520
+    },
+    {
+     "file": "about-hero-1280.webp",
+     "w": 1280,
+     "h": 720,
+     "bytes": 34136
+    }
+   ],
+   "ratio": [
+    640,
+    360
+   ],
+   "alt": "Three cleaners in uniform at the start of a shift"
+  },
+  "story": {
+   "src": "pexels-6196695.jpg",
+   "aspect": "4:5",
+   "display": 480,
+   "crop": [
+    2400,
+    3000
+   ],
+   "files": [
+    {
+     "file": "story-480.webp",
+     "w": 480,
+     "h": 600,
+     "bytes": 12036
+    },
+    {
+     "file": "story-720.webp",
+     "w": 720,
+     "h": 900,
+     "bytes": 21266
+    },
+    {
+     "file": "story-960.webp",
+     "w": 960,
+     "h": 1200,
+     "bytes": 31640
+    }
+   ],
+   "ratio": [
+    480,
+    600
+   ],
+   "alt": "A cleaner in overalls working on a kitchen wall"
+  },
+  "community": {
+   "src": "pexels-6195895.jpg",
+   "aspect": "4:5",
+   "display": 480,
+   "crop": [
+    1280,
+    1600
+   ],
+   "files": [
+    {
+     "file": "community-480.webp",
+     "w": 480,
+     "h": 600,
+     "bytes": 22678
+    },
+    {
+     "file": "community-720.webp",
+     "w": 720,
+     "h": 900,
+     "bytes": 37574
+    },
+    {
+     "file": "community-960.webp",
+     "w": 960,
+     "h": 1200,
+     "bytes": 53322
+    }
+   ],
+   "ratio": [
+    480,
+    600
+   ],
+   "alt": "A cleaning crew loading equipment into a van"
+  },
+  "svc-commercial": {
+   "src": "bg11.jpg",
+   "aspect": "4:3",
+   "display": 400,
+   "crop": [
+    1333,
+    1000
+   ],
+   "files": [
+    {
+     "file": "svc-commercial-400.webp",
+     "w": 400,
+     "h": 300,
+     "bytes": 12756
+    },
+    {
+     "file": "svc-commercial-600.webp",
+     "w": 600,
+     "h": 450,
+     "bytes": 21898
+    },
+    {
+     "file": "svc-commercial-800.webp",
+     "w": 800,
+     "h": 600,
+     "bytes": 31654
+    }
+   ],
+   "ratio": [
+    400,
+    300
+   ],
+   "alt": "A cleaner with a trolley wiping a lift panel in a bright office lobby"
+  },
+  "svc-carpet": {
+   "src": "Cleaning-Company-South-Africa.webp",
+   "aspect": "4:3",
+   "display": 400,
+   "crop": [
+    1080,
+    810
+   ],
+   "files": [
+    {
+     "file": "svc-carpet-400.webp",
+     "w": 400,
+     "h": 300,
+     "bytes": 24636
+    },
+    {
+     "file": "svc-carpet-600.webp",
+     "w": 600,
+     "h": 450,
+     "bytes": 50958
+    },
+    {
+     "file": "svc-carpet-800.webp",
+     "w": 800,
+     "h": 600,
+     "bytes": 84498
+    }
+   ],
+   "ratio": [
+    400,
+    300
+   ],
+   "alt": "A rotary machine shampooing a carpet"
+  },
+  "svc-school": {
+   "src": "hospital floor.avif",
+   "aspect": "4:3",
+   "display": 400,
+   "crop": [
+    773,
+    580
+   ],
+   "files": [
+    {
+     "file": "svc-school-400.webp",
+     "w": 400,
+     "h": 300,
+     "bytes": 11720
+    },
+    {
+     "file": "svc-school-600.webp",
+     "w": 600,
+     "h": 450,
+     "bytes": 20186
+    },
+    {
+     "file": "svc-school-773.webp",
+     "w": 773,
+     "h": 580,
+     "bytes": 27944
+    }
+   ],
+   "ratio": [
+    400,
+    300
+   ],
+   "alt": "A bright glazed corridor with a clean floor"
+  },
+  "svc-church": {
+   "src": "pexels-8468417.jpg",
+   "aspect": "4:3",
+   "display": 400,
+   "crop": [
+    2400,
+    1800
+   ],
+   "files": [
+    {
+     "file": "svc-church-400.webp",
+     "w": 400,
+     "h": 300,
+     "bytes": 14592
+    },
+    {
+     "file": "svc-church-600.webp",
+     "w": 600,
+     "h": 450,
+     "bytes": 25214
+    },
+    {
+     "file": "svc-church-800.webp",
+     "w": 800,
+     "h": 600,
+     "bytes": 36090
+    }
+   ],
+   "ratio": [
+    400,
+    300
+   ],
+   "alt": "Wooden benches and arched windows in a bright church hall"
+  },
+  "svc-residential": {
+   "src": "pexels-pixabay-48889.jpg",
+   "aspect": "4:3",
+   "display": 400,
+   "crop": [
+    4864,
+    3648
+   ],
+   "files": [
+    {
+     "file": "svc-residential-400.webp",
+     "w": 400,
+     "h": 300,
+     "bytes": 12926
+    },
+    {
+     "file": "svc-residential-600.webp",
+     "w": 600,
+     "h": 450,
+     "bytes": 24334
+    },
+    {
+     "file": "svc-residential-800.webp",
+     "w": 800,
+     "h": 600,
+     "bytes": 36632
+    }
+   ],
+   "ratio": [
+    400,
+    300
+   ],
+   "alt": "A flat mop working across a wooden floor"
+  },
+  "svc-apartment": {
+   "src": "pexels-9462733.jpg",
+   "aspect": "4:3",
+   "display": 400,
+   "crop": [
+    2400,
+    1800
+   ],
+   "files": [
+    {
+     "file": "svc-apartment-400.webp",
+     "w": 400,
+     "h": 300,
+     "bytes": 14052
+    },
+    {
+     "file": "svc-apartment-600.webp",
+     "w": 600,
+     "h": 450,
+     "bytes": 24754
+    },
+    {
+     "file": "svc-apartment-800.webp",
+     "w": 800,
+     "h": 600,
+     "bytes": 36254
+    }
+   ],
+   "ratio": [
+    400,
+    300
+   ],
+   "alt": "Housekeepers changing the linen on a bed"
+  },
+  "svc-move": {
+   "src": "pexels-4246098.jpg",
+   "aspect": "4:3",
+   "display": 400,
+   "crop": [
+    2133,
+    1600
+   ],
+   "files": [
+    {
+     "file": "svc-move-400.webp",
+     "w": 400,
+     "h": 300,
+     "bytes": 6412
+    },
+    {
+     "file": "svc-move-600.webp",
+     "w": 600,
+     "h": 450,
+     "bytes": 10874
+    },
+    {
+     "file": "svc-move-800.webp",
+     "w": 800,
+     "h": 600,
+     "bytes": 15170
+    }
+   ],
+   "ratio": [
+    400,
+    300
+   ],
+   "alt": "Furniture under dust sheets and stacked moving boxes"
+  },
+  "svc-sofa": {
+   "src": "pexels-4401535.jpg",
+   "aspect": "4:3",
+   "display": 400,
+   "crop": [
+    2133,
+    1600
+   ],
+   "files": [
+    {
+     "file": "svc-sofa-400.webp",
+     "w": 400,
+     "h": 300,
+     "bytes": 12298
+    },
+    {
+     "file": "svc-sofa-600.webp",
+     "w": 600,
+     "h": 450,
+     "bytes": 29828
+    },
+    {
+     "file": "svc-sofa-800.webp",
+     "w": 800,
+     "h": 600,
+     "bytes": 57184
+    }
+   ],
+   "ratio": [
+    400,
+    300
+   ],
+   "alt": "A cleaning machine working on the fabric of a sofa"
+  },
+  "svc-washroom": {
+   "src": "pexels-arina-krasnikova-6653891.jpg",
+   "aspect": "4:3",
+   "display": 400,
+   "crop": [
+    2336,
+    1752
+   ],
+   "files": [
+    {
+     "file": "svc-washroom-400.webp",
+     "w": 400,
+     "h": 300,
+     "bytes": 8268
+    },
+    {
+     "file": "svc-washroom-600.webp",
+     "w": 600,
+     "h": 450,
+     "bytes": 12756
+    },
+    {
+     "file": "svc-washroom-800.webp",
+     "w": 800,
+     "h": 600,
+     "bytes": 17444
+    }
+   ],
+   "ratio": [
+    400,
+    300
+   ],
+   "alt": "A clean white basin and tiled washroom wall"
+  },
+  "svc-postcon": {
+   "src": "pexels-15798784.jpg",
+   "aspect": "4:3",
+   "display": 400,
+   "crop": [
+    2133,
+    1600
+   ],
+   "files": [
+    {
+     "file": "svc-postcon-400.webp",
+     "w": 400,
+     "h": 300,
+     "bytes": 12170
+    },
+    {
+     "file": "svc-postcon-600.webp",
+     "w": 600,
+     "h": 450,
+     "bytes": 24952
+    },
+    {
+     "file": "svc-postcon-800.webp",
+     "w": 800,
+     "h": 600,
+     "bytes": 42138
+    }
+   ],
+   "ratio": [
+    400,
+    300
+   ],
+   "alt": "A room under renovation with debris across the floor"
+  },
+  "svc-deep": {
+   "src": "pexels-alejandro-robles-duque-420889274-32908422.jpg",
+   "aspect": "4:3",
+   "display": 400,
+   "crop": [
+    2688,
+    2016
+   ],
+   "files": [
+    {
+     "file": "svc-deep-400.webp",
+     "w": 400,
+     "h": 300,
+     "bytes": 16046
+    },
+    {
+     "file": "svc-deep-600.webp",
+     "w": 600,
+     "h": 450,
+     "bytes": 31456
+    },
+    {
+     "file": "svc-deep-800.webp",
+     "w": 800,
+     "h": 600,
+     "bytes": 48286
+    }
+   ],
+   "ratio": [
+    400,
+    300
+   ],
+   "alt": "A scrubbing brush and suds on terracotta tiles"
+  },
+  "svc-onetime": {
+   "src": "pexels-caleboquendo-34516664.jpg",
+   "aspect": "4:3",
+   "display": 400,
+   "crop": [
+    4879,
+    3659
+   ],
+   "files": [
+    {
+     "file": "svc-onetime-400.webp",
+     "w": 400,
+     "h": 300,
+     "bytes": 11662
+    },
+    {
+     "file": "svc-onetime-600.webp",
+     "w": 600,
+     "h": 450,
+     "bytes": 20908
+    },
+    {
+     "file": "svc-onetime-800.webp",
+     "w": 800,
+     "h": 600,
+     "bytes": 31028
+    }
+   ],
+   "ratio": [
+    400,
+    300
+   ],
+   "alt": "A cleaning trolley, mops and a bin ready in a corridor"
+  },
+  "svc-landscaping": {
+   "src": "pexels-jessicairoh-33123333.jpg",
+   "aspect": "4:3",
+   "display": 400,
+   "crop": [
+    2774,
+    2080
+   ],
+   "files": [
+    {
+     "file": "svc-landscaping-400.webp",
+     "w": 400,
+     "h": 300,
+     "bytes": 33012
+    },
+    {
+     "file": "svc-landscaping-600.webp",
+     "w": 600,
+     "h": 450,
+     "bytes": 62554
+    },
+    {
+     "file": "svc-landscaping-800.webp",
+     "w": 800,
+     "h": 600,
+     "bytes": 93348
+    }
+   ],
+   "ratio": [
+    400,
+    300
+   ],
+   "alt": "A groundsman with a brush cutter in a green compound"
+  },
+  "cc-hero": {
+   "src": "office floor.jpg",
+   "aspect": "4:3",
+   "display": 600,
+   "crop": [
+    3905,
+    2929
+   ],
+   "files": [
+    {
+     "file": "cc-hero-600.webp",
+     "w": 600,
+     "h": 450,
+     "bytes": 14936
+    },
+    {
+     "file": "cc-hero-900.webp",
+     "w": 900,
+     "h": 675,
+     "bytes": 27226
+    },
+    {
+     "file": "cc-hero-1200.webp",
+     "w": 1200,
+     "h": 900,
+     "bytes": 41404
+    }
+   ],
+   "ratio": [
+    600,
+    450
+   ],
+   "alt": "A clean open office lobby with glazed partitions"
+  },
+  "ra-hero": {
+   "src": "pexels-6196692.jpg",
+   "aspect": "4:3",
+   "display": 600,
+   "crop": [
+    2400,
+    1800
+   ],
+   "files": [
+    {
+     "file": "ra-hero-600.webp",
+     "w": 600,
+     "h": 450,
+     "bytes": 15668
+    },
+    {
+     "file": "ra-hero-900.webp",
+     "w": 900,
+     "h": 675,
+     "bytes": 25604
+    },
+    {
+     "file": "ra-hero-1200.webp",
+     "w": 1200,
+     "h": 900,
+     "bytes": 37318
+    }
+   ],
+   "ratio": [
+    600,
+    450
+   ],
+   "alt": "Two cleaners at work in a modern apartment kitchen"
+  },
+  "pc-hero": {
+   "src": "pexels-7937304.jpg",
+   "aspect": "4:3",
+   "display": 600,
+   "crop": [
+    2400,
+    1800
+   ],
+   "files": [
+    {
+     "file": "pc-hero-600.webp",
+     "w": 600,
+     "h": 450,
+     "bytes": 6578
+    },
+    {
+     "file": "pc-hero-900.webp",
+     "w": 900,
+     "h": 675,
+     "bytes": 13404
+    },
+    {
+     "file": "pc-hero-1200.webp",
+     "w": 1200,
+     "h": 900,
+     "bytes": 21776
+    }
+   ],
+   "ratio": [
+    600,
+    450
+   ],
+   "alt": "A freshly plastered room before handover"
+  },
+  "cc-standard": {
+   "src": "corridor+4.webp",
+   "aspect": "4:5",
+   "display": 460,
+   "crop": [
+    2500,
+    3125
+   ],
+   "files": [
+    {
+     "file": "cc-standard-460.webp",
+     "w": 460,
+     "h": 575,
+     "bytes": 58220
+    },
+    {
+     "file": "cc-standard-690.webp",
+     "w": 690,
+     "h": 862,
+     "bytes": 111724
+    },
+    {
+     "file": "cc-standard-920.webp",
+     "w": 920,
+     "h": 1150,
+     "bytes": 173058
+    }
+   ],
+   "ratio": [
+    460,
+    575
+   ],
+   "alt": "A polished corridor floor after a commercial clean"
+  },
+  "ra-standard": {
+   "src": "pexels-6197124.jpg",
+   "aspect": "4:5",
+   "display": 460,
+   "crop": [
+    2400,
+    3000
+   ],
+   "files": [
+    {
+     "file": "ra-standard-460.webp",
+     "w": 460,
+     "h": 575,
+     "bytes": 14826
+    },
+    {
+     "file": "ra-standard-690.webp",
+     "w": 690,
+     "h": 862,
+     "bytes": 25614
+    },
+    {
+     "file": "ra-standard-920.webp",
+     "w": 920,
+     "h": 1150,
+     "bytes": 38412
+    }
+   ],
+   "ratio": [
+    460,
+    575
+   ],
+   "alt": "A cleaner finishing a glass window in a home"
+  },
+  "pc-standard": {
+   "src": "pexels-6197122.jpg",
+   "aspect": "4:5",
+   "display": 460,
+   "crop": [
+    2400,
+    3000
+   ],
+   "files": [
+    {
+     "file": "pc-standard-460.webp",
+     "w": 460,
+     "h": 575,
+     "bytes": 16722
+    },
+    {
+     "file": "pc-standard-690.webp",
+     "w": 690,
+     "h": 862,
+     "bytes": 28992
+    },
+    {
+     "file": "pc-standard-920.webp",
+     "w": 920,
+     "h": 1150,
+     "bytes": 43046
+    }
+   ],
+   "ratio": [
+    460,
+    575
+   ],
+   "alt": "A cleaner working a full-height window"
+  },
+  "notfound": {
+   "src": "cleaning (1).jpg",
+   "aspect": "4:3",
+   "display": 340,
+   "crop": [
+    500,
+    375
+   ],
+   "files": [
+    {
+     "file": "notfound-340.webp",
+     "w": 340,
+     "h": 255,
+     "bytes": 8604
+    },
+    {
+     "file": "notfound-500.webp",
+     "w": 500,
+     "h": 375,
+     "bytes": 14118
+    }
+   ],
+   "ratio": [
+    340,
+    255
+   ],
+   "alt": "A mop and a wet-floor sign"
+  },
+  "g-church": {
+   "src": "pexels-8468417.jpg",
+   "aspect": "3:4",
+   "display": 380,
+   "crop": [
+    2400,
+    3200
+   ],
+   "files": [
+    {
+     "file": "g-church-380.webp",
+     "w": 380,
+     "h": 507,
+     "bytes": 21916
+    },
+    {
+     "file": "g-church-570.webp",
+     "w": 570,
+     "h": 760,
+     "bytes": 37342
+    },
+    {
+     "file": "g-church-760.webp",
+     "w": 760,
+     "h": 1013,
+     "bytes": 54978
+    },
+    {
+     "file": "g-church-1400.webp",
+     "w": 1400,
+     "h": 1867,
+     "bytes": 146722
+    }
+   ],
+   "ratio": [
+    380,
+    507
+   ],
+   "alt": "A bright church hall with wooden benches",
+   "caption": "Churches"
+  },
+  "g-linen": {
+   "src": "pexels-9462733.jpg",
+   "aspect": "3:4",
+   "display": 380,
+   "crop": [
+    2400,
+    3200
+   ],
+   "files": [
+    {
+     "file": "g-linen-380.webp",
+     "w": 380,
+     "h": 507,
+     "bytes": 18200
+    },
+    {
+     "file": "g-linen-570.webp",
+     "w": 570,
+     "h": 760,
+     "bytes": 31280
+    },
+    {
+     "file": "g-linen-760.webp",
+     "w": 760,
+     "h": 1013,
+     "bytes": 46732
+    },
+    {
+     "file": "g-linen-1400.webp",
+     "w": 1400,
+     "h": 1867,
+     "bytes": 153042
+    }
+   ],
+   "ratio": [
+    380,
+    507
+   ],
+   "alt": "Bed linen being changed",
+   "caption": "Short-stay turnovers"
+  },
+  "g-glass": {
+   "src": "photo-1721620958961-cccc239cbb49.avif",
+   "aspect": "3:4",
+   "display": 380,
+   "crop": [
+    687,
+    916
+   ],
+   "files": [
+    {
+     "file": "g-glass-380.webp",
+     "w": 380,
+     "h": 507,
+     "bytes": 57668
+    },
+    {
+     "file": "g-glass-570.webp",
+     "w": 570,
+     "h": 760,
+     "bytes": 124622
+    },
+    {
+     "file": "g-glass-687.webp",
+     "w": 687,
+     "h": 916,
+     "bytes": 175936
+    }
+   ],
+   "ratio": [
+    380,
+    507
+   ],
+   "alt": "A squeegee on patterned glass",
+   "caption": "Glass and partitions"
+  },
+  "g-polish": {
+   "src": "why-professional-deep-cleaning-services-are-vital-after-heavy-rain-in-dubai.webp",
+   "aspect": "4:3",
+   "display": 380,
+   "crop": [
+    800,
+    600
+   ],
+   "files": [
+    {
+     "file": "g-polish-380.webp",
+     "w": 380,
+     "h": 285,
+     "bytes": 10888
+    },
+    {
+     "file": "g-polish-570.webp",
+     "w": 570,
+     "h": 428,
+     "bytes": 18382
+    },
+    {
+     "file": "g-polish-760.webp",
+     "w": 760,
+     "h": 570,
+     "bytes": 25614
+    },
+    {
+     "file": "g-polish-800.webp",
+     "w": 800,
+     "h": 600,
+     "bytes": 27550
+    }
+   ],
+   "ratio": [
+    380,
+    285
+   ],
+   "alt": "A floor machine on a polished floor",
+   "caption": "Hard floors"
+  },
+  "g-newbuild": {
+   "src": "pexels-7937304.jpg",
+   "aspect": "4:3",
+   "display": 380,
+   "crop": [
+    2400,
+    1800
+   ],
+   "files": [
+    {
+     "file": "g-newbuild-380.webp",
+     "w": 380,
+     "h": 285,
+     "bytes": 3304
+    },
+    {
+     "file": "g-newbuild-570.webp",
+     "w": 570,
+     "h": 428,
+     "bytes": 6012
+    },
+    {
+     "file": "g-newbuild-760.webp",
+     "w": 760,
+     "h": 570,
+     "bytes": 9348
+    },
+    {
+     "file": "g-newbuild-1400.webp",
+     "w": 1400,
+     "h": 1050,
+     "bytes": 28954
+    }
+   ],
+   "ratio": [
+    380,
+    285
+   ],
+   "alt": "A plastered room awaiting handover",
+   "caption": "New builds"
+  },
+  "g-kitchen": {
+   "src": "post-construction-cleaning-768x1020.webp",
+   "aspect": "3:4",
+   "display": 380,
+   "crop": [
+    765,
+    1020
+   ],
+   "files": [
+    {
+     "file": "g-kitchen-380.webp",
+     "w": 380,
+     "h": 507,
+     "bytes": 15374
+    },
+    {
+     "file": "g-kitchen-570.webp",
+     "w": 570,
+     "h": 760,
+     "bytes": 25002
+    },
+    {
+     "file": "g-kitchen-760.webp",
+     "w": 760,
+     "h": 1013,
+     "bytes": 34610
+    },
+    {
+     "file": "g-kitchen-765.webp",
+     "w": 765,
+     "h": 1020,
+     "bytes": 35352
+    }
+   ],
+   "ratio": [
+    380,
+    507
+   ],
+   "alt": "A renovated kitchen before handover",
+   "caption": "Renovations"
+  },
+  "g-upholstery": {
+   "src": "pexels-4401538.jpg",
+   "aspect": "4:3",
+   "display": 380,
+   "crop": [
+    2133,
+    1600
+   ],
+   "files": [
+    {
+     "file": "g-upholstery-380.webp",
+     "w": 380,
+     "h": 285,
+     "bytes": 7202
+    },
+    {
+     "file": "g-upholstery-570.webp",
+     "w": 570,
+     "h": 428,
+     "bytes": 14504
+    },
+    {
+     "file": "g-upholstery-760.webp",
+     "w": 760,
+     "h": 570,
+     "bytes": 23142
+    },
+    {
+     "file": "g-upholstery-1400.webp",
+     "w": 1400,
+     "h": 1050,
+     "bytes": 68144
+    }
+   ],
+   "ratio": [
+    380,
+    285
+   ],
+   "alt": "An upholstery tool on a cushion",
+   "caption": "Upholstery"
+  },
+  "g-compound": {
+   "src": "pexels-themightynelson-6014518.jpg",
+   "aspect": "2:1",
+   "display": 380,
+   "crop": [
+    2520,
+    1260
+   ],
+   "files": [
+    {
+     "file": "g-compound-380.webp",
+     "w": 380,
+     "h": 190,
+     "bytes": 24282
+    },
+    {
+     "file": "g-compound-570.webp",
+     "w": 570,
+     "h": 285,
+     "bytes": 51252
+    },
+    {
+     "file": "g-compound-760.webp",
+     "w": 760,
+     "h": 380,
+     "bytes": 85488
+    },
+    {
+     "file": "g-compound-1400.webp",
+     "w": 1400,
+     "h": 700,
+     "bytes": 233196
+    }
+   ],
+   "ratio": [
+    380,
+    190
+   ],
+   "alt": "Cut grass and a trimmer at work beside a palm",
+   "caption": "Compounds"
+  },
+  "g-wetfloor": {
+   "src": "photo-1740657254989-42fe9c3b8cce.avif",
+   "aspect": "4:3",
+   "display": 380,
+   "crop": [
+    773,
+    580
+   ],
+   "files": [
+    {
+     "file": "g-wetfloor-380.webp",
+     "w": 380,
+     "h": 285,
+     "bytes": 12984
+    },
+    {
+     "file": "g-wetfloor-570.webp",
+     "w": 570,
+     "h": 428,
+     "bytes": 20940
+    },
+    {
+     "file": "g-wetfloor-760.webp",
+     "w": 760,
+     "h": 570,
+     "bytes": 29262
+    },
+    {
+     "file": "g-wetfloor-773.webp",
+     "w": 773,
+     "h": 580,
+     "bytes": 29842
+    }
+   ],
+   "ratio": [
+    380,
+    285
+   ],
+   "alt": "Gloved hands cleaning a wet floor",
+   "caption": "Washrooms and floors"
+  },
+  "g-debris": {
+   "src": "post-construction-cleaning-1.webp",
+   "aspect": "4:3",
+   "display": 380,
+   "crop": [
+    1067,
+    800
+   ],
+   "files": [
+    {
+     "file": "g-debris-380.webp",
+     "w": 380,
+     "h": 285,
+     "bytes": 22896
+    },
+    {
+     "file": "g-debris-570.webp",
+     "w": 570,
+     "h": 427,
+     "bytes": 47680
+    },
+    {
+     "file": "g-debris-760.webp",
+     "w": 760,
+     "h": 570,
+     "bytes": 77384
+    },
+    {
+     "file": "g-debris-1067.webp",
+     "w": 1067,
+     "h": 800,
+     "bytes": 136378
+    }
+   ],
+   "ratio": [
+    380,
+    285
+   ],
+   "alt": "A broom clearing plaster debris",
+   "caption": "Builders' clean"
+  },
+  "g-lawn": {
+   "src": "images (2).jfif",
+   "aspect": "1:1",
+   "display": 380,
+   "crop": [
+    447,
+    447
+   ],
+   "files": [
+    {
+     "file": "g-lawn-380.webp",
+     "w": 380,
+     "h": 380,
+     "bytes": 39790
+    },
+    {
+     "file": "g-lawn-447.webp",
+     "w": 447,
+     "h": 447,
+     "bytes": 54222
+    }
+   ],
+   "ratio": [
+    380,
+    380
+   ],
+   "alt": "A tropical lawn and planting",
+   "caption": "Gardens"
+  },
+  "g-moving": {
+   "src": "pexels-4568707.jpg",
+   "aspect": "3:4",
+   "display": 380,
+   "crop": [
+    2333,
+    3111
+   ],
+   "files": [
+    {
+     "file": "g-moving-380.webp",
+     "w": 380,
+     "h": 507,
+     "bytes": 3276
+    },
+    {
+     "file": "g-moving-570.webp",
+     "w": 570,
+     "h": 760,
+     "bytes": 5932
+    },
+    {
+     "file": "g-moving-760.webp",
+     "w": 760,
+     "h": 1013,
+     "bytes": 9158
+    },
+    {
+     "file": "g-moving-1400.webp",
+     "w": 1400,
+     "h": 1867,
+     "bytes": 25276
+    }
+   ],
+   "ratio": [
+    380,
+    507
+   ],
+   "alt": "A doorway onto stacked moving boxes",
+   "caption": "Moving day"
+  }
+ },
+ "og": {
+  "/": {
+   "file": "og/home.jpg",
+   "bytes": 121612
+  },
+  "/about": {
+   "file": "og/about.jpg",
+   "bytes": 58008
+  },
+  "/services": {
+   "file": "og/services.jpg",
+   "bytes": 69207
+  },
+  "/commercial-cleaning": {
+   "file": "og/commercial-cleaning.jpg",
+   "bytes": 65494
+  },
+  "/residential-apartment-cleaning": {
+   "file": "og/residential-apartment-cleaning.jpg",
+   "bytes": 65230
+  },
+  "/post-construction-cleaning": {
+   "file": "og/post-construction-cleaning.jpg",
+   "bytes": 44611
+  },
+  "/clients": {
+   "file": "og/clients.jpg",
+   "bytes": 68630
+  },
+  "/contact": {
+   "file": "og/contact.jpg",
+   "bytes": 69248
+  },
+  "/privacy": {
+   "file": "og/privacy.jpg",
+   "bytes": 116222
+  }
+ }
+}
