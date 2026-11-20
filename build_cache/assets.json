@@ -1,4 +1,8 @@
 {
+ "fonts": {
+  "mona-sans.woff2": 68460
+ },
+ "grain": 8021,
  "icons": {
   "icons": [
    "phone",
@@ -38,20 +42,28 @@
  },
  "logo": {
   "logo-mark.svg": [
-   82.0,
-   82.0
-  ],
-  "logo-lockup.svg": [
-   226.96043395996094,
-   51.60000228881836
+   88.19,
+   100
   ],
   "logo-mark-rev.svg": [
-   82.0,
-   82.0
+   88.19,
+   100
+  ],
+  "logo-lockup.svg": [
+   235.44,
+   56
   ],
   "logo-lockup-rev.svg": [
-   226.96043395996094,
-   51.60000228881836
+   235.44,
+   56
+  ],
+  "logo-full.svg": [
+   125.28,
+   140
+  ],
+  "logo-full-rev.svg": [
+   125.28,
+   140
   ],
   "mark_png": "D:\\Projects\\Smartline Point Cleaning Hub Ltd\\site\\icon-512.png"
  },
@@ -103,6 +115,80 @@
    "ratio": [
     560,
     700
+   ],
+   "alt": "A freshly cleaned corridor, its polished terrazzo floor reflecting the light"
+  },
+  "hero-wide": {
+   "src": "corridor+4.webp",
+   "aspect": "16:9",
+   "display": 1440,
+   "crop": [
+    2500,
+    1406
+   ],
+   "files": [
+    {
+     "file": "hero-wide-960.webp",
+     "w": 960,
+     "h": 540,
+     "bytes": 39658
+    },
+    {
+     "file": "hero-wide-1440.webp",
+     "w": 1440,
+     "h": 810,
+     "bytes": 70438
+    },
+    {
+     "file": "hero-wide-1920.webp",
+     "w": 1920,
+     "h": 1080,
+     "bytes": 104792
+    },
+    {
+     "file": "hero-wide-2400.webp",
+     "w": 2400,
+     "h": 1350,
+     "bytes": 145518
+    }
+   ],
+   "ratio": [
+    960,
+    540
+   ],
+   "alt": "A freshly cleaned corridor, its polished terrazzo floor reflecting the light"
+  },
+  "hero-tall": {
+   "src": "corridor+4.webp",
+   "aspect": "9:16",
+   "display": 480,
+   "crop": [
+    1875,
+    3333
+   ],
+   "files": [
+    {
+     "file": "hero-tall-480.webp",
+     "w": 480,
+     "h": 853,
+     "bytes": 63378
+    },
+    {
+     "file": "hero-tall-720.webp",
+     "w": 720,
+     "h": 1280,
+     "bytes": 116858
+    },
+    {
+     "file": "hero-tall-960.webp",
+     "w": 960,
+     "h": 1706,
+     "bytes": 178564
+    }
+   ],
+   "ratio": [
+    480,
+    853
    ],
    "alt": "A freshly cleaned corridor, its polished terrazzo floor reflecting the light"
   },
@@ -1496,39 +1582,39 @@
  "og": {
   "/": {
    "file": "og/home.jpg",
-   "bytes": 121612
+   "bytes": 120180
   },
   "/about": {
    "file": "og/about.jpg",
-   "bytes": 58008
+   "bytes": 63882
   },
   "/services": {
    "file": "og/services.jpg",
-   "bytes": 69207
+   "bytes": 72402
   },
   "/commercial-cleaning": {
    "file": "og/commercial-cleaning.jpg",
-   "bytes": 65494
+   "bytes": 74568
   },
   "/residential-apartment-cleaning": {
    "file": "og/residential-apartment-cleaning.jpg",
-   "bytes": 65230
+   "bytes": 74654
   },
   "/post-construction-cleaning": {
    "file": "og/post-construction-cleaning.jpg",
-   "bytes": 44611
+   "bytes": 57435
   },
   "/clients": {
    "file": "og/clients.jpg",
-   "bytes": 68630
+   "bytes": 71576
   },
   "/contact": {
    "file": "og/contact.jpg",
-   "bytes": 69248
+   "bytes": 71670
   },
   "/privacy": {
    "file": "og/privacy.jpg",
-   "bytes": 116222
+   "bytes": 112831
   }
  }
 }

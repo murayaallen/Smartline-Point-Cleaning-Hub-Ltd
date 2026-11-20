@@ -9,7 +9,7 @@ them blocks launch except where marked; each is a one-line change in
 
 | # | Item | Where it shows | Source |
 |---|---|---|---|
-| 1 | **Logo** — the Stamp is in place provisionally; the client picks from the six in the Rev B deck | header, footer, favicon, share cards | `LOGO_CONCEPT` |
+| 1 | **Logo** — their own logo, rebuilt as sharp vector from the company profile (S, swoosh, droplet, tagline; name in their Gotham Black). Confirm they are happy with the two-line header lock-up | header, footer, loader, seal, favicon, share cards | `logo_original.py` |
 | 2 | **13 service descriptions** — one-line and long versions | Home, Services, the three service pages | `site_layout.SERVICE_COPY` |
 | 3 | **"Clean Quality Guaranteed — 24-hour re-clean"** — a promise the business must keep | Home, service pages, footer badge | `GUARANTEE_SHORT` |
 | 4 | **Six reasons and their one-line proofs** — "the same supervised team on your site", "no surprise charges" are commitments | Home "Why Smartline" | `site_layout.WHY` |

@@ -27,6 +27,7 @@ from urllib.parse import quote, urlparse
 import site_content as C
 import site_layout as L
 import seo_plan as SEO
+import logo_original as LO
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SITE = os.path.join(ROOT, "site")
@@ -94,34 +95,50 @@ def img(key, sizes, cls="", eager=False, alt=None, decorative=False):
     return "<img %s>" % " ".join(attrs)
 
 
+def logo(fn, h, alt="", lazy=False, cls=""):
+    """<img> for a logo file at height h, width from the file's real proportions."""
+    w0, h0 = MAN["logo"][fn]
+    return '<img%s src="/assets/img/%s" width="%d" height="%d" alt="%s"%s>' % (
+        (' class="%s"' % cls) if cls else "", fn, round(w0 * h / h0), h, E(alt), ' loading="lazy"' if lazy else "")
+
+
+def hero_picture():
+    """Art-directed hero: a tall crop for phones, a wide one for everything else."""
+    tall, wide = MAN["images"]["hero-tall"], MAN["images"]["hero-wide"]
+    ss = lambda rec: ", ".join("/assets/img/%s %dw" % (f["file"], f["w"]) for f in rec["files"])
+    fb = wide["files"][1]
+    return ('<picture><source media="(max-width: 760px)" srcset="%s" sizes="100vw">'
+            '<img class="hero__img" src="/assets/img/%s" srcset="%s" sizes="100vw" width="%d" height="%d" alt="%s" '
+            'fetchpriority="high" decoding="async"></picture>'
+            % (ss(tall), fb["file"], ss(wide), wide["files"][0]["w"], wide["files"][0]["h"], E(wide["alt"])))
+
+
 def largest(key):
     return "/assets/img/" + MAN["images"][key]["files"][-1]["file"]
 
 
 # ================================================================== shared chrome
 def loader():
-    return ('<div class="loader" aria-hidden="true"><div class="loader__inner"><div class="loader__mark">'
-            '<svg class="loader__frame" viewBox="0 0 120 120" preserveAspectRatio="none"><rect x="0.5" y="0.5" width="119" height="119"/></svg>'
-            '<img src="/assets/img/logo-mark-rev.svg" width="92" height="92" alt=""></div>'
-            '<span class="loader__word">SMARTLINE</span></div></div>')
-
-
-def utility():
-    return ('<div class="util"><div class="wrap util__inner">'
-            '<span class="util__lead">Serving Nairobi &amp; Kiambu since %s</span>'
-            '<a href="tel:%s">%s%s</a><a href="mailto:%s">%s%s</a><a href="%s" target="_blank" rel="noopener">%sWhatsApp</a>'
-            '</div></div>' % (C.FOUNDED, C.PHONE_E164, icon("phone"), E(C.PHONE), C.EMAIL, icon("mail"), C.EMAIL,
-                              E(C.wa_link()), icon("message-circle")))
+    """First visit per session: the client's S assembles — swoosh, body, droplet — then the
+    screen wipes away diagonally like a squeegee pass. CSS-driven; main.js only removes it."""
+    words = "".join("<span>%s</span> " % w for w in "Assuring you the best".split())
+    return ('<div class="loader" aria-hidden="true"><div class="loader__stage">%s'
+            '<p class="loader__tag">%s</p></div><span class="loader__line"></span></div>'
+            % (LO.mark_parts_svg(104, "loader__mark", "ldg"), words.strip()))
 
 
 def mega():
     cols = []
-    for g, anchor, items in L.GROUPS:
+    for i, (g, anchor, items) in enumerate(L.GROUPS):
         links = "".join('<li><a href="%s">%s%s</a></li>' % (SERVICE_LINK[s], E(s), icon("arrow-right")) for s, _ in items)
-        cols.append('<div class="mega__col"><h3>%s</h3><ul>%s</ul></div>' % (E(g), links))
-    return ('<div class="mega" id="mega-services"><div class="mega__grid">%s</div>'
+        cols.append('<div class="mega__col"><p class="mega__n">%02d</p><h3>%s</h3><ul>%s</ul></div>' % (i + 1, E(g), links))
+    return ('<div class="mega" id="mega-services"><div class="mega__grid">%s'
+            '<a class="mega__feature" href="%s"><span class="label label--sun">Site visit</span>'
+            '<b>Not sure what you need?</b><span>We see the space, then price it in writing.</span>'
+            '<span class="mega__go">Book a visit %s</span></a></div>'
             '<div class="mega__foot"><span>Thirteen services, one point of contact, one invoice.</span>'
-            '<a class="link-u" href="/services">See all services %s</a></div></div>' % ("".join(cols), icon("arrow-right")))
+            '<a class="link-arrow" href="/services">See all services %s</a></div></div>'
+            % ("".join(cols), quote_url(), icon("arrow-right"), icon("arrow-right")))
 
 
 NAV = [("/", "Home"), ("/about", "About"), ("/services", "Services"), ("/clients", "Clients"), ("/contact", "Contact")]
@@ -137,29 +154,31 @@ def header(current):
         else:
             items.append('<li class="nav__item"><a class="nav__link" href="%s"%s>%s</a></li>' % (href, cur, label))
     return ('<header class="hdr"><div class="wrap hdr__inner">'
-            '<a class="brand" href="/" aria-label="%s, home"><img src="/assets/img/logo-lockup.svg" width="246" height="48" alt="%s"></a>'
+            '<a class="brand" href="/" aria-label="%s, home">%s%s</a>'
             '<nav class="nav" aria-label="Main"><ul class="nav__list">%s</ul></nav>'
-            '<a class="btn btn--primary btn--sm hdr__cta" href="%s">Request a quote %s</a>'
-            '<a class="hdr__call" href="tel:%s" aria-label="Call %s">%s</a>'
-            '<button class="hdr__burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="drawer">%s</button>'
-            '</div></header>' % (E(C.SHORT), E(C.BRAND), "".join(items), quote_url(), icon("arrow-right"),
-                                 C.PHONE_E164, E(C.PHONE), icon("phone"), icon("menu")))
+            '<div class="hdr__actions"><a class="hdr__phone" href="tel:%s">%s<span>%s</span></a>'
+            '<a class="btn btn--sun btn--sm hdr__cta" href="%s" data-magnetic>Get a quote %s</a>'
+            '<button class="hdr__burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="drawer">'
+            '<span></span><span></span></button></div></div>'
+            '<div class="hdr__progress" aria-hidden="true"><span></span></div></header>'
+            % (E(C.SHORT), logo("logo-lockup-rev.svg", 44, cls="brand__rev"), logo("logo-lockup.svg", 44, cls="brand__col"),
+               "".join(items), C.PHONE_E164, icon("phone"), E(C.PHONE), quote_url(), icon("arrow-right")))
 
 
 def drawer():
     acc = "".join('<li><a href="%s">%s</a></li>' % (SERVICE_LINK[s], E(s)) for s in SERVICES)
     return ('<div class="drawer" id="drawer" hidden><div class="drawer__scrim" data-close-drawer></div>'
             '<div class="drawer__panel" role="dialog" aria-modal="true" aria-label="Menu">'
-            '<div class="drawer__top"><img src="/assets/img/logo-lockup-rev.svg" width="205" height="40" alt="%s">'
+            '<div class="drawer__top">%s'
             '<button class="drawer__close" type="button" aria-label="Close menu" data-close-drawer>%s</button></div>'
-            '<nav class="drawer__nav" aria-label="Mobile"><a href="/">Home</a><a href="/about">About</a>'
-            '<details class="drawer__acc"><summary>Services %s</summary><ul><li><a href="/services">All services</a></li>%s</ul></details>'
-            '<a href="/clients">Clients</a><a href="/contact">Contact</a></nav>'
-            '<div class="drawer__foot"><a class="btn btn--primary btn--block" href="%s">Request a quote %s</a>'
-            '<a class="btn btn--light btn--block" href="%s" target="_blank" rel="noopener">%s WhatsApp us</a>'
-            '<p>Call %s &middot; %s</p></div></div></div>'
-            % (E(C.BRAND), icon("x"), icon("plus"), acc, quote_url(), icon("arrow-right"), E(C.wa_link()),
-               icon("message-circle"), E(C.PHONE), C.EMAIL))
+            '<nav class="drawer__nav" aria-label="Mobile"><a href="/"><small>01</small>Home</a><a href="/about"><small>02</small>About</a>'
+            '<details class="drawer__acc"><summary><small>03</small>Services %s</summary><ul><li><a href="/services">All services</a></li>%s</ul></details>'
+            '<a href="/clients"><small>04</small>Clients</a><a href="/contact"><small>05</small>Contact</a></nav>'
+            '<div class="drawer__foot"><a class="btn btn--sun btn--block" href="%s">Request a quote %s</a>'
+            '<a class="btn btn--glass btn--block" href="%s" target="_blank" rel="noopener">%s WhatsApp us</a>'
+            '<p>Call %s<br>%s</p></div></div></div>'
+            % (logo("logo-lockup-rev.svg", 40, C.BRAND), icon("x"), icon("plus"), acc, quote_url(), icon("arrow-right"),
+               E(C.wa_link()), icon("message-circle"), E(C.PHONE), C.EMAIL))
 
 
 def footer():
@@ -176,17 +195,21 @@ def footer():
                % (C.PHONE_E164, icon("phone"), E(C.PHONE), E(C.wa_link()), icon("message-circle"), E(C.PHONE),
                   C.EMAIL, icon("mail"), C.EMAIL, icon("map-pin"), E(C.STREET), E(C.LOCALITY), icon("file-text"), E(C.POSTAL)))
     cookie_btn = '<button type="button" data-cookie-settings>Cookie settings</button>' if C.GA_ID else ""
-    return ('<footer class="ftr"><div class="wrap"><div class="ftr__grid">'
-            '<div class="ftr__brand"><img src="/assets/img/logo-lockup-rev.svg" width="266" height="52" alt="%s" loading="lazy">'
-            '<span class="ftr__tag">Assuring you the best</span>'
+    return ('<footer class="ftr"><span class="glow glow--a" aria-hidden="true"></span>'
+            '<div class="wrap"><div class="ftr__top"><p class="ftr__big" data-reveal>Assuring you <span class="grad">the best.</span></p>'
+            '<div class="btns"><a class="btn btn--sun" href="%s" data-magnetic>Request a quote %s</a>'
+            '<a class="btn btn--glass" href="%s" target="_blank" rel="noopener">%s WhatsApp us</a></div></div>'
+            '<div class="ftr__grid"><div class="ftr__brand">%s'
             '<p>Commercial, residential and post-construction cleaning, and landscaping, across Nairobi and Kiambu since %s.</p>'
             '<span class="ftr__badge">%s Clean Quality Guaranteed</span></div>'
             '<div><h2>Services</h2><ul>%s</ul></div><div><h2>Company</h2><ul>%s</ul></div>'
             '<div><h2>Contact</h2><ul>%s</ul></div></div>'
             '<div class="ftr__bar"><span>&copy; %s %s. All rights reserved.</span>'
-            '<nav aria-label="Legal"><a href="/privacy">Privacy notice</a>%s<span>Website by Allen Muraya Maina</span></nav></div>'
-            '</div></footer>'
-            % (E(C.BRAND), C.FOUNDED, icon("shield-check"), svc, co, contact, C.YEAR, E(C.BRAND), cookie_btn))
+            '<nav aria-label="Legal"><a href="/privacy">Privacy notice</a>%s<span>Website by Allen Muraya Maina</span></nav></div></div>'
+            '<p class="ftr__word" aria-hidden="true">SMARTLINE</p></footer>'
+            % (quote_url(), icon("arrow-right"), E(C.wa_link()), icon("message-circle"),
+               logo("logo-lockup-rev.svg", 50, C.BRAND, lazy=True), C.FOUNDED, icon("shield-check"), svc, co, contact,
+               C.YEAR, E(C.BRAND), cookie_btn))
 
 
 def actionbar():
@@ -202,19 +225,20 @@ def cookie_bar():
         return ""
     return ('<div class="cookie" role="region" aria-label="Cookie notice" hidden><p>We use analytics cookies to understand '
             'how the site is used. Nothing else, and only if you agree. <a class="link-u" href="/privacy">Privacy notice</a></p>'
-            '<div class="btns"><button class="btn btn--primary btn--sm" type="button" data-consent="granted">Accept</button>'
+            '<div class="btns"><button class="btn btn--sun btn--sm" type="button" data-consent="granted">Accept</button>'
             '<button class="btn btn--ghost btn--sm" type="button" data-consent="denied">Decline</button></div></div>')
 
 
 # ================================================================== reusable blocks
-def eyebrow(t):
-    return '<p class="eyebrow">%s</p>' % E(t)
+def eyebrow(t, cls=""):
+    return '<p class="label%s">%s</p>' % ((" " + cls) if cls else "", E(t))
 
 
-def sec_head(eb, title, text="", center=False, h="h2"):
-    return ('<div class="sec-head%s reveal">%s<%s class="h2">%s</%s>%s</div>'
-            % (" sec-head--center" if center else "", eyebrow(eb) if eb else "", h, title, h,
-               '<p class="lede">%s</p>' % text if text else ""))
+def sec_head(eb, title, text="", center=False, h="h2", size="d2", tag_id=""):
+    ident = ' id="%s"' % tag_id if tag_id else ""
+    return ('<div class="sec-head%s">%s<%s class="%s"%s data-split>%s</%s>%s</div>'
+            % (" sec-head--center" if center else "", eyebrow(eb) if eb else "", h, size, ident, title, h,
+               '<p class="lede" data-reveal>%s</p>' % text if text else ""))
 
 
 def crumbs(trail):
@@ -227,24 +251,33 @@ def crumbs(trail):
     return '<nav aria-label="Breadcrumb"><ol class="crumbs">%s</ol></nav>' % "".join(lis)
 
 
+def bg_depth(mark=True):
+    """The navy 'depth' background system: two drifting glows, a dot field, the S watermark."""
+    wm = ('<img class="wm" src="/assets/img/logo-mark-rev.svg" width="353" height="400" alt="" loading="lazy">' if mark else "")
+    return '<div class="depth" aria-hidden="true"><span class="glow glow--a"></span><span class="glow glow--b"></span><span class="dots"></span>%s</div>' % wm
+
+
 def faq_block(items, eb, title, text, link=True):
-    rows = "".join('<details class="faq__item"><summary>%s<span class="faq__pm" aria-hidden="true"></span></summary>'
+    rows = "".join('<details class="faq__item"><summary><span class="faq__q">%s</span><span class="faq__pm" aria-hidden="true"></span></summary>'
                    '<div class="faq__a"><p>%s</p></div></details>' % (E(q), E(C.FAQ[q])) for q in items)
-    more = ('<p><a class="link-u" href="/contact">Ask us something else %s</a></p>' % icon("arrow-right")) if link else ""
-    return ('<div class="wrap faq-wrap"><div class="sec-head reveal">%s<h2 class="h2">%s</h2><p class="lede">%s</p>%s</div>'
-            '<div class="faq reveal">%s</div></div>' % (eyebrow(eb), E(title), E(text), more, rows))
+    more = ('<a class="link-arrow" href="/contact">Ask us something else %s</a>' % icon("arrow-right")) if link else ""
+    return ('<div class="wrap faq-wrap"><div class="faq-wrap__head">%s<h2 class="d2" data-split>%s</h2><p class="lede" data-reveal>%s</p>%s</div>'
+            '<div class="faq" data-reveal>%s</div></div>' % (eyebrow(eb), E(title), E(text), more, rows))
 
 
 def cta_band(heading="Book your clean today", sub=None, eb="Assuring you the best"):
-    sub_html = ('<p class="lede">%s</p>' % E(sub)) if sub else ""
-    return ('<section class="cta" aria-label="%s"><div class="cta__bg" aria-hidden="true">%s</div>'
-            '<div class="wrap cta__grid"><div class="reveal">%s<h2 class="h2">%s</h2>%s'
-            '<a class="cta__phone" href="tel:%s">%s%s</a></div>'
-            '<div class="reveal"><div class="btns"><a class="btn btn--primary" href="%s">Request a quote %s</a>'
-            '<a class="btn btn--light" href="%s" target="_blank" rel="noopener">%s WhatsApp us</a></div>'
-            '<p class="cta__note">We reply within one working day.</p></div></div></section>'
-            % (E(heading), img("cta-bg", "100vw", decorative=True), eyebrow(eb), E(heading), sub_html,
-               C.PHONE_E164, icon("phone"), E(C.PHONE), quote_url(), icon("arrow-right"), E(C.wa_link()), icon("message-circle")))
+    sub_html = ('<p class="lede">%s</p>' % E(sub)) if sub else '<p class="lede">Call, WhatsApp or send the form. We reply within one working day.</p>'
+    run = "".join('<span>%s</span><i aria-hidden="true"></i>' % E(heading) for _ in range(4))
+    return ('<section class="cta" aria-label="%s"><div class="cta__bg" aria-hidden="true">%s<span class="glow glow--a"></span>'
+            '<span class="glow glow--sun"></span></div>'
+            '<div class="marquee marquee--cta" aria-hidden="true" data-marquee="-0.6"><div class="marquee__track">'
+            '<div class="marquee__group">%s</div><div class="marquee__group">%s</div></div></div>'
+            '<div class="wrap cta__grid"><div>%s<h2 class="d1 cta__title" data-split>%s</h2>%s</div>'
+            '<div class="cta__side" data-reveal><a class="cta__phone" href="tel:%s"><small>Call or WhatsApp</small>%s</a>'
+            '<div class="btns"><a class="btn btn--sun" href="%s" data-magnetic>Request a quote %s</a>'
+            '<a class="btn btn--glass" href="%s" target="_blank" rel="noopener">%s WhatsApp us</a></div></div></div></section>'
+            % (E(heading), img("cta-bg", "100vw", decorative=True), run, run, eyebrow(eb, "label--sun"), E(heading), sub_html,
+               C.PHONE_E164, E(C.PHONE), quote_url(), icon("arrow-right"), E(C.wa_link()), icon("message-circle")))
 
 
 def chips(items, link=None, cls=""):
@@ -255,13 +288,14 @@ def chips(items, link=None, cls=""):
             out.append('<a class="chip %s" href="%s">%s</a>' % (cls, href, E(it)))
         else:
             out.append('<span class="chip %s">%s</span>' % (cls, E(it)))
-    return '<div class="chips">%s</div>' % "".join(out).replace('class="chip "', 'class="chip"')
+    return '<div class="chips" data-stagger>%s</div>' % "".join(out).replace('class="chip "', 'class="chip"')
 
 
-def steps_block(items):
-    lis = "".join('<li class="step reveal"><span class="step__n"><span>%02d</span></span><h3 class="h3">%s</h3><p>%s</p></li>'
+def timeline(items):
+    """Numbered steps on a line that draws itself as the section scrolls in."""
+    lis = "".join('<li class="tl__item" data-reveal><span class="tl__n">%02d</span><h3 class="h3">%s</h3><p>%s</p></li>'
                   % (i + 1, E(t), E(dsc)) for i, (t, dsc) in enumerate(items))
-    return '<ol class="steps steps--%d" data-stagger>%s</ol>' % (len(items), lis)
+    return '<ol class="tl tl--%d" data-stagger><span class="tl__line" aria-hidden="true"><span></span></span>%s</ol>' % (len(items), lis)
 
 
 def seal(cls="seal"):
@@ -270,16 +304,17 @@ def seal(cls="seal"):
 
 
 def page_hero(trail, h1, lede, image=None, chips_html="", tex=False, service=False, eb=None, btns=""):
-    bg = ('<div class="phero__bg" aria-hidden="true">%s</div>' % img("page-bg", "100vw", decorative=True)) if tex else ""
+    bg = img("page-bg", "100vw", decorative=True, eager=True) if tex else ""
     media = ""
     if image:
-        media = ('<div class="phero__media reveal reveal--right"><div class="frame frame--offset">%s</div></div>'
-                 % img(image, "(max-width: 1040px) 92vw, 560px", eager=True))
-    cls = "phero" + (" phero--tex" if tex else "") + (" phero--service" if service else "")
-    inner = ('<div class="reveal">%s%s<h1 class="h1 h1--sm">%s</h1><p class="lede">%s</p>%s%s</div>'
-             % (crumbs(trail) if trail else "", eyebrow(eb) if eb else "", E(h1), E(lede), btns, chips_html))
-    grid = '<div class="phero__grid">%s%s</div>' % (inner, media) if media else inner
-    return '<section class="%s">%s<div class="wrap">%s</div></section>' % (cls, bg, grid)
+        media = ('<figure class="phero__media" data-reveal="wipe"><div class="phero__frame">%s</div></figure>'
+                 % img(image, "(max-width: 1040px) 92vw, 600px", eager=True))
+    cls = "phero" + (" phero--tex" if tex else "") + (" phero--service" if service else "") + (" phero--media" if image else "")
+    inner = ('<div class="phero__text">%s%s<h1 class="d1" data-split>%s</h1><p class="lede" data-reveal>%s</p>%s%s</div>'
+             % (crumbs(trail) if trail else "", eyebrow(eb, "label--sun") if eb else "", E(h1), E(lede),
+                ('<div data-reveal>%s</div>' % btns) if btns else "", chips_html))
+    return ('<section class="%s"><div class="phero__bg" aria-hidden="true">%s</div>%s'
+            '<div class="wrap phero__grid">%s%s</div></section>' % (cls, bg, bg_depth(), inner, media))
 
 
 # ================================================================== forms
@@ -287,7 +322,7 @@ def select(name, options, label, required=True, value=None, ident=None):
     ident = ident or "f-" + name
     opts = '<option value="">Choose&hellip;</option>' + "".join(
         '<option%s>%s</option>' % (' selected' if o == value else "", E(o)) for o in options)
-    return ('<div class="field"><label for="%s">%s%s</label><select id="%s" name="%s"%s aria-describedby="%s-err">%s</select>'
+    return ('<div class="field field--select"><label for="%s">%s%s</label><select id="%s" name="%s"%s aria-describedby="%s-err">%s</select>'
             '<span class="field__err" id="%s-err"></span></div>'
             % (ident, E(label), ' <span class="req" aria-hidden="true">*</span>' if required else "", ident, name,
                " required" if required else "", ident, opts, ident))
@@ -333,13 +368,15 @@ def quote_form():
           + field("message", "Anything we should know", full=True, textarea=True)
           + consent("f-consent"))
     return ('<form class="form-card js-form" id="quote" action="/form/enquiry.php" method="post" novalidate>'
-            '<h2 class="h2">Request a quote</h2><p class="muted">Two short steps. We reply within one working day.</p>'
-            '<div class="progress" aria-hidden="true"><span class="progress__step is-on">The job</span><span class="progress__step">You</span></div>'
+            '<div class="form-card__head"><p class="label">Request a quote</p><h2 class="d3">Tell us about the job</h2>'
+            '<p class="muted">Two short steps. We reply within one working day.</p></div>'
+            '<div class="progress" aria-hidden="true"><span class="progress__step is-on"><b>1</b>The job</span>'
+            '<span class="progress__step"><b>2</b>You</span><span class="progress__bar"><span></span></span></div>'
             '%s<fieldset class="fstep" data-step="1"><legend>The job</legend>%s</fieldset>'
             '<fieldset class="fstep" data-step="2"><legend>Your details</legend>%s</fieldset>'
-            '<div class="form-actions"><button class="btn btn--primary" type="button" data-next hidden>Continue %s</button>'
+            '<div class="form-actions"><button class="btn btn--sun" type="button" data-next hidden>Continue %s</button>'
             '<button class="btn btn--ghost" type="button" data-back hidden>Back</button>'
-            '<button class="btn btn--primary" type="submit" data-submit>Send request %s</button></div>'
+            '<button class="btn btn--sun" type="submit" data-submit>Send request %s</button></div>'
             '<p class="form-msg" id="form-msg" role="alert" data-phone="%s" hidden></p>'
             '<ul class="proofbox"><li>%sTrusted by Uwezo Microfinance Bank, St Christopher&rsquo;s International School and Jewel Complex</li>'
             '<li>%s%s</li><li>%sTrained, uniformed, supervised teams</li></ul></form>'
@@ -356,9 +393,9 @@ def quick_quote(slug_, nav):
             + field("location", "Location or estate", required=True, auto="address-level2", ident="qq-location",
                     extra=' maxlength="120"')
             + select("service", opts, "Service", value=opts[0], ident="qq-service")
-            + '<button class="btn btn--primary" type="submit">Get my quote %s</button>' % icon("arrow-right"))
-    return ('<section class="sec" aria-labelledby="qq-%s"><div class="wrap"><form class="qq js-form reveal" action="/form/enquiry.php" method="post" novalidate>'
-            '<div class="qq__head"><div><p class="eyebrow">Quick quote</p><h2 class="h2" id="qq-%s">Get a quote for %s</h2></div>'
+            + '<button class="btn btn--sun" type="submit">Get my quote %s</button>' % icon("arrow-right"))
+    return ('<section class="sec sec--paper" aria-labelledby="qq-%s"><div class="wrap"><form class="qq js-form" data-reveal action="/form/enquiry.php" method="post" novalidate>'
+            '<div class="qq__head"><div><p class="label">Quick quote</p><h2 class="d3" id="qq-%s">Get a quote for %s</h2></div>'
             '<p>Three details and we call you back within one working day.</p></div>%s'
             '<input type="hidden" name="property" value="Other"><div class="qq__grid">%s</div>%s'
             '<p class="form-msg" id="form-msg" role="alert" data-phone="%s" hidden></p></form></div></section>'
@@ -370,129 +407,158 @@ def home(pg):
     S = {s["id"]: s for s in pg["sections"]}
     h = S["H-01"]["p"]
     trust = "".join('<li>%s%s</li>' % (icon("check"), E(t)) for t in h["trust"])
-    out = ['<section class="hero"><div class="wrap hero__grid"><div class="hero__text">%s'
-           '<h1 class="h1"><span class="line"><span>Where cleanliness</span></span><span class="line"><span>meets <em>excellence.</em></span></span></h1>'
-           '<p class="lede reveal">%s</p><div class="btns reveal"><a class="btn btn--primary" href="%s">Request a quote %s</a>'
-           '<a class="btn btn--ghost" href="%s" target="_blank" rel="noopener">%s WhatsApp us</a></div>'
-           '<ul class="trust reveal">%s</ul></div>'
-           '<div class="hero__media"><div class="frame frame--offset"><div class="frame__clip">%s</div></div>%s'
-           '<div class="float-card">%s<div><b>Book your clean today</b><a href="tel:%s">%s</a></div></div></div></div></section>'
-           % (eyebrow("Smartline Point Cleaning Hub Ltd · Est. 2018"), E(h["sub"]), quote_url(), icon("arrow-right"),
-              E(C.wa_link()), icon("message-circle"), trust, img("hero", "(max-width: 1040px) 92vw, 560px", eager=True),
-              seal(), icon("phone"), C.PHONE_E164, E(C.PHONE))]
+    stats = ('<div class="hstats"><div class="hstat"><span class="hstat__n">2018</span><span class="hstat__l">Trading since</span></div>'
+             '<div class="hstat"><span class="hstat__n" data-count="%d" data-suffix="+">%d+</span><span class="hstat__l">Named clients</span></div>'
+             '<div class="hstat"><span class="hstat__n" data-count="13">13</span><span class="hstat__l">Services</span></div>'
+             '<div class="hstat"><span class="hstat__n">24h</span><span class="hstat__l">Re-clean promise</span></div></div>'
+             % (len(L.CLIENTS), len(L.CLIENTS)))
+    out = ['<section class="hero" aria-labelledby="hero-title"><div class="hero__media" aria-hidden="true">%s'
+           '<span class="hero__fog"></span><span class="hero__blade"></span></div>'
+           '<div class="hero__shade" aria-hidden="true"></div><span class="hero__sheen" aria-hidden="true"></span>'
+           '<div class="wrap hero__inner"><div class="hero__copy">%s'
+           '<h1 class="hero__title" id="hero-title"><span class="ln"><span class="w">Where</span> <span class="w">cleanliness</span></span> '
+           '<span class="ln"><span class="w">meets</span> <span class="w grad">excellence.</span></span></h1>'
+           '<p class="hero__lede">%s</p><div class="btns hero__btns"><a class="btn btn--sun btn--lg" href="%s" data-magnetic>Request a quote %s</a>'
+           '<a class="btn btn--glass btn--lg" href="%s" target="_blank" rel="noopener">%s WhatsApp us</a></div>'
+           '<ul class="hero__trust">%s</ul></div>%s</div>'
+           '<div class="hero__foot"><div class="wrap">%s</div></div></section>'
+           % (hero_picture(), eyebrow("Smartline Point Cleaning Hub Ltd · Est. 2018", "label--sun"),
+              E(h["sub"]), quote_url(), icon("arrow-right"), E(C.wa_link()), icon("message-circle"), trust,
+              seal("seal hero__seal"), stats)]
 
-    # proof strip + trusted marquee
-    names = "".join("<span>%s</span>" % E(n) for n, _ in L.CLIENTS)
-    out.append('<section class="sec sec--white sec--tight" aria-label="At a glance"><div class="wrap">'
-               '<div class="stats reveal"><div class="stat"><span class="stat__n">2018</span><span class="stat__l">Trading since</span></div>'
-               '<div class="stat"><span class="stat__n" data-count="%d" data-suffix="+">%d+</span><span class="stat__l">Named clients</span></div>'
-               '<div class="stat"><span class="stat__n" data-count="13">13</span><span class="stat__l">Services</span></div>'
-               '<div class="stat"><span class="stat__n">Daily<span class="muted"> &rarr; </span>annual</span><span class="stat__l">Schedules</span></div></div>'
-               '<div class="trusted reveal"><span class="trusted__label">Trusted by</span><div class="marquee"><div class="marquee__track">'
-               '<div class="marquee__group">%s</div><div class="marquee__group" aria-hidden="true">%s</div></div></div></div>'
-               '</div></section>' % (len(L.CLIENTS), len(L.CLIENTS), names, names))
+    # trusted-by: the client names run past in display type
+    names = "".join("<span>%s</span><i aria-hidden=\"true\"></i>" % E(n) for n, _ in L.CLIENTS)
+    out.append('<section class="trusted" aria-label="Trusted by"><div class="wrap trusted__head"><p class="label">Trusted by</p>'
+               '<a class="link-arrow" href="/clients">All clients %s</a></div>'
+               '<div class="marquee marquee--names" data-marquee="0.5"><div class="marquee__track">'
+               '<div class="marquee__group">%s</div><div class="marquee__group" aria-hidden="true">%s</div></div></div></section>'
+               % (icon("arrow-right"), names, names))
 
-    # welcome
+    # welcome — the client's own words, lit word by word as you read down
     w = S["H-03"]["p"]
-    out.append('<section class="sec"><div class="wrap twocol"><div class="reveal">%s<h2 class="h2">%s</h2>'
-               '<div class="signature"><img src="/assets/img/logo-mark.svg" width="44" height="44" alt="" loading="lazy"><span>Assuring you the best</span></div></div>'
-               '<div class="reveal"><p class="body-lg">%s</p><p><a class="link-u" href="/about">About Smartline %s</a></p></div></div></section>'
+    out.append('<section class="sec welcome" id="welcome"><span class="tiles" aria-hidden="true"></span><div class="wrap">'
+               '<div class="welcome__head">%s<h2 class="d3" data-split>%s</h2></div>'
+               '<p class="statement" data-scrub>%s</p>'
+               '<div class="welcome__foot" data-reveal><div class="signature"><img src="/assets/img/logo-mark.svg" width="39" height="44" alt="" loading="lazy">'
+               '<span>Assuring you the best</span></div><a class="btn btn--ghost" href="/about">About Smartline %s</a></div></div></section>'
                % (eyebrow("Welcome"), E(w["heading"]), E(w["body"]), icon("arrow-right")))
 
-    # services
+    # services — a pinned horizontal rail on desktop, a swipe deck on phones
     cards = []
     for i, (g, anchor, items) in enumerate(L.GROUPS):
         lis = "".join("<li>%s</li>" % E(s) for s, _ in items)
-        cards.append('<article class="gcard reveal"><div class="gcard__img">%s</div><div class="gcard__body">'
-                     '<span class="gcard__n">%02d</span><h3 class="h3">%s</h3><p>%s</p><ul class="gcard__list">%s</ul>'
-                     '<a class="link-u" href="%s">Explore %s</a></div></article>'
-                     % (img(GROUP_IMAGE[g], "(max-width: 760px) 92vw, (max-width: 1180px) 46vw, 290px"), i + 1, E(g),
-                        E(C.HOME_SERVICE_BLURB[g]), lis, anchor, icon("arrow-right")))
-    sched = "".join('<span class="chip chip--sm">%s</span>' % E(x) for x in L.SCHEDULES)
-    out.append('<section class="sec sec--paper2"><div class="wrap">%s<div class="gcards" data-stagger>%s</div>'
-               '<div class="schedline reveal"><span class="schedline__label">Once, or on a schedule</span>%s</div></div></section>'
-               % (sec_head("Services", "What we clean",
-                           "Thirteen services across offices, institutions, homes and new builds — one point of contact for all of them."),
-                  "".join(cards), sched))
+        cards.append('<article class="rcard" data-glow><a class="rcard__link" href="%s" aria-label="Explore %s"></a>'
+                     '<div class="rcard__img">%s</div><div class="rcard__body"><span class="rcard__n">%02d<small>/%02d</small></span>'
+                     '<h3 class="d4">%s</h3><p>%s</p><ul class="rcard__list">%s</ul>'
+                     '<span class="link-arrow">Explore %s</span></div></article>'
+                     % (anchor, E(g), img(GROUP_IMAGE[g], "(max-width: 760px) 84vw, 460px"), i + 1, len(L.GROUPS), E(g),
+                        E(C.HOME_SERVICE_BLURB[g]), lis, icon("arrow-right")))
+    sched = "".join('<span class="chip chip--dark">%s</span>' % E(x) for x in L.SCHEDULES)
+    cards.append('<article class="rcard rcard--end"><div class="rcard__body"><p class="label label--sun">Schedules</p>'
+                 '<h3 class="d3">Once, or on a schedule</h3><div class="chips">%s</div>'
+                 '<a class="btn btn--sun" href="/services">See all 13 services %s</a></div></article>' % (sched, icon("arrow-right")))
+    out.append('<section class="rail" id="services" aria-labelledby="h-services"><div class="rail__pin"><div class="wrap rail__head">'
+               '<div>%s<h2 class="d2" id="h-services" data-split>What we clean</h2></div>'
+               '<p class="lede" data-reveal>Thirteen services across offices, institutions, homes and new builds &mdash; one point of contact for all of them.</p>'
+               '<div class="rail__meter" aria-hidden="true"><span class="rail__count">01</span><span class="rail__bar"><span></span></span><span>05</span></div></div>'
+               '<div class="rail__viewport"><div class="rail__track">%s</div></div></div></section>'
+               % (eyebrow("Services"), "".join(cards)))
 
-    # why
-    reasons = "".join('<li class="reason reveal"><span class="reason__n">%02d</span><h3 class="h3">%s</h3><p>%s</p></li>'
+    # why — bento
+    reasons = "".join('<article class="bento__card" data-glow data-reveal><span class="bento__n">%02d</span><h3 class="h3">%s</h3><p>%s</p></article>'
                       % (i + 1, E(t), E(dsc)) for i, (t, dsc) in enumerate(L.WHY))
-    out.append('<section class="sec sec--white"><div class="wrap reasons-wrap"><div class="frame reveal reveal--left">%s'
-               '<span class="caption">Trained, supervised teams</span></div><div>%s<ul class="reasons" data-stagger>%s</ul></div></div></section>'
-               % (img("why", "(max-width: 1040px) 92vw, 460px"),
-                  sec_head("Why Smartline", "Why clients stay with Smartline"), reasons))
+    out.append('<section class="sec sec--white why"><div class="wrap">%s<div class="bento" data-stagger>'
+               '<figure class="bento__img" data-reveal="wipe">%s<figcaption>Trained, supervised teams</figcaption></figure>%s</div></div></section>'
+               % (sec_head("Why Smartline", "Why clients stay with Smartline",
+                           "Six reasons, each one something you can hold us to."),
+                  img("why", "(max-width: 760px) 92vw, 520px"), reasons))
 
-    # how we work
-    out.append('<section class="sec"><div class="wrap">%s%s</div></section>'
-               % (sec_head("How we work", "From first call to a standard that holds",
-                           "Five steps, the same on every contract — so the clean in month twelve matches the clean in week one."),
-                  steps_block(S["H-06"]["p"]["items"])))
+    # how we work — pinned scrollytelling
+    steps = S["H-06"]["p"]["items"]
+    lis = "".join('<li class="sx__item" data-sx-item><span class="sx__n">%02d</span><div><h3 class="d4">%s</h3><p>%s</p></div></li>'
+                  % (i + 1, E(t), E(dsc)) for i, (t, dsc) in enumerate(steps))
+    out.append('<section class="sec sec--navy sx" id="how">%s<div class="wrap sx__grid"><div class="sx__sticky">%s'
+               '<div class="sx__meter" aria-hidden="true"><span class="sx__now">01</span><span class="sx__of">/ %02d</span></div>'
+               '<div class="sx__bar" aria-hidden="true"><span></span></div></div><ol class="sx__list">%s</ol></div></section>'
+               % (bg_depth(), sec_head("How we work", "From first call to a standard that holds",
+                                       "Five steps, the same on every contract &mdash; so the clean in month twelve matches the clean in week one."),
+                  len(steps), lis))
 
-    # training band
-    tl = "".join('<li class="reveal"><span class="tlist__ico">%s</span><div><b>%s</b><span>%s</span></div></li>'
+    # training
+    tl = "".join('<li data-reveal><span class="ico">%s</span><div><b>%s</b><span>%s</span></div></li>'
                  % (icon(TRAINING_ICON[t]), E(t), E(dsc)) for t, dsc in L.TRAINING)
-    out.append('<section class="sec sec--ink"><div class="wrap band"><div>%s<h2 class="h2 reveal">Every Smartline cleaner is trained in</h2>'
-               '<ul class="tlist" data-stagger>%s</ul></div><div class="frame reveal reveal--right">%s</div></div></section>'
-               % (eyebrow("Training"), tl, img("training", "(max-width: 1040px) 92vw, 520px")))
+    out.append('<section class="sec sec--white training"><div class="wrap split"><figure class="split__media" data-reveal="wipe">'
+               '<div class="frame" data-parallax-box>%s</div><figcaption class="tag">%s Trained before placement</figcaption></figure>'
+               '<div>%s<ul class="tlist" data-stagger>%s</ul></div></div></section>'
+               % (img("training", "(max-width: 1040px) 92vw, 560px"), icon("badge-check"),
+                  sec_head("Training", "Every Smartline cleaner is trained in"), tl))
 
     # guarantee
     g = S["H-08"]["p"]
     pts = "".join("<li>%s</li>" % E(x) for x in g["points"])
-    out.append('<section class="sec sec--paper2"><div class="wrap guarantee">%s<div class="reveal">%s<h2 class="h2">%s</h2>'
-               '<p class="promise">%s</p><ul class="ticks">%s</ul><p><a class="link-u" href="%s">Book a clean with the guarantee %s</a></p></div></div></section>'
-               % (seal("seal reveal"), eyebrow("Our promise"), E(g["heading"]), E(g["promise"]), pts, quote_url(), icon("arrow-right")))
+    out.append('<section class="sec sec--sun guarantee"><span class="glow glow--sun" aria-hidden="true"></span><div class="wrap guarantee__grid">'
+               '<div class="guarantee__seal" data-reveal>%s</div><div>%s<h2 class="d2" data-split>%s</h2>'
+               '<p class="promise" data-reveal>%s</p><ul class="ticks" data-stagger>%s</ul>'
+               '<a class="btn btn--navy" href="%s" data-magnetic>Book a clean with the guarantee %s</a></div></div></section>'
+               % (seal("seal seal--lg"), eyebrow("Our promise"), E(g["heading"]), E(g["promise"]), pts, quote_url(), icon("arrow-right")))
 
-    # faq + cta
-    out.append('<section class="sec sec--white">%s</section>'
+    out.append('<section class="sec sec--paper">%s</section>'
                % faq_block(S["H-09"]["p"]["items"], "Questions", "Questions we are asked",
                            "The things clients ask before they book. Anything else, call or WhatsApp."))
     out.append(cta_band())
     return "".join(out)
 
 
+def spec_table(rows, caption):
+    trs = "".join('<div class="spec__row" data-reveal><dt>%s</dt><dd>%s</dd></div>' % (E(k), E(v)) for k, v in rows)
+    return '<dl class="spec" aria-label="%s">%s</dl>' % (E(caption), trs)
+
+
 def about(pg):
     S = {s["id"]: s for s in pg["sections"]}
-    out = [page_hero([("/", "Home"), ("/about", "About")], "About Smartline", S["A-01"]["p"]["sub"], image="about-hero")]
+    out = [page_hero([("/", "Home"), ("/about", "About")], "About Smartline", S["A-01"]["p"]["sub"], image="about-hero",
+                     eb="Est. 2018 · Kasarani, Nairobi")]
     st = S["A-02"]["p"]
-    out.append('<section class="sec"><div class="wrap split"><div class="reveal">%s<h2 class="h2">%s</h2><p class="body-lg">%s</p>'
-               '<p class="body-lg">%s</p></div><div class="split__media reveal reveal--right"><div class="frame">%s</div></div></div></section>'
-               % (eyebrow("Our story"), E(st["heading"]), E(st["body"]), E(C.ABOUT_STORY_2), img("story", "(max-width: 1040px) 92vw, 480px")))
-    vm = "".join('<article class="tcard reveal"><p class="eyebrow">%s</p><p class="promise">%s</p></article>'
+    out.append('<section class="sec sec--white story"><div class="wrap split"><div>%s<h2 class="d2" data-split>%s</h2>'
+               '<p class="body-lg" data-reveal>%s</p><p class="body-lg" data-reveal>%s</p></div>'
+               '<figure class="split__media" data-reveal="wipe"><div class="frame" data-parallax-box>%s</div>'
+               '<figcaption class="story__year" aria-hidden="true">2018</figcaption></figure></div></section>'
+               % (eyebrow("Our story"), E(st["heading"]), E(st["body"]), E(C.ABOUT_STORY_2), img("story", "(max-width: 1040px) 92vw, 560px")))
+    vm = "".join('<article class="vcard" data-glow data-reveal><p class="label label--sun">%s</p><p class="vcard__text">%s</p></article>'
                  % (E(t), E(lines[0])) for t, lines, _ in S["A-03"]["p"]["items"])
-    out.append('<section class="sec sec--paper2"><div class="wrap">%s<div class="tgrid tgrid--2" data-stagger>%s</div></div></section>'
-               % (sec_head("Purpose", "Vision and mission"), vm))
+    out.append('<section class="sec sec--navy">%s<div class="wrap">%s<div class="vgrid" data-stagger>%s</div></div></section>'
+               % (bg_depth(), sec_head("Purpose", "Vision and mission"), vm))
     ap = S["A-04"]["p"]
-    out.append('<section class="sec sec--white"><div class="wrap twocol"><div class="reveal">%s<h2 class="h2">%s</h2></div>'
-               '<div class="reveal"><p class="body-lg">%s</p></div></div></section>' % (eyebrow("Our approach"), E(ap["heading"]), E(ap["body"])))
-    tc = "".join('<article class="tcard reveal"><span class="tlist__ico">%s</span><h3 class="h3">%s</h3><p>%s</p></article>'
-                 % (icon(TRAINING_ICON[t]), E(t), E(dsc)) for t, dsc in L.TRAINING)
-    out.append('<section class="sec"><div class="wrap">%s<div class="tgrid" data-stagger>%s</div></div></section>'
+    out.append('<section class="sec sec--paper approach"><span class="tiles" aria-hidden="true"></span><div class="wrap">%s<h2 class="d3" data-split>%s</h2>'
+               '<p class="statement" data-scrub>%s</p></div></section>' % (eyebrow("Our approach"), E(ap["heading"]), E(ap["body"])))
+    tc = "".join('<article class="tcard" data-glow data-reveal><span class="ico">%s</span><span class="tcard__n">%02d</span><h3 class="h3">%s</h3><p>%s</p></article>'
+                 % (icon(TRAINING_ICON[t]), i + 1, E(t), E(dsc)) for i, (t, dsc) in enumerate(L.TRAINING))
+    out.append('<section class="sec sec--white"><div class="wrap">%s<div class="tgrid" data-stagger>%s</div></div></section>'
                % (sec_head("Training", "How our cleaners are trained",
-                           "Six areas, covered before anyone is placed on a site — and refreshed by the supervisor on the job."), tc))
-    rows = "".join("<tr><th scope=\"row\">%s</th><td>%s</td></tr>" % (E(k), E(v)) for k, v in C.COMPLIANCE)
-    out.append('<section class="sec sec--white"><div class="wrap">%s<div class="facts-wrap"><table class="facts reveal"><caption class="sr-only">How we vet and supervise</caption>%s</table>'
-               '<aside class="doc-card reveal"><span class="tlist__ico">%s</span><h3 class="h3">Supplier documents</h3>'
+                           "Six areas, covered before anyone is placed on a site &mdash; and refreshed by the supervisor on the job."), tc))
+    out.append('<section class="sec sec--paper"><div class="wrap">%s<div class="facts-wrap">%s'
+               '<aside class="doc-card" data-reveal><span class="ico">%s</span><h3 class="h3">Supplier documents</h3>'
                '<p>Procurement teams can request our registration documents and anything else their supplier process needs.</p>'
-               '<a class="btn btn--primary btn--sm" href="mailto:%s?subject=%s">Request documents %s</a></aside></div></div></section>'
+               '<a class="btn btn--navy btn--sm" href="mailto:%s?subject=%s">Request documents %s</a></aside></div></div></section>'
                % (sec_head("Vetting and supervision", "Who comes into your building",
                            "The questions a facility manager asks before awarding a contract, answered plainly."),
-                  rows, icon("file-text"), C.EMAIL, quote("Supplier documents request"), icon("arrow-right")))
-    out.append('<section class="sec sec--paper2"><div class="wrap split split--rev"><div class="reveal">%s<h2 class="h2">%s</h2><p class="body-lg">%s</p></div>'
-               '<div class="split__media reveal reveal--left"><div class="frame">%s</div></div></div></section>'
-               % (eyebrow("Community"), E(S["A-07"]["p"]["heading"]), E(C.COMMUNITY), img("community", "(max-width: 1040px) 92vw, 480px")))
+                  spec_table(C.COMPLIANCE, "How we vet and supervise"), icon("file-text"), C.EMAIL,
+                  quote("Supplier documents request"), icon("arrow-right")))
+    out.append('<section class="sec sec--white"><div class="wrap split split--rev"><div>%s<h2 class="d2" data-split>%s</h2><p class="body-lg" data-reveal>%s</p></div>'
+               '<figure class="split__media" data-reveal="wipe"><div class="frame" data-parallax-box>%s</div></figure></div></section>'
+               % (eyebrow("Community"), E(S["A-07"]["p"]["heading"]), E(C.COMMUNITY), img("community", "(max-width: 1040px) 92vw, 560px")))
     wk = S["A-08"]["p"]
-    out.append('<section class="sec"><div class="wrap twocol"><div class="reveal">%s<h2 class="h2">%s</h2></div>'
-               '<div class="reveal"><p class="body-lg">%s</p><div class="btns"><a class="btn btn--primary" href="mailto:%s?subject=%s">Apply to join the team %s</a></div></div></div></section>'
-               % (eyebrow("Careers"), E(wk["heading"]), E(wk["body"]), C.CAREERS_EMAIL, quote("Job application"), icon("arrow-right")))
-    rows = "".join("<tr><th scope=\"row\">%s</th><td>%s</td></tr>" % (E(k), E(v)) for k, v in [
-        ("Registered name", C.BRAND), ("Established", C.FOUNDED), ("Office", C.STREET + ", " + C.LOCALITY),
-        ("Postal", C.POSTAL), ("Phone", C.PHONE), ("Email", C.EMAIL)])
-    out.append('<section class="sec sec--white"><div class="wrap">%s<div class="facts-wrap"><table class="facts reveal"><caption class="sr-only">Company details</caption>%s</table>'
-               '<aside class="doc-card reveal"><span class="tlist__ico">%s</span><h3 class="h3">Company profile</h3>'
-               '<p>Our company profile, for supplier files and boards.</p><a class="btn btn--primary btn--sm" href="mailto:%s?subject=%s">Request a copy %s</a></aside></div></div></section>'
-               % (sec_head("Company details", "The facts for your supplier form"), rows, icon("file-text"), C.EMAIL,
-                  quote("Company profile request"), icon("arrow-right")))
+    out.append('<section class="sec sec--navy careers">%s<div class="wrap careers__grid"><div>%s<h2 class="d2" data-split>%s</h2></div>'
+               '<div data-reveal><p class="body-lg">%s</p><div class="btns"><a class="btn btn--sun" href="mailto:%s?subject=%s" data-magnetic>Apply to join the team %s</a></div></div></div></section>'
+               % (bg_depth(False), eyebrow("Careers", "label--sun"), E(wk["heading"]), E(wk["body"]), C.CAREERS_EMAIL,
+                  quote("Job application"), icon("arrow-right")))
+    rows = [("Registered name", C.BRAND), ("Established", C.FOUNDED), ("Office", C.STREET + ", " + C.LOCALITY),
+            ("Postal", C.POSTAL), ("Phone", C.PHONE), ("Email", C.EMAIL)]
+    out.append('<section class="sec sec--white"><div class="wrap">%s<div class="facts-wrap">%s'
+               '<aside class="doc-card" data-reveal><span class="ico">%s</span><h3 class="h3">Company profile</h3>'
+               '<p>Our company profile, for supplier files and boards.</p><a class="btn btn--navy btn--sm" href="mailto:%s?subject=%s">Request a copy %s</a></aside></div></div></section>'
+               % (sec_head("Company details", "The facts for your supplier form"), spec_table(rows, "Company details"),
+                  icon("file-text"), C.EMAIL, quote("Company profile request"), icon("arrow-right")))
     out.append(cta_band())
     return "".join(out)
 
@@ -500,9 +566,10 @@ def about(pg):
 def services(pg):
     S = {s["id"]: s for s in pg["sections"]}
     hero = S["S-01"]["p"]
-    ch = chips([g for g, _, _ in L.GROUPS], link=lambda g: "#" + GROUP_ANCHOR[g])
-    out = [page_hero([("/", "Home"), ("/services", "Services")], "Our services", hero["sub"], chips_html=ch, tex=True)]
-    sub = "".join('<li><a href="#%s">%s</a></li>' % (GROUP_ANCHOR[g], E(g)) for g, _, _ in L.GROUPS)
+    ch = chips([g for g, _, _ in L.GROUPS], link=lambda g: "#" + GROUP_ANCHOR[g], cls="chip--glass")
+    out = [page_hero([("/", "Home"), ("/services", "Services")], "Our services", hero["sub"], chips_html=ch, tex=True,
+                     eb="13 services · one point of contact")]
+    sub = "".join('<li><a href="#%s"><small>%02d</small>%s</a></li>' % (GROUP_ANCHOR[g], i + 1, E(g)) for i, (g, _, _) in enumerate(L.GROUPS))
     out.append('<nav class="subnav" aria-label="Service groups"><div class="wrap"><ul class="subnav__list">%s</ul></div></nav>' % sub)
     blurb = {"Commercial & institutional": "Offices, banks, schools and churches, cleaned on a written schedule.",
              "Homes & apartments": "Houses, apartments and short-stay units, regular or once.",
@@ -515,42 +582,42 @@ def services(pg):
             tag = '<span class="srow__tag">Dedicated page</span>' if link else ""
             second = ('<a class="btn btn--ghost btn--sm" href="%s">View service %s</a>' % (link, icon("arrow-right"))) if link else (
                 '<a class="btn btn--ghost btn--sm" href="%s" target="_blank" rel="noopener">%s WhatsApp</a>' % (E(C.wa_link(s)), icon("message-circle")))
-            price = ""
-            rows.append('<article class="srow reveal" id="%s"><div class="srow__img">%s</div><div><h3 class="h3">%s %s</h3>'
-                        '<p>%s</p>%s<p class="srow__who"><b>For:</b> %s</p>%s</div>'
-                        '<div class="srow__actions"><a class="btn btn--primary btn--sm" href="%s">Get a quote %s</a>%s</div></article>'
-                        % (slug(s), img(C.SERVICE_IMAGE[s], "(max-width: 760px) 92vw, 300px"), E(s), tag, E(line),
-                           chips(incl, cls="chip--sm"), E(who), price, quote_url(s), icon("arrow-right"), second))
-        bg = " sec--white" if i % 2 == 0 else ""
+            rows.append('<article class="srow" id="%s" data-reveal data-glow><div class="srow__img">%s</div><div class="srow__body"><h3 class="d4">%s %s</h3>'
+                        '<p>%s</p>%s<p class="srow__who"><b>For:</b> %s</p></div>'
+                        '<div class="srow__actions"><a class="btn btn--sun btn--sm" href="%s">Get a quote %s</a>%s</div></article>'
+                        % (slug(s), img(C.SERVICE_IMAGE[s], "(max-width: 760px) 92vw, 320px"), E(s), tag, E(line),
+                           chips(incl, cls="chip--sm"), E(who), quote_url(s), icon("arrow-right"), second))
+        bg = " sec--white" if i % 2 == 0 else " sec--paper"
         gid = GROUP_ANCHOR[g]
-        out.append('<section class="sec%s" id="%s" aria-labelledby="h-%s"><div class="wrap"><div class="group-head reveal"><div>%s'
-                   '<h2 class="h2" id="h-%s">%s</h2></div><p>%s</p></div><div class="srows">%s</div></div></section>'
-                   % (bg, gid, gid, eyebrow("Group %02d" % (i + 1)), gid, E(g), E(blurb[g]), "".join(rows)))
-    # pricing — figures only if the client has given them
+        out.append('<section class="sec group%s" id="%s" aria-labelledby="h-%s"><div class="wrap"><div class="group-head">'
+                   '<span class="group-head__n" aria-hidden="true">%02d</span><div>%s<h2 class="d2" id="h-%s" data-split>%s</h2></div><p data-reveal>%s</p></div>'
+                   '<div class="srows">%s</div></div></section>'
+                   % (bg, gid, gid, i + 1, eyebrow("Group %02d" % (i + 1)), gid, E(g), E(blurb[g]), "".join(rows)))
     tiers = []
-    for title, for_, key, desc in C.PRICING_MODELS:
+    for n, (title, for_, key, desc) in enumerate(C.PRICING_MODELS):
         if C.PRICES and C.PRICES.get(key):
             unit = {"visit": "per visit", "month": "per month", "sqm": "per m²"}[key]
             fig = '<p class="tier__fig">From KES %s <small>%s</small></p>' % (E(C.PRICES[key]), unit)
         else:
             fig = '<p class="tier__fig">Quoted to your space</p>'
-        tiers.append('<article class="tier reveal"><h3 class="h3">%s</h3><p class="tier__for">%s</p>%s<p>%s</p>'
-                     '<a class="btn btn--ghost btn--sm" href="%s">Get a figure %s</a></article>'
-                     % (E(title), E(for_), fig, E(desc), quote_url(), icon("arrow-right")))
+        tiers.append('<article class="tier%s" data-glow data-reveal><span class="tier__n">%02d</span><h3 class="d4">%s</h3><p class="tier__for">%s</p>%s<p>%s</p>'
+                     '<a class="btn btn--%s btn--sm" href="%s">Get a figure %s</a></article>'
+                     % (" tier--feature" if n == 1 else "", n + 1, E(title), E(for_), fig, E(desc),
+                        "sun" if n == 1 else "ghost", quote_url(), icon("arrow-right")))
     note = ("Prices exclude VAT where it applies. The final figure follows a site visit." if C.PRICES else
             "Send photographs on WhatsApp for a one-off clean and we can often price it the same day.")
-    out.append('<section class="sec sec--paper2"><div class="wrap">%s<div class="tiers" data-stagger>%s</div><p class="foot-note reveal">%s</p></div></section>'
-               % (sec_head("Pricing", "How we price",
-                           "Three ways a job is priced. The figure is always in writing before any work starts."),
+    out.append('<section class="sec sec--navy">%s<div class="wrap">%s<div class="tiers" data-stagger>%s</div><p class="foot-note" data-reveal>%s</p></div></section>'
+               % (bg_depth(), sec_head("Pricing", "How we price",
+                                       "Three ways a job is priced. The figure is always in writing before any work starts."),
                   "".join(tiers), E(note)))
     sect = S["S-08"]["p"]["items"]
-    out.append('<section class="sec sec--white"><div class="wrap">%s%s</div></section>'
+    out.append('<section class="sec sec--white"><div class="wrap two-head"><div>%s</div><div>%s</div></div></section>'
                % (sec_head("Sectors", "Premises we already clean",
                            "Every one of these is a building type we clean today. Tap one to see who we clean it for."),
-                  '<div class="reveal">%s</div>' % chips(sect, link=lambda c: "/clients?sector=" + C.CHIP_TO_SECTOR[c] if c in C.CHIP_TO_SECTOR else "/post-construction-cleaning")))
-    out.append('<section class="sec"><div class="wrap">%s<div class="reveal">%s</div></div></section>'
+                  chips(sect, link=lambda c: "/clients?sector=" + C.CHIP_TO_SECTOR[c] if c in C.CHIP_TO_SECTOR else "/post-construction-cleaning", cls="chip--lg")))
+    out.append('<section class="sec sec--paper"><div class="wrap two-head"><div>%s</div><div>%s</div></div></section>'
                % (sec_head("Schedules", "Once, or on a schedule",
-                           "From a single move-out clean to a full annual programme for your premises."), chips(L.SCHEDULES)))
+                           "From a single move-out clean to a full annual programme for your premises."), chips(L.SCHEDULES, cls="chip--lg")))
     out.append(cta_band("Not sure what you need?", "Book a site visit — we will scope it with you.", "Site visit"))
     return "".join(out)
 
@@ -560,39 +627,41 @@ def service_page(pg):
     pre = {"/commercial-cleaning": "CC", "/residential-apartment-cleaning": "RA", "/post-construction-cleaning": "PC"}[slug_]
     S = {s["id"]: s for s in pg["sections"]}
     hp = S[pre + "-01"]["p"]
-    btns = ('<div class="btns"><a class="btn btn--primary" href="%s">Request a quote %s</a>'
-            '<a class="btn btn--ghost" href="%s" target="_blank" rel="noopener">%s WhatsApp us</a></div>'
+    btns = ('<div class="btns"><a class="btn btn--sun" href="%s" data-magnetic>Request a quote %s</a>'
+            '<a class="btn btn--glass" href="%s" target="_blank" rel="noopener">%s WhatsApp us</a></div>'
             % (quote_url(QQ_SERVICES[slug_][0]), icon("arrow-right"), E(C.wa_link(pg["nav"])), icon("message-circle")))
     out = [page_hero([("/", "Home"), ("/services", "Services"), (slug_, pg["nav"])], pg["h1"], hp["sub"],
                      image=C.PAGE_IMAGES[slug_], service=True, btns=btns)]
     intro = C.SERVICE_INTRO[slug_]
     who = S[pre + "-02"]["p"]["items"]
-    out.append('<section class="sec sec--white"><div class="wrap intro"><div class="reveal">%s<h2 class="h2">Who we do this for</h2>'
-               '%s</div><div class="reveal">%s</div></div></section>'
-               % (eyebrow("Overview"), chips(who), "".join('<p class="body-lg">%s</p>' % E(p) for p in intro)))
-    cards = "".join('<article class="ccard reveal"><h3 class="h3">%s</h3><ul class="ticks">%s</ul></article>'
-                    % (E(t), "".join("<li>%s</li>" % E(x) for x in xs)) for t, xs in S[pre + "-03"]["p"]["groups"])
-    out.append('<section class="sec"><div class="wrap">%s<div class="checklist" data-stagger>%s</div></div></section>'
+    out.append('<section class="sec sec--white"><div class="wrap intro"><div>%s<h2 class="d2" data-split>Who we do this for</h2>'
+               '%s</div><div>%s</div></div></section>'
+               % (eyebrow("Overview"), chips(who, cls="chip--lg"), "".join('<p class="body-lg" data-reveal>%s</p>' % E(p) for p in intro)))
+    cards = "".join('<article class="ccard" data-glow data-reveal><span class="ccard__n">%02d</span><h3 class="d4">%s</h3><ul class="ticks">%s</ul></article>'
+                    % (i + 1, E(t), "".join("<li>%s</li>" % E(x) for x in xs)) for i, (t, xs) in enumerate(S[pre + "-03"]["p"]["groups"]))
+    out.append('<section class="sec sec--paper"><span class="tiles" aria-hidden="true"></span><div class="wrap">%s<div class="checklist" data-stagger>%s</div></div></section>'
                % (sec_head("Scope", "What is included",
                            "Agreed in writing before the first visit, and checked against on every visit after it."), cards))
-    out.append('<section class="sec sec--white"><div class="wrap">%s%s</div></section>'
-               % (sec_head("Method", "How it runs"), steps_block(S[pre + "-04"]["p"]["items"])))
+    out.append('<section class="sec sec--navy">%s<div class="wrap">%s%s</div></section>'
+               % (bg_depth(), sec_head("Method", "How it runs"), timeline(S[pre + "-04"]["p"]["items"])))
     stp = S[pre + "-05"]["p"]
-    out.append('<section class="sec sec--paper2"><div class="wrap standard"><div class="frame reveal reveal--left">%s</div>'
-               '<div class="reveal">%s<h2 class="h2">%s</h2><p class="body-lg">%s</p><ul class="ticks"><li>Worked against the written scope</li>'
+    out.append('<section class="sec sec--white"><div class="wrap split"><figure class="split__media" data-reveal="wipe"><div class="frame" data-parallax-box>%s</div>'
+               '<figcaption class="tag">%s %s</figcaption></figure>'
+               '<div>%s<h2 class="d2" data-split>%s</h2><p class="body-lg" data-reveal>%s</p><ul class="ticks" data-stagger><li>Worked against the written scope</li>'
                '<li>Signed off by a named supervisor before the team leaves</li><li>Missed something? Tell us within 24 hours and we come back</li></ul></div></div></section>'
-               % (img(C.STANDARD_IMAGE[pre], "(max-width: 1040px) 92vw, 440px"), eyebrow("The standard"), E(stp["heading"]), E(stp["body"])))
-    out.append('<section class="sec sec--white"><div class="wrap">%s<div class="reveal">%s</div></div></section>'
-               % (sec_head("Schedules", "Once, or on a schedule"), chips(L.SCHEDULES)))
-    out.append('<section class="sec">%s</section>'
+               % (img(C.STANDARD_IMAGE[pre], "(max-width: 1040px) 92vw, 560px"), icon("shield-check"), E(C.GUARANTEE_SHORT),
+                  eyebrow("The standard"), E(stp["heading"]), E(stp["body"])))
+    out.append('<section class="sec sec--paper"><div class="wrap two-head"><div>%s</div><div>%s</div></div></section>'
+               % (sec_head("Schedules", "Once, or on a schedule"), chips(L.SCHEDULES, cls="chip--lg")))
+    out.append('<section class="sec sec--white">%s</section>'
                % faq_block(S[pre + "-07"]["p"]["items"], "Questions", "Questions about %s" % pg["nav"].lower(),
                            "Straight answers. If yours is not here, ask us."))
     rel = []
     for name, lines, _ in S[pre + "-08"]["p"]["items"]:
-        rel.append('<a class="rcard reveal" href="%s"><div class="rcard__img">%s</div><div class="rcard__body"><h3 class="h3">%s</h3>'
-                   '<p>%s</p><span class="link-u">Learn more %s</span></div></a>'
-                   % (SERVICE_LINK[name], img(C.SERVICE_IMAGE[name], "(max-width: 760px) 92vw, 380px"), E(name), E(lines[0]), icon("arrow-right")))
-    out.append('<section class="sec sec--white"><div class="wrap">%s<div class="related" data-stagger>%s</div></div></section>'
+        rel.append('<a class="relcard" href="%s" data-reveal data-glow><div class="relcard__img">%s</div><div class="relcard__body"><h3 class="d4">%s</h3>'
+                   '<p>%s</p><span class="link-arrow">Learn more %s</span></div></a>'
+                   % (SERVICE_LINK[name], img(C.SERVICE_IMAGE[name], "(max-width: 760px) 92vw, 400px"), E(name), E(lines[0]), icon("arrow-right")))
+    out.append('<section class="sec sec--paper"><div class="wrap">%s<div class="related" data-stagger>%s</div></div></section>'
                % (sec_head("Related", "Often booked with this"), "".join(rel)))
     out.append(quick_quote(slug_, pg["nav"]))
     out.append(cta_band())
@@ -600,101 +669,69 @@ def service_page(pg):
 
 
 def clients(pg):
-    out = [page_hero([("/", "Home"), ("/clients", "Clients")], pg["h1"], pg["sections"][0]["p"]["sub"], tex=True)]
+    out = [page_hero([("/", "Home"), ("/clients", "Clients")], pg["h1"], pg["sections"][0]["p"]["sub"], tex=True,
+                     eb="Named with permission")]
     present = []
     for _, sector in L.CLIENTS:
         k = C.SECTOR_KEY[sector]
         if k not in present:
             present.append(k)
-    flt = ('<div class="filters reveal" role="group" aria-label="Filter clients by sector">'
+    flt = ('<div class="filters" data-reveal role="group" aria-label="Filter clients by sector">'
            '<button class="chip" type="button" data-filter="all" aria-pressed="true">All</button>%s</div>'
            '<p class="sr-only" id="filter-status" aria-live="polite"></p>'
            % "".join('<button class="chip" type="button" data-filter="%s" aria-pressed="false">%s</button>'
                      % (k, E(C.SECTOR_LABEL[k])) for k in present))
-    cl = "".join('<li class="client reveal" data-sector="%s"><span class="client__name">%s</span><span class="client__sector">%s</span></li>'
-                 % (C.SECTOR_KEY[s], E(n), E(s)) for n, s in L.CLIENTS)
+    cl = "".join('<li class="client" data-sector="%s" data-glow><span class="client__n">%02d</span><span class="client__name">%s</span><span class="client__sector">%s</span></li>'
+                 % (C.SECTOR_KEY[s], i + 1, E(n), E(s)) for i, (n, s) in enumerate(L.CLIENTS))
     out.append('<section class="sec sec--white"><div class="wrap">%s%s<ul class="clients" data-stagger>%s</ul></div></section>'
                % (sec_head("Clients", "Clients served",
-                           "Named with their permission. Banks, schools, churches, apartment blocks, short-stay hosts and hospitality."),
-                  flt, cl))
+                           "Banks, schools, churches, apartment blocks, short-stay hosts and hospitality."), flt, cl))
     sect_link = {"Banking": "/services#commercial", "Education": "/services#commercial", "Churches": "/services#commercial",
                  "Residential complexes": "/services#residential", "Short-stay and Airbnb": "/services#residential",
                  "Hospitality": "/commercial-cleaning", "Construction": "/post-construction-cleaning"}
-    out.append('<section class="sec"><div class="wrap">%s<div class="reveal">%s</div></div></section>'
-               % (sec_head("Sectors", "Premises we know"), chips(pg["sections"][2]["p"]["items"], link=lambda c: sect_link.get(c))))
+    out.append('<section class="sec sec--paper"><div class="wrap two-head"><div>%s</div><div>%s</div></div></section>'
+               % (sec_head("Sectors", "Premises we know"), chips(pg["sections"][2]["p"]["items"], link=lambda c: sect_link.get(c), cls="chip--lg")))
     tiles = []
     for key, src, aspect, focal, caption, alt in C.GALLERY:
         rec = MAN["images"][key]
         thumb = rec["files"][:2]
         srcset = ", ".join("/assets/img/%s %dw" % (f["file"], f["w"]) for f in thumb)
-        tiles.append('<a class="tile reveal" href="%s" data-caption="%s"><figure><img src="/assets/img/%s" srcset="%s" '
-                     'sizes="(max-width: 760px) 46vw, 380px" width="%d" height="%d" alt="%s" loading="lazy" decoding="async">'
+        tiles.append('<a class="tile" data-reveal href="%s" data-caption="%s"><figure><img src="/assets/img/%s" srcset="%s" '
+                     'sizes="(max-width: 760px) 46vw, 400px" width="%d" height="%d" alt="%s" loading="lazy" decoding="async">'
                      '<figcaption>%s</figcaption></figure><span class="tile__zoom" aria-hidden="true">%s</span></a>'
                      % (largest(key), E(caption), thumb[0]["file"], srcset, thumb[0]["w"], thumb[0]["h"], E(alt), E(caption), icon("plus")))
-    out.append('<section class="sec sec--white"><div class="wrap">%s<div class="gallery">%s</div></div></section>'
-               % (sec_head("Premises", "Spaces we look after",
-                           "The kinds of spaces we clean every week, from bank halls to compounds."), "".join(tiles)))
+    out.append('<section class="sec sec--navy">%s<div class="wrap">%s<div class="gallery">%s</div></div></section>'
+               % (bg_depth(), sec_head("Premises", "Spaces we look after",
+                                       "The kinds of spaces we clean every week, from bank halls to compounds."), "".join(tiles)))
     out.append(cta_band())
     return "".join(out)
 
 
-def map_svg():
-    """A schematic locator in the brand palette. Not to scale and labelled as such:
-    it shows where we are relative to landmarks a Nairobi visitor already knows."""
-    svg = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Schematic map: ICIPE Road off Thika Road, Kasarani">'
-           '<rect width="800" height="600" fill="#EFEBE2"/>'
-           '<g stroke="#E2DCCF" stroke-width="10" fill="none">'
-           '<path d="M0 120 L800 160"/><path d="M0 470 L800 430"/><path d="M180 0 L140 600"/><path d="M640 0 L690 600"/>'
-           '<path d="M0 300 L300 290"/><path d="M420 0 L460 260"/></g>'
-           '<rect x="470" y="300" width="210" height="150" rx="6" fill="#DCE3D2"/>'
-           '<text x="575" y="372" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#5F6B57">Moi International</text>'
-           '<text x="575" y="392" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#5F6B57">Sports Centre</text>'
-           '<path d="M-20 560 L820 40" stroke="#FFFFFF" stroke-width="34" fill="none"/>'
-           '<path d="M-20 560 L820 40" stroke="#C9C2B3" stroke-width="2" stroke-dasharray="14 12" fill="none"/>'
-           '<text transform="translate(205 395) rotate(-31.8)" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" '
-           'letter-spacing="4" fill="#0E1430">THIKA ROAD</text>'
-           '<path d="M392 318 C430 300 452 280 470 262 L560 214" stroke="#FFFFFF" stroke-width="18" fill="none"/>'
-           '<text transform="translate(470 238) rotate(-26)" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" '
-           'letter-spacing="2" fill="#0E1430">ICIPE ROAD</text>'
-           '<path d="M470 262 L470 300" stroke="#FFFFFF" stroke-width="12" fill="none"/>'
-           '<text x="300" y="540" font-family="Georgia, serif" font-size="30" fill="#7F5B17" font-style="italic">Kasarani</text>'
-           '<circle cx="470" cy="262" r="34" fill="#B8862F" opacity=".18"/>'
-           '<path d="M470 220 C455 220 444 231 444 246 C444 266 470 290 470 290 C470 290 496 266 496 246 C496 231 485 220 470 220 Z" '
-           'fill="#0E1430" stroke="#B8862F" stroke-width="2"/><circle cx="470" cy="246" r="8" fill="#B8862F"/>'
-           '<rect x="510" y="96" width="250" height="78" rx="3" fill="#FFFFFF" stroke="#E7E3DA"/>'
-           '<rect x="510" y="96" width="3" height="78" fill="#B8862F"/>'
-           '<text x="530" y="128" font-family="Georgia, serif" font-size="21" fill="#0E1430">Smartline</text>'
-           '<text x="530" y="154" font-family="Segoe UI, Arial, sans-serif" font-size="13" fill="#5F5B55">ICIPE Road, Sports Drive, Suite 8</text>'
-           '<text x="24" y="584" font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="#8A857C">Schematic — not to scale</text>'
-           '</svg>')
-    with open(os.path.join(SITE, "assets", "img", "map.svg"), "w", encoding="utf-8") as f:
-        f.write(svg)
-
-
 def contact(pg):
     S = {s["id"]: s for s in pg["sections"]}
-    out = [page_hero([("/", "Home"), ("/contact", "Contact")], pg["h1"], S["K-01"]["p"]["sub"], tex=True)]
-    card = ('<aside class="contact-card reveal"><h2 class="h3">Prefer to talk?</h2><div class="btns">'
-            '<a class="btn btn--primary btn--sm" href="tel:%s">%s Call</a><a class="btn btn--light btn--sm" href="%s" target="_blank" rel="noopener">%s WhatsApp</a></div>'
+    out = [page_hero([("/", "Home"), ("/contact", "Contact")], pg["h1"], S["K-01"]["p"]["sub"], tex=True,
+                     eb="Reply within one working day")]
+    card = ('<aside class="contact-card" data-reveal>%s<h2 class="d4">Prefer to talk?</h2><div class="btns">'
+            '<a class="btn btn--sun btn--sm" href="tel:%s">%s Call</a><a class="btn btn--glass btn--sm" href="%s" target="_blank" rel="noopener">%s WhatsApp</a></div>'
             '<ul class="clist"><li><a href="tel:%s">%s<span><small>Call</small>%s</span></a></li>'
             '<li><a href="%s" target="_blank" rel="noopener">%s<span><small>WhatsApp</small>%s</span></a></li>'
             '<li><a href="mailto:%s">%s<span><small>Email</small>%s</span></a></li>'
             '<li><span>%s<span><small>Office</small>%s<br>%s</span></span></li>'
             '<li><span>%s<span><small>Postal</small>%s</span></span></li>'
             '<li><span>%s<span><small>Reply time</small>Within one working day</span></span></li></ul></aside>'
-            % (C.PHONE_E164, icon("phone"), E(C.wa_link()), icon("message-circle"), C.PHONE_E164, icon("phone"), E(C.PHONE),
+            % (bg_depth(False), C.PHONE_E164, icon("phone"), E(C.wa_link()), icon("message-circle"), C.PHONE_E164, icon("phone"), E(C.PHONE),
                E(C.wa_link()), icon("message-circle"), E(C.PHONE), C.EMAIL, icon("mail"), C.EMAIL,
                icon("map-pin"), E(C.STREET), E(C.LOCALITY), icon("file-text"), E(C.POSTAL), icon("clock")))
-    out.append('<section class="sec"><div class="wrap form-wrap"><div class="reveal">%s</div>%s</div></section>' % (quote_form(), card))
-    out.append('<section class="sec sec--white"><div class="wrap mapcard"><div class="mapcard__map reveal">'
+    out.append('<section class="sec sec--paper"><div class="wrap form-wrap"><div data-reveal>%s</div>%s</div></section>' % (quote_form(), card))
+    out.append('<section class="sec sec--white"><div class="wrap mapcard"><div class="mapcard__map" data-reveal="wipe">'
                '<img src="/assets/img/map.svg" width="800" height="600" alt="Schematic map: our office on ICIPE Road, off Thika Road in Kasarani" loading="lazy"></div>'
-               '<div class="reveal">%s<h2 class="h2">Find us</h2><p class="body-lg">%s, %s. Just off Thika Road, beside the Moi International Sports Centre.</p>'
-               '<div class="btns"><a class="btn btn--primary" href="%s" target="_blank" rel="noopener">Open in Google Maps %s</a></div></div></div></section>'
+               '<div>%s<h2 class="d2" data-split>Find us</h2><p class="body-lg" data-reveal>%s, %s. Just off Thika Road, beside the Moi International Sports Centre.</p>'
+               '<div class="btns" data-reveal><a class="btn btn--navy" href="%s" target="_blank" rel="noopener">Open in Google Maps %s</a></div></div></div></section>'
                % (eyebrow("Office"), E(C.STREET), E(C.LOCALITY), E(C.MAP_URL), icon("arrow-up-right")))
-    out.append('<section class="sec"><div class="wrap">%s<div class="reveal">%s</div></div></section>'
+    out.append('<section class="sec sec--paper"><div class="wrap two-head"><div>%s</div><div>%s</div></div></section>'
                % (sec_head("Coverage", "Areas we serve",
-                           "Based in Kasarani, working across Nairobi and Kiambu. Outside these areas? Ask — for contract work we often can."),
-                  chips(S["K-04"]["p"]["items"])))
+                           "Based in Kasarani, working across Nairobi and Kiambu. Outside these areas? Ask &mdash; for contract work we often can."),
+                  chips(S["K-04"]["p"]["items"], cls="chip--lg")))
     out.append('<section class="sec sec--white">%s</section>'
                % faq_block(S["K-05"]["p"]["items"], "Before you book", "Before you book", "Three things people ask first.", link=False))
     return "".join(out)
@@ -704,13 +741,13 @@ def thank_you(pg):
     S = {s["id"]: s for s in pg["sections"]}
     out = [page_hero(None, pg["h1"], S["T-01"]["p"]["sub"], eb="Request received")]
     out.append('<section class="sec sec--white"><div class="wrap">%s%s</div></section>'
-               % (sec_head("Next", "What happens next"), steps_block(S["T-02"]["p"]["items"])))
+               % (sec_head("Next", "What happens next"), timeline(S["T-02"]["p"]["items"])))
     out.append(cta_band("Need us sooner?", "Call or WhatsApp and we will pick it up straight away.", "Urgent"))
     return "".join(out)
 
 
 def privacy(pg):
-    secs = "".join('<section><h2>%s</h2><p>%s</p></section>' % (E(t), E(b)) for t, b in C.PRIVACY)
+    secs = "".join('<section data-reveal><h2>%s</h2><p>%s</p></section>' % (E(t), E(b)) for t, b in C.PRIVACY)
     out = [page_hero([("/", "Home"), ("/privacy", "Privacy notice")], pg["h1"],
                      "How we collect, use and protect your personal data under Kenya’s Data Protection Act, 2019.")]
     out.append('<section class="sec sec--white"><div class="wrap"><div class="doc">%s<p class="doc__meta">Last updated %s</p></div></div></section>'
@@ -719,20 +756,56 @@ def privacy(pg):
 
 
 def not_found(pg):
-    out = ['<section class="sec"><div class="wrap nf"><div class="reveal"><p class="nf__code">404</p><h1 class="h1 h1--sm">%s</h1>'
-           '<p class="lede">%s</p><div class="btns"><a class="btn btn--primary" href="/">Go to the home page %s</a>'
-           '<a class="btn btn--ghost" href="/services">See our services</a></div></div>'
-           '<div class="frame reveal reveal--right">%s</div></div></section>'
-           % (E(pg["h1"]), E(pg["sections"][0]["p"]["sub"]), icon("arrow-right"), img("notfound", "(max-width: 1040px) 92vw, 340px"))]
+    out = ['<section class="phero phero--media nf"><div class="phero__bg" aria-hidden="true"></div>%s<div class="wrap phero__grid">'
+           '<div class="phero__text"><p class="nf__code" aria-hidden="true">404</p><h1 class="d1" data-split>%s</h1>'
+           '<p class="lede">%s</p><div class="btns"><a class="btn btn--sun" href="/">Go to the home page %s</a>'
+           '<a class="btn btn--glass" href="/services">See our services</a></div></div>'
+           '<figure class="phero__media" data-reveal="wipe"><div class="phero__frame">%s</div></figure></div></section>'
+           % (bg_depth(), E(pg["h1"]), E(pg["sections"][0]["p"]["sub"]), icon("arrow-right"),
+              img("notfound", "(max-width: 1040px) 92vw, 600px", eager=True))]
     cards = []
     for i, (g, anchor, items) in enumerate(L.GROUPS):
         lis = "".join("<li>%s</li>" % E(s) for s, _ in items[:3])
-        cards.append('<article class="gcard reveal"><div class="gcard__body"><span class="gcard__n">%02d</span><h2 class="h3">%s</h2>'
-                     '<ul class="gcard__list">%s</ul><a class="link-u" href="%s">Explore %s</a></div></article>'
+        cards.append('<article class="ccard" data-glow data-reveal><span class="ccard__n">%02d</span><h2 class="d4">%s</h2>'
+                     '<ul class="ticks">%s</ul><a class="link-arrow" href="%s">Explore %s</a></article>'
                      % (i + 1, E(g), lis, anchor, icon("arrow-right")))
-    out.append('<section class="sec sec--paper2"><div class="wrap"><div class="gcards" data-stagger>%s</div></div></section>' % "".join(cards))
+    out.append('<section class="sec sec--paper"><div class="wrap"><div class="checklist checklist--4" data-stagger>%s</div></div></section>' % "".join(cards))
     out.append(cta_band("Or just ask us", None, "Help"))
     return "".join(out)
+
+
+def map_svg():
+    """A schematic locator in the brand palette. Not to scale and labelled as such:
+    it shows where we are relative to landmarks a Nairobi visitor already knows."""
+    svg = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Schematic map: ICIPE Road off Thika Road, Kasarani">'
+           '<rect width="800" height="600" fill="#EEEEF6"/>'
+           '<g stroke="#DCDCEA" stroke-width="10" fill="none">'
+           '<path d="M0 120 L800 160"/><path d="M0 470 L800 430"/><path d="M180 0 L140 600"/><path d="M640 0 L690 600"/>'
+           '<path d="M0 300 L300 290"/><path d="M420 0 L460 260"/></g>'
+           '<rect x="470" y="300" width="210" height="150" rx="6" fill="#DDEBDD"/>'
+           '<text x="575" y="372" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#4C6250">Moi International</text>'
+           '<text x="575" y="392" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#4C6250">Sports Centre</text>'
+           '<path d="M-20 560 L820 40" stroke="#FFFFFF" stroke-width="34" fill="none"/>'
+           '<path d="M-20 560 L820 40" stroke="#C3C3D6" stroke-width="2" stroke-dasharray="14 12" fill="none"/>'
+           '<text transform="translate(205 395) rotate(-31.8)" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" '
+           'letter-spacing="4" fill="#101238">THIKA ROAD</text>'
+           '<path d="M392 318 C430 300 452 280 470 262 L560 214" stroke="#FFFFFF" stroke-width="18" fill="none"/>'
+           '<text transform="translate(470 238) rotate(-26)" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" '
+           'letter-spacing="2" fill="#101238">ICIPE ROAD</text>'
+           '<path d="M470 262 L470 300" stroke="#FFFFFF" stroke-width="12" fill="none"/>'
+           '<text x="300" y="540" font-family="Segoe UI, Arial, sans-serif" font-size="30" font-weight="800" fill="#2F2483">Kasarani</text>'
+           '<circle cx="470" cy="262" r="34" fill="#F8951A" opacity=".18"/>'
+           '<path d="M470 220 C455 220 444 231 444 246 C444 266 470 290 470 290 C470 290 496 266 496 246 C496 231 485 220 470 220 Z" '
+           'fill="#101238" stroke="#F8951A" stroke-width="2"/><circle cx="470" cy="246" r="8" fill="#F8951A"/>'
+           '<rect x="510" y="96" width="250" height="78" rx="3" fill="#FFFFFF" stroke="#E1E1EC"/>'
+           '<rect x="510" y="96" width="3" height="78" fill="#F8951A"/>'
+           '<text x="530" y="128" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="800" fill="#101238">Smartline</text>'
+           '<text x="530" y="154" font-family="Segoe UI, Arial, sans-serif" font-size="13" fill="#5B5D78">ICIPE Road, Sports Drive, Suite 8</text>'
+           '<text x="24" y="584" font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="#8587A0">Schematic — not to scale</text>'
+           '</svg>')
+    with open(os.path.join(SITE, "assets", "img", "map.svg"), "w", encoding="utf-8") as f:
+        f.write(svg)
+
 
 
 # ================================================================== head + JSON-LD
@@ -797,20 +870,20 @@ def head(pg, trail, faqs, index=True, key="page"):
     keywords = ", ".join([kw[0]] + kw[1]) if kw else ""
     preload = ""
     if slug_ == "/":
-        rec = MAN["images"]["hero"]
-        preload = ('<link rel="preload" as="image" imagesrcset="%s" imagesizes="(max-width: 1040px) 92vw, 560px" fetchpriority="high">'
-                   % ", ".join("/assets/img/%s %dw" % (f["file"], f["w"]) for f in rec["files"]))
+        ss = lambda k: ", ".join("/assets/img/%s %dw" % (f["file"], f["w"]) for f in MAN["images"][k]["files"])
+        preload = ('<link rel="preload" as="image" imagesrcset="%s" imagesizes="100vw" media="(max-width: 760px)" fetchpriority="high">'
+                   '<link rel="preload" as="image" imagesrcset="%s" imagesizes="100vw" media="(min-width: 761px)" fetchpriority="high">'
+                   % (ss("hero-tall"), ss("hero-wide")))
     ga = ' data-ga="%s"' % E(C.GA_ID) if C.GA_ID else ""
     return ('<!doctype html><html lang="en-GB"%s><head><meta charset="utf-8">'
             '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">'
             '<title>%s</title><meta name="description" content="%s">%s'
             '<meta name="robots" content="%s">%s'
-            '<meta name="theme-color" content="#0E1430"><meta name="author" content="%s">'
+            '<meta name="theme-color" content="#101238"><meta name="author" content="%s">'
             '<meta name="geo.region" content="KE-30"><meta name="geo.placename" content="Nairobi">'
             '<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="icon" href="/favicon.ico" sizes="any">'
             '<link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest">'
-            '<link rel="preload" href="/assets/fonts/bodoni-moda.woff2" as="font" type="font/woff2" crossorigin>'
-            '<link rel="preload" href="/assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>%s'
+            '<link rel="preload" href="/assets/fonts/mona-sans.woff2" as="font" type="font/woff2" crossorigin>%s'
             '<link rel="stylesheet" href="/assets/css/main.css?v=%s">'
             '<script src="/assets/js/boot.js?v=%s"></script><script src="/assets/js/main.js?v=%s" defer></script>'
             '<meta property="og:type" content="website"><meta property="og:site_name" content="%s">'
@@ -830,7 +903,7 @@ def head(pg, trail, faqs, index=True, key="page"):
 
 def page(pg, body, current, trail, faqs, index=True, key="page"):
     return (head(pg, trail, faqs, index, key) + '<a class="skip" href="#main">Skip to content</a>' + loader()
-            + utility() + header(current) + drawer() + '<main id="main">' + body + '</main>' + footer()
+            + header(current) + drawer() + '<main id="main">' + body + '</main>' + footer()
             + actionbar() + cookie_bar() + '</body></html>')
 
 
@@ -1315,9 +1388,12 @@ def verify(pages):
         errs.append("JavaScript %d bytes > 30 KB budget" % js)
     if fonts > 120 * 1024:
         errs.append("fonts %d bytes > 120 KB budget" % fonts)
-    hero = MAN["images"]["hero"]["files"]
-    if max(f["bytes"] for f in hero) > 200 * 1024:
-        errs.append("hero image over 200 KB")
+    for f in MAN["images"]["hero-tall"]["files"]:
+        if f["bytes"] > 200 * 1024:
+            errs.append("phone hero %s is %d KB > 200 KB" % (f["file"], f["bytes"] // 1024))
+    for f in MAN["images"]["hero-wide"]["files"]:
+        if f["w"] <= 1920 and f["bytes"] > 300 * 1024:
+            errs.append("desktop hero %s is %d KB > 300 KB" % (f["file"], f["bytes"] // 1024))
     errs = sorted(set(errs))
     if errs:
         raise SystemExit("site verify() FAILED (%d):\n  - " % len(errs) + "\n  - ".join(errs[:80]))

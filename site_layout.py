@@ -140,7 +140,7 @@ GLOBAL = [
      "what": "Phone, email, hours and service area above the header — the details a facility manager looks for first.",
      "mobile": "Hidden. Its job moves to the mobile action bar.", "needs": [NEEDS_HOURS]},
     {"id": "G-02", "name": "Header", "type": "header",
-     "what": "Logo left; Home · About · Services ▾ · Clients · Contact; brass Request a quote button right. Sticky, compacts to 64px after 80px of scroll.",
+     "what": "Logo left; Home · About · Services ▾ · Clients · Contact; gradient Get a quote button right. Transparent over the dark hero, turns solid white after 40px, tucks away scrolling down and returns scrolling up; a gradient progress line runs along its bottom edge.",
      "mobile": "Logo, call icon, menu button. 64px tall.", "needs": []},
     {"id": "G-03", "name": "Services mega menu", "type": "mega",
      "what": "Four columns, one per service group, every service listed and linked. Opens on hover and on focus; Esc closes.",
@@ -189,7 +189,7 @@ def service_detail(prefix, slug, nav, h1, keyword, sub, who, included, process, 
             {"id": prefix + "-04", "name": "How it runs", "type": "steps",
              "p": {"heading": "How it runs", "items": process},
              "what": "The working method for this service, step by step.",
-             "mobile": "Vertical timeline with a brass spine.", "needs": []},
+             "mobile": "Vertical timeline whose gradient spine draws itself on scroll.", "needs": []},
             {"id": prefix + "-05", "name": "The standard", "type": "standard",
              "p": {"heading": "What finished looks like",
                    "items": proof,
@@ -631,36 +631,41 @@ UTILITY_PAGES = [
 ]
 
 # ------------------------------------------------------------------ design system (web)
-PALETTE = [
-    ("Ink", "#0E1430", "Text, header on scroll, dark bands, footer"),
-    ("Indigo", "#241E63", "Links, secondary buttons, icon strokes"),
-    ("Brass", "#B8862F", "Primary buttons (ink text), rules, seal, accents on ink"),
-    ("Brass text", "#7F5B17", "Brass when it has to be small text on paper or white"),
-    ("Paper", "#FAF8F4", "Page background"),
-    ("White", "#FFFFFF", "Cards, form fields"),
-    ("Stone", "#E7E3DA", "Hairlines, dividers, card borders"),
-    ("Muted", "#5F5B55", "Secondary text, captions"),
+PALETTE = [  # v2 (20/11/2026): taken from the client's own logo, lifted from smart.pdf
+    ("Navy", "#101238", "The droplet in the logo. Text, dark bands, page heroes, footer"),
+    ("Navy deep", "#0A0B26", "Home hero, CTA band, loader, footer base"),
+    ("Indigo", "#2F2483", "The S in the logo. Links, labels, focus, secondary accents"),
+    ("Sun", "#FFC200", "Swoosh start. Labels and highlights on navy"),
+    ("Amber", "#F8951A", "Swoosh middle. Decorative accents, never small text on white"),
+    ("Flame", "#FC621C", "Swoosh end. Gradient stop, icons on white"),
+    ("Amber ink", "#B04E08", "Amber when it has to be small text on white"),
+    ("Paper", "#F5F5FA", "Alternate section background (cool, not beige)"),
+    ("White", "#FFFFFF", "Page background, cards, form fields"),
+    ("Line", "#E1E1ED", "Hairlines, card borders"),
+    ("Muted", "#5C5E7E", "Secondary text, captions"),
 ]
 
 CONTRAST_PAIRS = [  # (foreground, background, use, minimum)
-    ("#0E1430", "#FAF8F4", "Body text on paper", 7.0),
-    ("#5F5B55", "#FAF8F4", "Muted text on paper", 4.5),
-    ("#241E63", "#FAF8F4", "Links on paper", 4.5),
-    ("#7F5B17", "#FAF8F4", "Brass text on paper", 4.5),
-    ("#0E1430", "#B8862F", "Button label on brass", 4.5),
-    ("#B8862F", "#0E1430", "Brass on ink band", 4.5),
-    ("#FFFFFF", "#0E1430", "White on ink band", 7.0),
-    ("#FAF8F4", "#241E63", "Paper on indigo button", 4.5),
+    ("#15162E", "#FFFFFF", "Body text on white", 7.0),
+    ("#5C5E7E", "#FFFFFF", "Muted text on white", 4.5),
+    ("#5C5E7E", "#F5F5FA", "Muted text on paper", 4.5),
+    ("#2F2483", "#FFFFFF", "Indigo labels and links on white", 4.5),
+    ("#B04E08", "#FFFFFF", "Amber-ink numerals on white", 4.5),
+    ("#101238", "#FFC200", "Button label on the gradient (sun end)", 4.5),
+    ("#101238", "#FC621C", "Button label on the gradient (flame end)", 4.5),
+    ("#FFC200", "#101238", "Sun labels on navy", 4.5),
+    ("#FFFFFF", "#101238", "White on navy", 7.0),
 ]
 
-TYPE_SCALE = [  # (role, family, desktop px, mobile px, notes)
-    ("Display / H1", "Bodoni Moda 500", 60, 38, "line-height 1.05, tracking -0.01em"),
-    ("H2", "Bodoni Moda 500", 42, 30, "line-height 1.12"),
-    ("H3", "Manrope 600", 22, 19, "line-height 1.3"),
-    ("Eyebrow", "Manrope 600, uppercase", 12, 11, "tracking 0.18em, brass on ink / brass-text on paper"),
-    ("Body", "Manrope 400", 17, 16, "line-height 1.65, max 68ch"),
-    ("Small / caption", "Manrope 500", 14, 13, "line-height 1.5"),
-    ("Button", "Manrope 600", 15, 15, "tracking 0.04em, 48px min height"),
+TYPE_SCALE = [  # (role, family, desktop px, mobile px, notes) — Mona Sans (OFL), one variable file
+    ("Hero H1", "Mona Sans 820, width 125%", 100, 40, "line-height .94, tracking -0.04em; 112% width on phones"),
+    ("Page H1", "Mona Sans 800, width 125%", 100, 42, "line-height .96, tracking -0.035em"),
+    ("H2", "Mona Sans 780, width 120%", 66, 34, "line-height 1.0, words rise out of a mask on scroll"),
+    ("H3 / card title", "Mona Sans 680, width 110%", 24, 20, "line-height 1.16"),
+    ("Label", "Mona Sans 650, width 125%, uppercase", 12.5, 12.5, "tracking 0.16em, gradient dash before"),
+    ("Body", "Mona Sans 400, width 100%", 17, 16.5, "line-height 1.65"),
+    ("Statement", "Mona Sans 640, width 112%", 46, 25, "lights up word by word as it scrolls"),
+    ("Button", "Mona Sans 650, width 112%", 15, 15, "pill, 54px high, gradient fill with a shine sweep"),
 ]
 
 
@@ -680,7 +685,7 @@ IMAGE_SLOTS = [  # (slot, aspect, source size, notes)
 BUILD_STANDARDS = [
     ("Accessibility", [
         "Skip-to-content link; one H1 per page; lang=\"en-GB\"",
-        "Visible focus ring on everything interactive: 2px brass outline, 2px offset",
+        "Visible focus ring on everything interactive: 2.5px amber outline, 3px offset",
         "Touch targets \u2265 44 \u00d7 44px",
         "Mega menu: Enter/Space opens, arrow keys move, Esc closes and returns focus",
         "Mobile drawer traps focus while open; body scroll locked",

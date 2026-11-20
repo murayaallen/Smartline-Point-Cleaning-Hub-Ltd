@@ -27,9 +27,10 @@ node tools/qa_browser.cjs <out>    # browser QA, 11 pages x desktop + phone, plu
 |---|---|
 | `site_layout.py` | **Layout and copy, single source of truth** — pages, sections, services, SEO, clients |
 | `site_content.py` | Contact details, FAQ, standards, privacy text, image crops; switches for logo, GA4, prices |
-| `build_assets.py` | Instanced self-hosted fonts, restyled icon sprite, logo/seal SVG from the vector marks, graded WebP srcsets |
+| `build_assets.py` | Mona Sans instanced from `build_cache/`, grain tile, icon sprite, logo/seal SVG, graded WebP srcsets, share cards |
+| `logo_original.py` | The client's own logo lifted as exact vector from `smart.pdf` (shading stops included) + their Gotham Black wordmark |
 | `build_site.py` | Renders every page and server file; `verify()` checks HTML, links, anchors, SEO lengths, CSP, budgets |
-| `site/assets/css/main.css`, `site/assets/js/*.js` | Hand-written styles and behaviour (loader, reveals, menus, forms, lightbox, consent) |
+| `site/assets/css/main.css`, `site/assets/js/*.js` | Hand-written v2 design system and motion engine (loader, squeegee hero, split text, scrub, pinned rail, scrollytelling, marquees, view transitions, forms, consent) |
 | `make_upload.py` | Packages `site/` for `public_html` and checks the zip |
 | `tools/qa_browser.cjs` | puppeteer-core + installed Edge; exits 1 on any console error, overflow or broken interaction |
 | `RUNBOOK.md` | Build, QA, first deploy, live checks, Google set-up, maintenance |
@@ -48,7 +49,7 @@ node tools/qa_browser.cjs <out>    # browser QA, 11 pages x desktop + phone, plu
 | `brandkit.py` | Shared ReportLab house style for every client document |
 | `make_quotation.py` | 2-page quotation (figures with `verify()` on import) |
 | `make_choices.py` | One-page client tick-sheet: domain options and build decisions |
-| `logo_premium.py` / `make_logo_premium.py` | Logo round 2 — six vector marks and the presentation deck |
+| `logo_premium.py` / `make_logo_premium.py` | Logo round 2 — superseded by the client's original logo (20/11/2026) |
 | `logo_concepts.py` | Round 1, rejected. Kept for the record |
 
 Plain `python`, not `python -I` — the scripts import `brandkit` from this folder.
@@ -58,5 +59,6 @@ Source photographs (`media/all`, `media/incoming`, `media/real`) are gitignored;
 
 ## Status
 
-Website **built and verified** (20/11/2026). Awaiting the client's logo pick and
-the sign-offs in `CLIENT-REVIEW.md`; then deploy per `RUNBOOK.md`.
+Website **v2 built and verified** (20/11/2026): the client's original logo, Mona Sans, the
+logo's own colours, scroll-driven motion. Awaiting the sign-offs in `CLIENT-REVIEW.md`;
+then deploy per `RUNBOOK.md`.

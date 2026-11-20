@@ -30,7 +30,7 @@ Utility pages (built and wireframed, not counted in the eight):
 | # | Element | Desktop | Under 768px |
 |---|---|---|---|
 | G-01 | Utility bar | Phone, email, hours and service area above the header — the details a facility manager looks for first. | Hidden. Its job moves to the mobile action bar. |
-| G-02 | Header | Logo left; Home · About · Services ▾ · Clients · Contact; brass Request a quote button right. Sticky, compacts to 64px after 80px of scroll. | Logo, call icon, menu button. 64px tall. |
+| G-02 | Header | Logo left; Home · About · Services ▾ · Clients · Contact; gradient Get a quote button right. Transparent over the dark hero, turns solid white after 40px, tucks away scrolling down and returns scrolling up; a gradient progress line runs along its bottom edge. | Logo, call icon, menu button. 64px tall. |
 | G-03 | Services mega menu | Four columns, one per service group, every service listed and linked. Opens on hover and on focus; Esc closes. | Becomes an accordion inside the drawer. |
 | G-04 | Mobile drawer | Full-height panel from the right: nav, services accordion, phone, WhatsApp, quote button. | Mobile only. Focus trapped while open; body scroll locked. |
 | G-05 | Mobile action bar | Sticky bottom bar: Call · WhatsApp · Get a quote. The single most-used element on a phone. | Mobile only, 60px, respects the iPhone safe-area inset. |
@@ -117,7 +117,7 @@ Page skeleton, top to bottom: **G-01 utility bar → G-02 header → page sectio
 | CC-01 | Page hero | Keyword H1, one-line promise, quote button, a photo of this exact service. | Text first, image 4:3 under it, buttons full width. |
 | CC-02 | Who it is for | Sector chips so a visitor recognises themselves in two seconds. | Chips wrap; horizontal scroll if more than two rows. |
 | CC-03 | What is included | The scope, by area, as a checklist — what the client is actually buying. | One column; each area is an expandable group, first one open. |
-| CC-04 | How it runs | The working method for this service, step by step. | Vertical timeline with a brass spine. |
+| CC-04 | How it runs | The working method for this service, step by step. | Vertical timeline whose gradient spine draws itself on scroll. |
 | CC-05 | The standard | Ships now with a sourced photograph and the written standard. A stock before/after pair would be passing off someone else's job as ours, so the drag-to-compare slider waits for REAL-03–05 and drops into this same slot when they exist — no layout change needed. | Image, then the standard, then the two checkpoints. |
 | CC-06 | Schedule options | Frequencies offered, pushing visitors from a one-off job toward a contract. | Two-column chip grid. |
 | CC-07 | Questions | Four page-specific questions, marked up as FAQPage. | Accordion, unchanged. |
@@ -137,7 +137,7 @@ Page skeleton, top to bottom: **G-01 utility bar → G-02 header → page sectio
 | RA-01 | Page hero | Keyword H1, one-line promise, quote button, a photo of this exact service. | Text first, image 4:3 under it, buttons full width. |
 | RA-02 | Who it is for | Sector chips so a visitor recognises themselves in two seconds. | Chips wrap; horizontal scroll if more than two rows. |
 | RA-03 | What is included | The scope, by area, as a checklist — what the client is actually buying. | One column; each area is an expandable group, first one open. |
-| RA-04 | How it runs | The working method for this service, step by step. | Vertical timeline with a brass spine. |
+| RA-04 | How it runs | The working method for this service, step by step. | Vertical timeline whose gradient spine draws itself on scroll. |
 | RA-05 | The standard | Ships now with a sourced photograph and the written standard. A stock before/after pair would be passing off someone else's job as ours, so the drag-to-compare slider waits for REAL-03–05 and drops into this same slot when they exist — no layout change needed. | Image, then the standard, then the two checkpoints. |
 | RA-06 | Schedule options | Frequencies offered, pushing visitors from a one-off job toward a contract. | Two-column chip grid. |
 | RA-07 | Questions | Four page-specific questions, marked up as FAQPage. | Accordion, unchanged. |
@@ -157,7 +157,7 @@ Page skeleton, top to bottom: **G-01 utility bar → G-02 header → page sectio
 | PC-01 | Page hero | Keyword H1, one-line promise, quote button, a photo of this exact service. | Text first, image 4:3 under it, buttons full width. |
 | PC-02 | Who it is for | Sector chips so a visitor recognises themselves in two seconds. | Chips wrap; horizontal scroll if more than two rows. |
 | PC-03 | What is included | The scope, by area, as a checklist — what the client is actually buying. | One column; each area is an expandable group, first one open. |
-| PC-04 | How it runs | The working method for this service, step by step. | Vertical timeline with a brass spine. |
+| PC-04 | How it runs | The working method for this service, step by step. | Vertical timeline whose gradient spine draws itself on scroll. |
 | PC-05 | The standard | Ships now with a sourced photograph and the written standard. A stock before/after pair would be passing off someone else's job as ours, so the drag-to-compare slider waits for REAL-03–05 and drops into this same slot when they exist — no layout change needed. | Image, then the standard, then the two checkpoints. |
 | PC-06 | Schedule options | Frequencies offered, pushing visitors from a one-off job toward a contract. | Two-column chip grid. |
 | PC-07 | Questions | Four page-specific questions, marked up as FAQPage. | Accordion, unchanged. |
@@ -267,27 +267,31 @@ One line, three inclusions and who it is for. Used on the Services page, in rela
 
 | Token | Hex | Use |
 |---|---|---|
-| Ink | `#0E1430` | Text, header on scroll, dark bands, footer |
-| Indigo | `#241E63` | Links, secondary buttons, icon strokes |
-| Brass | `#B8862F` | Primary buttons (ink text), rules, seal, accents on ink |
-| Brass text | `#7F5B17` | Brass when it has to be small text on paper or white |
-| Paper | `#FAF8F4` | Page background |
-| White | `#FFFFFF` | Cards, form fields |
-| Stone | `#E7E3DA` | Hairlines, dividers, card borders |
-| Muted | `#5F5B55` | Secondary text, captions |
+| Navy | `#101238` | The droplet in the logo. Text, dark bands, page heroes, footer |
+| Navy deep | `#0A0B26` | Home hero, CTA band, loader, footer base |
+| Indigo | `#2F2483` | The S in the logo. Links, labels, focus, secondary accents |
+| Sun | `#FFC200` | Swoosh start. Labels and highlights on navy |
+| Amber | `#F8951A` | Swoosh middle. Decorative accents, never small text on white |
+| Flame | `#FC621C` | Swoosh end. Gradient stop, icons on white |
+| Amber ink | `#B04E08` | Amber when it has to be small text on white |
+| Paper | `#F5F5FA` | Alternate section background (cool, not beige) |
+| White | `#FFFFFF` | Page background, cards, form fields |
+| Line | `#E1E1ED` | Hairlines, card borders |
+| Muted | `#5C5E7E` | Secondary text, captions |
 
 **Contrast, measured (WCAG AA):**
 
 | Use | Pair | Ratio | Needs | Result |
 |---|---|---|---|---|
-| Body text on paper | `#0E1430` on `#FAF8F4` | 17.05 : 1 | ≥ 7.0 | pass |
-| Muted text on paper | `#5F5B55` on `#FAF8F4` | 6.36 : 1 | ≥ 4.5 | pass |
-| Links on paper | `#241E63` on `#FAF8F4` | 13.74 : 1 | ≥ 4.5 | pass |
-| Brass text on paper | `#7F5B17` on `#FAF8F4` | 5.80 : 1 | ≥ 4.5 | pass |
-| Button label on brass | `#0E1430` on `#B8862F` | 5.59 : 1 | ≥ 4.5 | pass |
-| Brass on ink band | `#B8862F` on `#0E1430` | 5.59 : 1 | ≥ 4.5 | pass |
-| White on ink band | `#FFFFFF` on `#0E1430` | 18.08 : 1 | ≥ 7.0 | pass |
-| Paper on indigo button | `#FAF8F4` on `#241E63` | 13.74 : 1 | ≥ 4.5 | pass |
+| Body text on white | `#15162E` on `#FFFFFF` | 17.71 : 1 | ≥ 7.0 | pass |
+| Muted text on white | `#5C5E7E` on `#FFFFFF` | 6.25 : 1 | ≥ 4.5 | pass |
+| Muted text on paper | `#5C5E7E` on `#F5F5FA` | 5.76 : 1 | ≥ 4.5 | pass |
+| Indigo labels and links on white | `#2F2483` on `#FFFFFF` | 12.35 : 1 | ≥ 4.5 | pass |
+| Amber-ink numerals on white | `#B04E08` on `#FFFFFF` | 5.33 : 1 | ≥ 4.5 | pass |
+| Button label on the gradient (sun end) | `#101238` on `#FFC200` | 11.13 : 1 | ≥ 4.5 | pass |
+| Button label on the gradient (flame end) | `#101238` on `#FC621C` | 5.92 : 1 | ≥ 4.5 | pass |
+| Sun labels on navy | `#FFC200` on `#101238` | 11.13 : 1 | ≥ 4.5 | pass |
+| White on navy | `#FFFFFF` on `#101238` | 18.02 : 1 | ≥ 7.0 | pass |
 
 Brass `#B8862F` is **never** used for small text on paper (3.05 : 1 — fails AA). Brass text uses `#7F5B17` (5.80 : 1); brass fills carry ink labels (5.59 : 1).
 
@@ -295,13 +299,14 @@ Brass `#B8862F` is **never** used for small text on paper (3.05 : 1 — fails AA
 
 | Role | Family | Desktop | Mobile | Notes |
 |---|---|---|---|---|
-| Display / H1 | Bodoni Moda 500 | 60px | 38px | line-height 1.05, tracking -0.01em |
-| H2 | Bodoni Moda 500 | 42px | 30px | line-height 1.12 |
-| H3 | Manrope 600 | 22px | 19px | line-height 1.3 |
-| Eyebrow | Manrope 600, uppercase | 12px | 11px | tracking 0.18em, brass on ink / brass-text on paper |
-| Body | Manrope 400 | 17px | 16px | line-height 1.65, max 68ch |
-| Small / caption | Manrope 500 | 14px | 13px | line-height 1.5 |
-| Button | Manrope 600 | 15px | 15px | tracking 0.04em, 48px min height |
+| Hero H1 | Mona Sans 820, width 125% | 100px | 40px | line-height .94, tracking -0.04em; 112% width on phones |
+| Page H1 | Mona Sans 800, width 125% | 100px | 42px | line-height .96, tracking -0.035em |
+| H2 | Mona Sans 780, width 120% | 66px | 34px | line-height 1.0, words rise out of a mask on scroll |
+| H3 / card title | Mona Sans 680, width 110% | 24px | 20px | line-height 1.16 |
+| Label | Mona Sans 650, width 125%, uppercase | 12px | 12px | tracking 0.16em, gradient dash before |
+| Body | Mona Sans 400, width 100% | 17px | 16px | line-height 1.65 |
+| Statement | Mona Sans 640, width 112% | 46px | 25px | lights up word by word as it scrolls |
+| Button | Mona Sans 650, width 112% | 15px | 15px | pill, 54px high, gradient fill with a shine sweep |
 
 ## 4a. Quote form
 
@@ -331,7 +336,7 @@ Six required fields in all. Step 1 asks about the job (low commitment, so people
 **Accessibility**
 
 - Skip-to-content link; one H1 per page; lang="en-GB"
-- Visible focus ring on everything interactive: 2px brass outline, 2px offset
+- Visible focus ring on everything interactive: 2.5px amber outline, 3px offset
 - Touch targets ≥ 44 × 44px
 - Mega menu: Enter/Space opens, arrow keys move, Esc closes and returns focus
 - Mobile drawer traps focus while open; body scroll locked

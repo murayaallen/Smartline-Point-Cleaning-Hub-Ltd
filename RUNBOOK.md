@@ -7,7 +7,7 @@ committed `site/` folder as a zip.
 ## 1. Build
 
 ```bash
-python build_assets.py           # icons, logo, seal, images, share cards  (only when images or the logo change)
+python build_assets.py           # font, grain, icons, logo, seal, images, share cards  (only when these change)
 python build_assets.py --force   # re-encode every image, e.g. after changing a crop or the grade
 python build_site.py             # 11 pages + .htaccess, PHP handler, sitemap, robots, manifest — verify() runs last
 python make_upload.py            # dist/smartlinepointcleaning.co.ke-upload.zip, re-opened and checked
@@ -30,7 +30,7 @@ Content lives in two files — edit these, never the HTML in `site/`:
 
 | Switch | Now | Change to |
 |---|---|---|
-| `LOGO_CONCEPT` | `"stamp"` (provisional) | the client's pick: `seal`, `plate`, `letter`, `cipher`, `droplet`, `stamp` — then `build_assets.py` + `build_site.py` |
+| `LOGO_CONCEPT` | `"original"` — the client's own logo, lifted as vector from `smart.pdf` by `logo_original.py` | leave it; the round-2 concepts are superseded |
 | `GA_ID` | `None` (no analytics, no cookie notice) | `"G-XXXXXXX"` — GA4 then loads only after the visitor accepts; CSP already allows it |
 | `PRICES` | `None` (the pricing block explains how quotes work) | `{"visit": "4,500", "month": "18,000", "sqm": "45"}` shows "From KES …" |
 
@@ -48,10 +48,14 @@ request or sideways scroll, then clicks through the menu, mega menu, the
 two-step quote form (validation and a real submit), the client filter, the
 lightbox, and a pass with animations on. It must end `ALL CHECKS PASSED`.
 
-Lighthouse on the local server (20/11/2026): accessibility, best practices and
-SEO **100** on every page tested; performance 93–99 on phones, 99 on desktop,
-CLS 0. The phone score is held back by the local server not compressing;
-Apache's `mod_deflate` rule in `.htaccess` closes that gap live.
+Lighthouse on the local server (20/11/2026, v2 design): accessibility, best practices
+and SEO **100** on all five pages tested, phone and desktop; performance 96–99 desktop,
+83–94 phone, CLS ≤ 0.034. Observed LCP is ~210 ms; the simulated phone figure is held back
+because the local server sends CSS/HTML/JS uncompressed — Apache's `mod_deflate` rule in
+`.htaccess` cuts those about five-fold live. Re-run PageSpeed Insights after launch.
+
+Motion is tested separately with animations on (loader, hero intro, statement scrub,
+pinned services rail, steps): all must run with zero console errors.
 
 ## 3. First deploy
 

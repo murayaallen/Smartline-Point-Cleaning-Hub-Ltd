@@ -35,7 +35,8 @@ YEAR = "2026"
 # The logo is still the client's pick from the round-2 deck. The Stamp is used
 # provisionally because it is the one that stays legible at 32px in a header and
 # as a favicon. Change this one word and rebuild to swap every instance.
-LOGO_CONCEPT = "stamp"          # seal | plate | letter | cipher | droplet | stamp
+LOGO_CONCEPT = "original"       # the client's own logo, lifted from smart.pdf (Allen 20/11/2026)
+                                # round-2 concepts still selectable: seal | plate | letter | cipher | droplet | stamp
 
 # Google Analytics 4 measurement ID. None = no analytics, and therefore no cookie
 # banner: there is nothing to consent to. Set it ("G-XXXXXXX") and rebuild — the
@@ -224,6 +225,11 @@ IMAGES = {
     # home
     "hero": ("corridor+4.webp", "4:5", (0.50, 0.55), 560,
              "A freshly cleaned corridor, its polished terrazzo floor reflecting the light"),
+    # v2 full-bleed hero: wide for laptops, tall for phones (same photograph, art-directed)
+    "hero-wide": ("corridor+4.webp", "16:9", (0.56, 0.30), 1440,
+                  "A freshly cleaned corridor, its polished terrazzo floor reflecting the light"),
+    "hero-tall": ("corridor+4.webp", "9:16", (0.58, 0.50), 480,
+                  "A freshly cleaned corridor, its polished terrazzo floor reflecting the light"),
     "why": ("pexels-6196222.jpg", "3:4", (0.50, 0.62), 480,
             "A uniformed cleaning crew with their equipment outside a house"),
     "training": ("cleaning.jpg", "4:3", (0.62, 0.50), 520,

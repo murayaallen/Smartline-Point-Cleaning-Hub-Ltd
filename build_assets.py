@@ -15,8 +15,11 @@ Produces, under site/:
   favicon.svg, *.png, favicon.ico icons from the logo
 and build_cache/assets.json, which build_site.py reads for sizes and srcsets.
 
-Fonts are already instanced into site/assets/fonts (see README); nothing here
-downloads at build time — the build is repeatable offline.
+  assets/fonts/mona-sans.woff2    Mona Sans (OFL), one variable file: wght 400-900 x wdth
+                                  100-125, instanced from build_cache/mona-sans-latin.woff2
+  assets/img/grain.png            the 3% film-grain tile laid over the whole site
+
+Nothing downloads at build time — the build is repeatable offline.
 """
 import io
 import json
@@ -70,6 +73,53 @@ def build_icons():
     return {"icons": ICON_NAMES, "bytes": len(sprite)}
 
 
+# ------------------------------------------------------------------ fonts
+FONT_SRC = os.path.join(CACHE, "mona-sans-latin.woff2")
+STATIC = {   # static instances for the share cards (PIL) and the seal (ReportLab)
+    "display": {"wdth": 125, "wght": 800},
+    "label": {"wdth": 125, "wght": 650},
+    "text": {"wdth": 100, "wght": 500},
+}
+
+
+def build_fonts():
+    from fontTools.ttLib import TTFont
+    from fontTools.varLib import instancer
+    os.makedirs(os.path.join(SITE, "assets", "fonts"), exist_ok=True)
+    f = TTFont(FONT_SRC)
+    web = instancer.instantiateVariableFont(f, {"wght": (400, 900), "wdth": (100, 125)})
+    web.flavor = "woff2"
+    dest = os.path.join(SITE, "assets", "fonts", "mona-sans.woff2")
+    web.save(dest)
+    for old_font in ("bodoni-moda.woff2", "bodoni-moda-italic.woff2", "manrope.woff2"):
+        stale = os.path.join(SITE, "assets", "fonts", old_font)
+        if os.path.exists(stale):
+            os.remove(stale)
+    for name, axes in STATIC.items():
+        out = os.path.join(CACHE, "mona-%s.ttf" % name)
+        if FORCE or not os.path.exists(out):
+            st = instancer.instantiateVariableFont(TTFont(FONT_SRC), axes)
+            st.flavor = None
+            st.save(out)
+    return {"mona-sans.woff2": os.path.getsize(dest)}
+
+
+def mona(name):
+    return os.path.join(CACHE, "mona-%s.ttf" % name)
+
+
+def build_grain():
+    """A seamless 128px monochrome noise tile; CSS lays it over everything at ~3%."""
+    import random
+    rnd = random.Random(2018)
+    n = 128
+    im = Image.new("L", (n, n))
+    im.putdata([max(0, min(255, int(rnd.gauss(128, 40)) // 32 * 32 + 16)) for _ in range(n * n)])
+    dest = os.path.join(IMG, "grain.png")
+    im.save(dest, optimize=True, bits=4)
+    return os.path.getsize(dest)
+
+
 # ------------------------------------------------------------------ logo + seal (vector, text outlined)
 def _pdf_to_svg(draw, w, h, crop=True, pad=1.0):
     """draw(canvas) on a w x h point page -> SVG with text converted to outlines."""
@@ -104,7 +154,38 @@ def _clean_svg(svg, label):
     return svg
 
 
+def _build_logo_original():
+    """The client's own logo, lifted as vector from their profile (logo_original.py)."""
+    import logo_original as LO
+    out = {}
+    files = {
+        "logo-mark.svg": LO.mark_svg("color", 100, gid="slm"),
+        "logo-mark-rev.svg": LO.mark_svg("rev", 100, gid="slmr"),
+        "logo-lockup.svg": LO.lockup_svg("color", 56, gid="sll"),
+        "logo-lockup-rev.svg": LO.lockup_svg("rev", 56, gid="sllr"),
+        "logo-full.svg": LO.full_svg("color", 140, gid="slf"),
+        "logo-full-rev.svg": LO.full_svg("rev", 140, gid="slfr"),
+    }
+    for fn, (svg, w, h) in files.items():
+        with open(os.path.join(IMG, fn), "w", encoding="utf-8") as f:
+            f.write(svg)
+        out[fn] = (round(w, 2), round(h, 2))
+    svg, w, h = LO.mark_svg("color", 64, pad=3, gid="slv", square=True)
+    with open(os.path.join(SITE, "favicon.svg"), "w", encoding="utf-8") as f:
+        f.write(svg)
+    # rasters come from the profile page itself, so the shading is MuPDF's render of the original
+    for px, name, bg, pad in ((180, "apple-touch-icon.png", (255, 255, 255), 0.17),
+                              (192, "icon-192.png", PAPER, 0.16), (512, "icon-512.png", PAPER, 0.16)):
+        LO.render_png("mark", px, bg=bg, pad_frac=pad).convert("RGB").save(os.path.join(SITE, name), optimize=True)
+    LO.render_png("mark", 256, pad_frac=0.03).save(os.path.join(SITE, "favicon.ico"),
+                                                    sizes=[(16, 16), (32, 32), (48, 48)])
+    out["mark_png"] = os.path.join(SITE, "icon-512.png")
+    return out
+
+
 def build_logo():
+    if C.LOGO_CONCEPT == "original":
+        return _build_logo_original()
     import logo_premium as LP
     concept = {c[1].split()[-1].lower(): c[2] for c in LP.CONCEPTS}[C.LOGO_CONCEPT]
     out = {}
@@ -152,45 +233,41 @@ def build_logo():
 
 
 def build_seal():
-    """Clean Quality Guaranteed: a static core and a ring that rotates over it."""
+    """Clean Quality Guaranteed: the client's S on navy (static) and a ring that rotates over it."""
     import logo_premium as LP
     from reportlab.lib.colors import HexColor
-    ink, brass, brass_lt, white = HexColor("#0E1430"), HexColor("#B8862F"), HexColor("#D7B468"), HexColor("#FFFFFF")
+    from reportlab.pdfbase import pdfmetrics
+    from reportlab.pdfbase.ttfonts import TTFont as RLTTFont
+    try:
+        pdfmetrics.getFont("MonaLabel")
+    except KeyError:
+        pdfmetrics.registerFont(RLTTFont("MonaLabel", mona("label")))
+    amber, sun, white = HexColor("#F8951A"), HexColor("#FFC200"), HexColor("#FFFFFF")
     S = 200.0
     cx = cy = S / 2
 
-    def core(c):
-        c.setFillColor(ink)
-        c.circle(cx, cy, 99, stroke=0, fill=1)
-        c.setStrokeColor(brass)
-        c.setLineWidth(0.9)
-        c.circle(cx, cy, 64, stroke=1, fill=0)
-        c.setFont("Bodoni", 70)
-        c.setFillColor(white)
-        c.drawCentredString(cx, cy - 24, "S")
-        c.setStrokeColor(brass_lt)
-        c.setLineWidth(0.8)
-        c.line(cx - 18, cy - 34, cx + 18, cy - 34)
-
     def ring(c):
-        c.setStrokeColor(brass)
-        c.setLineWidth(1.4)
+        c.setStrokeColor(amber)
+        c.setLineWidth(1.6)
         c.circle(cx, cy, 95, stroke=1, fill=0)
-        c.setLineWidth(0.6)
+        c.setStrokeColor(white)
+        c.setLineWidth(0.5)
         c.circle(cx, cy, 91, stroke=1, fill=0)
-        c.setLineWidth(0.6)
         c.circle(cx, cy, 70, stroke=1, fill=0)
-        LP.arc_text(c, "CLEAN \u00b7 QUALITY", cx, cy, 77, "Copper-B", 12.5, brass_lt, 2.6, bottom=False)
-        LP.arc_text(c, "GUARANTEED", cx, cy, 86, "Copper-B", 12.5, brass_lt, 3.0, bottom=True)
-        LP.diamond(c, cx - 80.5, cy, 3.4, brass)
-        LP.diamond(c, cx + 80.5, cy, 3.4, brass)
+        LP.arc_text(c, "CLEAN \u00b7 QUALITY", cx, cy, 77.5, "MonaLabel", 11.5, white, 2.2, bottom=False)
+        LP.arc_text(c, "GUARANTEED", cx, cy, 85.5, "MonaLabel", 11.5, sun, 2.6, bottom=True)
+        LP.diamond(c, cx - 80.5, cy, 3.6, amber)
+        LP.diamond(c, cx + 80.5, cy, 3.6, amber)
 
+    import logo_original as LO
     out = {}
-    for name, fn in (("seal-core.svg", core), ("seal-ring.svg", ring)):
-        svg, doc, page = _pdf_to_svg(fn, S, S, crop=False)
-        with open(os.path.join(IMG, name), "w", encoding="utf-8") as f:
-            f.write(_clean_svg(svg, "Clean Quality Guaranteed"))
-        out[name] = (S, S)
+    with open(os.path.join(IMG, "seal-core.svg"), "w", encoding="utf-8") as f:
+        f.write(LO.seal_core_svg(S))
+    out["seal-core.svg"] = (S, S)
+    svg, doc, page = _pdf_to_svg(ring, S, S, crop=False)
+    with open(os.path.join(IMG, "seal-ring.svg"), "w", encoding="utf-8") as f:
+        f.write(_clean_svg(svg, "Clean Quality Guaranteed"))
+    out["seal-ring.svg"] = (S, S)
     return out
 
 
@@ -236,6 +313,10 @@ def _export(key, src, aspect, focal, display, quality=80, background=False, extr
     cw, ch = crop.size
     if background:
         wants = [960, 1440, 1920]
+    elif key == "hero-wide":
+        wants = [960, 1440, 1920, 2400]
+    elif key == "hero-tall":
+        wants = [480, 720, 960]
     elif key == "hero":
         wants = [display, 700, int(round(display * 1.5)), 1000]   # 700 = phones at ~1.75x; 1000 caps it under 200 KB
     else:
@@ -259,7 +340,7 @@ def build_images():
     out = {}
     for key, (src, aspect, focal, display, alt) in C.IMAGES.items():
         bg = key.endswith("-bg")
-        q = 74 if key == "hero" else (66 if bg else 76)
+        q = 74 if key == "hero" else (60 if key == "hero-tall" else 68 if key == "hero-wide" else (66 if bg else 76))
         rec = _export(key, src, aspect, focal, display, quality=q, background=bg)
         rec["alt"] = alt
         out[key] = rec
@@ -276,13 +357,32 @@ def _font(path, size):
     return ImageFont.truetype(path, size)
 
 
+def _gradient_bar(w, h):
+    """The swoosh gradient from the client's logo, left to right."""
+    stops = [(0, (255, 194, 0)), (.45, (248, 149, 26)), (1, (252, 98, 28))]
+    bar = Image.new("RGB", (w, h))
+    px = bar.load()
+    for x in range(w):
+        t = x / max(1, w - 1)
+        for i in range(len(stops) - 1):
+            a, ca = stops[i]
+            b, cb = stops[i + 1]
+            if a <= t <= b:
+                k = (t - a) / (b - a)
+                col = tuple(int(ca[j] + (cb[j] - ca[j]) * k) for j in range(3))
+                break
+        for y in range(h):
+            px[x, y] = col
+    return bar
+
+
 def build_og(images):
+    """1200x630: navy, the client's mark, the page H1 in Mona Sans Expanded, photo on the right."""
     import site_layout as L
+    import logo_original as LO
     os.makedirs(OG, exist_ok=True)
-    F = "C:/Windows/Fonts/"
-    bodoni = F + "BOD_R.TTF"
-    copper = F + "COPRGTB.TTF"
-    mark = Image.open(os.path.join(SITE, "icon-192.png")).convert("RGB").resize((76, 76), Image.LANCZOS)
+    NAVY = (16, 18, 56)
+    mark = LO.render_png("mark", 120, pad_frac=0.02)
     out = {}
     pages = L.PAGES + [p for p in L.UTILITY_PAGES if p["slug"] == "/privacy"]
     for pg in pages:
@@ -290,35 +390,51 @@ def build_og(images):
         key = C.PAGE_IMAGES.get(slug, "hero")
         rec = images[key]
         src = Image.open(os.path.join(IMG, rec["files"][-1]["file"])).convert("RGB")
-        card = Image.new("RGB", (1200, 630), INK)
-        photo = _crop(src, "510:630", (0.5, 0.5)).resize((510, 630), Image.LANCZOS)
-        card.paste(photo, (690, 0))
+        card = Image.new("RGB", (1200, 630), NAVY)
+        photo = _crop(src, "480:630", (0.5, 0.5)).resize((480, 630), Image.LANCZOS)
+        # the photo fades into the navy along its left edge
+        fade = Image.linear_gradient("L").rotate(90).resize((480, 630))
+        fade = fade.point(lambda v: min(255, int(v * 2.2)))
+        card.paste(photo, (720, 0), fade)
+        # a soft indigo glow behind the text
+        glow = Image.new("RGB", (1200, 630), (47, 36, 131))
+        gmask = Image.new("L", (1200, 630), 0)
+        gd = ImageDraw.Draw(gmask)
+        gd.ellipse([-260, -320, 640, 520], fill=120)
+        from PIL import ImageFilter
+        gmask = gmask.filter(ImageFilter.GaussianBlur(120))
+        card.paste(glow, (0, 0), gmask)
         d = ImageDraw.Draw(card)
-        d.rectangle([688, 0, 690, 630], fill=BRASS)
-        card.paste(mark, (64, 60))
-        d.text((158, 74), "SMARTLINE", font=_font(copper, 30), fill=(255, 255, 255))
-        d.text((159, 112), "POINT CLEANING HUB LTD", font=_font(copper, 15), fill=(215, 180, 104))
+        # the colour mark on a white tile, as the client's own profile carries it on navy
+        tile = Image.new("RGBA", (92, 92), (0, 0, 0, 0))
+        ImageDraw.Draw(tile).rounded_rectangle([0, 0, 91, 91], radius=20, fill=(255, 255, 255, 255))
+        small = mark.resize((64, 64), Image.LANCZOS)
+        tile.alpha_composite(small, (14, 14))
+        card.paste(tile, (64, 52), tile)
+        d.text((176, 62), "SMARTLINE", font=_font(mona("display"), 34), fill=(255, 255, 255))
+        d.text((178, 106), "POINT CLEANING HUB LTD", font=_font(mona("label"), 14), fill=(255, 194, 0))
         title = pg["h1"]
-        size = 64 if len(title) < 30 else 52
-        font = _font(bodoni, size)
+        size = 62 if len(title) < 26 else 50
+        font = _font(mona("display"), size)
         words, lines, line = title.split(), [], ""
         for w in words:
             trial = (line + " " + w).strip()
-            if d.textlength(trial, font=font) > 560 and line:
+            if d.textlength(trial, font=font) > 600 and line:
                 lines.append(line)
                 line = w
             else:
                 line = trial
         lines.append(line)
-        y = 250 if len(lines) <= 2 else 220
+        y = 262 if len(lines) <= 2 else 228
         for ln in lines[:4]:
             d.text((64, y), ln, font=font, fill=(255, 255, 255))
-            y += int(size * 1.12)
-        d.rectangle([64, y + 18, 124, y + 20], fill=BRASS)
-        d.text((64, 560), C.DOMAIN, font=_font(copper, 17), fill=(215, 180, 104))
+            y += int(size * 1.08)
+        card.paste(_gradient_bar(96, 6), (66, y + 22))
+        d.text((64, 556), C.DOMAIN, font=_font(mona("label"), 16), fill=(255, 255, 255))
+        d.text((64, 580), "Assuring you the best", font=_font(mona("text"), 15), fill=(190, 192, 220))
         name = "home" if slug == "/" else slug.strip("/")
         dest = os.path.join(OG, name + ".jpg")
-        card.save(dest, "JPEG", quality=84, optimize=True, progressive=True)
+        card.save(dest, "JPEG", quality=86, optimize=True, progressive=True)
         out[slug] = {"file": "og/" + name + ".jpg", "bytes": os.path.getsize(dest)}
     return out
 
@@ -326,6 +442,8 @@ def build_og(images):
 def main():
     os.makedirs(IMG, exist_ok=True)
     manifest = {}
+    manifest["fonts"] = build_fonts()
+    manifest["grain"] = build_grain()
     manifest["icons"] = build_icons()
     manifest["logo"] = build_logo()
     manifest["seal"] = build_seal()

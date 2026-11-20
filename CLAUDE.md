@@ -58,8 +58,8 @@ do not add anything more sensitive than that (bank statements, IDs, registers) t
   Note: run these scripts with plain `python`, not `python -I` (brandkit import).
 
 ## Status
-Quote **accepted** (16/11/2026). **Website BUILT and verified (20/11/2026)** — `site/`.
-Next: client's logo pick + sign-offs in `CLIENT-REVIEW.md`, then deploy per `RUNBOOK.md`.
+Quote **accepted** (16/11/2026). **Website v2 BUILT and verified (20/11/2026)** — `site/`.
+Next: client sign-offs in `CLIENT-REVIEW.md`, then deploy per `RUNBOOK.md`.
 
 ## Domain — SETTLED
 - **Client chose `smartlinepointcleaning.co.ke`** (16/11/2026). Register this.
@@ -73,11 +73,23 @@ Next: client's logo pick + sign-offs in `CLIENT-REVIEW.md`, then deploy per `RUN
   smartlinecleaners.co.ke, smartlinepoint.co.ke, smartlinehub.co.ke.
 - Canonical: https://smartlinepointcleaning.co.ke (apex), www 301s to apex.
 
-## Client brand colours (sampled from their profile PDF)
-Navy `#121439` · indigo `#2E2482` · orange `#F98719` · white.
-Tagline: *Assuring you the best*. Logo is a stylised S, indigo with an orange swoosh.
+## Client brand colours — exact, read from the vectors in their profile PDF
+Indigo S `#2F2483` (CMYK 100/100/0/0) · navy droplet `#101238` · swoosh gradient
+`#FF6600 → #FFC200 (17%) → #F8951A (38%) → #FC621C`. Wordmark set in **Gotham Black**.
+Tagline: *Assuring you the best*.
 
-## Logo — round 2 is the live one
+## Logo — the client's ORIGINAL logo is live (Allen, 20/11/2026: "use their original logo but high quality")
+`logo_original.py` lifts it as **exact vector** from page 1 of `smart.pdf` — no tracing: it parses the
+content stream for the S, droplet, gradient swoosh (stops + axis from the shading dictionary) and the
+outlined tagline, and sets the wordmark from the profile's embedded Gotham Black subset (fontTools).
+`verify()` on import. `python logo_original.py` writes the master set to `logo/original/`
+(mark, full logo with tagline, two-line lock-up, each colour + reverse, PNG 512/1024).
+`site_content.LOGO_CONCEPT = "original"`; the reverse version (white S + droplet, gradient kept)
+is for navy. Header lock-up = S + SMARTLINE / POINT CLEANING HUB LTD in Gotham Black.
+Rasters (favicons, share cards) are rendered from the profile page itself. The round-2 concepts
+below are **superseded** — kept for the record, do not re-propose.
+
+## Logo — round 2 concepts (superseded 20/11/2026)
 Round 1 (`logo_concepts.py`, flat SVG marks) was **rejected by Allen as childish**:
 uniform round-capped strokes, cartoon sparkles, saturated orange. Do not revive it.
 
@@ -93,7 +105,8 @@ What makes it premium — keep these rules for anything else in this identity:
 - palette: ink navy `#0E1430`, indigo `#241E63`, **brass `#B8862F`** (not orange),
   paper `#FAF8F4`
 - air around the mark — it should read as a seal, not a sticker
-Marks are drawn as vector on the canvas (not rasterised SVG). **Awaiting the client's pick.**
+Marks are drawn as vector on the canvas (not rasterised SVG). No longer awaiting a pick —
+the client's own logo replaced them.
 
 ## Services — settled
 13 lines (see `PLAN.md`): commercial, office carpet, residential, apartment,
@@ -163,16 +176,45 @@ Pipeline: `build_assets.py [--force]` → `build_site.py` (verify gates) → `ma
 (puppeteer-core 23.11.1 + installed Edge; must end `ALL CHECKS PASSED`). Full steps in `RUNBOOK.md`.
 - Content edits go in `site_layout.py` / `site_content.py`, never in `site/*.html` (generated).
   CSS/JS in `site/assets/` ARE hand-written source — edit them directly.
-- Switches in `site_content.py`: `LOGO_CONCEPT="stamp"` (**provisional** until the client picks),
+- Switches in `site_content.py`: `LOGO_CONCEPT="original"` (the client's logo),
   `GA_ID=None` (no analytics, no cookie bar), `PRICES=None` (pricing block explains quoting).
-- Last verification (20/11/2026): `verify()` OK (11 pages, JS 19 KB, fonts 70 KB, hero ≤ 200 KB);
-  browser QA all passed (11 pages × 1440/390 + menus, two-step form, filter, lightbox, loader);
-  Lighthouse local: a11y/best-practices/SEO **100** everywhere, perf 93–99 phone, 99 desktop, CLS 0.
+- Last verification (20/11/2026, v2): `verify()` OK (11 pages, JS 26.7 KB, fonts 67 KB, phone hero
+  ≤ 200 KB, desktop hero ≤ 300 KB); browser QA all passed (11 pages × 1440/390 + menus, two-step
+  form, filter, lightbox, loader, header hide/return, progress bar); motion-on check: loader, hero
+  intro, statement scrub, pinned rail, steps all run with zero console errors; Lighthouse local:
+  a11y/best-practices/SEO **100** on all 10 runs, perf 96–99 desktop, 83–94 phone (local server
+  sends uncompressed; observed LCP 210 ms).
 - Schema is **LocalBusiness** (schema.org has no CleaningService type) — no geo, openingHours,
   sameAs or aggregateRating until the client supplies real values. The 404 page has no canonical.
-- Design rules held on the site: Bodoni Moda + Manrope self-hosted; ink/indigo/brass/paper;
-  icons are Lucide restyled to 1.25px with square caps and miter joins, framed in hairline brass —
-  **Allen rejected rounded/childish icons**; the six reasons use Bodoni numerals, not icons.
+
+## Website design v2 — "Clean Line" (Allen, 20/11/2026: v1 hero font "looks common for AI")
+**Reversal, do not undo:** v1's Bodoni Moda + Manrope with an italic accent word, beige paper and
+brass is gone — that serif-italic luxury look is the AI-template tell Allen named. v2 is built from
+the client's own logo and from Allen's own sites (Vistex motion system, Viwanda kinetic type):
+- **Type:** Mona Sans (OFL, self-hosted, one variable file wght 400–900 × wdth 100–125, 67 KB).
+  Display wide and heavy (width 125%, weight 780–820, tight tracking) to sit beside their Gotham
+  Black wordmark; body at normal width. Labels: wide caps with a gradient dash.
+- **Colour:** navy/indigo from the logo, the swoosh gradient for primary buttons and accents,
+  cool white/paper (`#F5F5FA`) for light sections. `--amber-ink #B04E08` for small amber text on
+  white (plain amber fails contrast). Brass is retired.
+- **Backgrounds** (systems, used with intent): *depth* on navy (two drifting glows, dot field,
+  the S as a 4.5% watermark, film grain); *tiles* (fading tile grid) behind the welcome, approach
+  and scope sections; *sun* warm wash behind the guarantee; photo washes in page heroes and CTA.
+- **Motion** (`main.js`, one rAF loop, all off under reduced motion): loader where the S assembles
+  (swoosh wipes, S rises, droplet drops) then a diagonal wipe; hero squeegee pass (fog clears behind
+  a light blade), masked word rise, gradient pan; header goes solid, hides scrolling down, returns
+  up, gradient progress line; headings split into masked words; the welcome statement lights word
+  by word; parallax on hero/framed photos/band backgrounds; services rail **pinned and driven
+  sideways by vertical scroll** on desktop (swipe deck on phones); How-we-work pinned scrollytelling
+  with a big gradient step counter; diagonal wipe reveals on photos; drawn timelines; velocity
+  marquees (client names, outlined CTA words); magnetic buttons + cursor glow on cards (mouse only);
+  cross-page **view transitions** (Chromium). `boot.js` reveals everything if `main.js` never runs.
+- Icons: Lucide restyled, square caps, miter joins (Allen rejected rounded/childish icons) — now
+  1.6px to match the heavier type, in tinted rounded tiles with a gradient dot.
+- Home is full-bleed: art-directed hero (`hero-wide` 16:9 for laptops, `hero-tall` 9:16 for phones,
+  same corridor photo) under a navy shade, glass stats strip, seal.
+- QA note: images inside the phone swipe deck load when swiped to, so `qa_browser.cjs` skips
+  `.rail__viewport` in its "never loaded" check — that is correct lazy behaviour, not a gap.
 - CSP is strict (`script-src 'self'`, `style-src 'self'`): no inline scripts or style attributes;
   `verify()` fails on either. JSON-LD is the only inline script allowed.
 - Images: one grade, focal-point crops, WebP 1x/1.5x/2x (hero adds 700w for phones). Cached
@@ -182,7 +224,7 @@ Pipeline: `build_assets.py [--force]` → `build_site.py` (verify gates) → `ma
 - `security.txt` expires 20/11/2027 — rebuild before then.
 
 ## Open
-- Client: logo pick, sign-off on drafted copy (13 services, 20 FAQs, re-clean promise, standards,
+- Client: sign-off on drafted copy (13 services, 20 FAQs, re-clean promise, standards,
   areas, privacy retention) — all listed in `CLIENT-REVIEW.md`. None blocks launch.
 - Client supplies when ready: REAL-07 photos (GBP), REAL-03–06, hours, social handles,
   guide prices or none, map pin, GA4 yes/no.

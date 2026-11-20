@@ -67,7 +67,8 @@ async function scrollThrough(page) {          // like a visitor: triggers lazy i
     window.scrollTo(0, 0);
   });
   await page.waitForNetworkIdle({ idleTime: 400, timeout: 20000 }).catch(() => {});
-  const pending = await page.$$eval("img", (imgs) => imgs.filter((i) => i.getAttribute("src") && !(i.complete && i.naturalWidth > 0)).map((i) => i.getAttribute("src")));
+  // images in the sideways swipe deck load when swiped to, not when the page scrolls past
+  const pending = await page.$$eval("img", (imgs) => imgs.filter((i) => i.getAttribute("src") && !(i.complete && i.naturalWidth > 0) && !i.closest(".rail__viewport")).map((i) => i.getAttribute("src")));
   return pending;
 }
 
@@ -254,10 +255,17 @@ async function overflow(page) {
     if (gone) fail("loader still in the page 3.6 s after load (motion on)");
     const heroIn = await page.$eval(".hero", (h) => h.classList.contains("is-in"));
     if (!heroIn) fail("hero entrance did not run");
-    await page.evaluate(() => window.scrollTo(0, 2400));
-    await sleep(1600);
+    // v2 header: solid once scrolled, tucks away on the way down, returns on the way up
+    for (let yy = 0; yy <= 2400; yy += 200) { await page.evaluate((v) => window.scrollTo(0, v), yy); await sleep(60); }
+    await sleep(900);
+    const down = await page.$eval(".hdr", (h) => ({ scrolled: h.classList.contains("is-scrolled"), hidden: h.classList.contains("is-hidden") }));
+    if (!down.scrolled || !down.hidden) fail(`header did not go solid + tuck away scrolling down (solid=${down.scrolled}, hidden=${down.hidden})`);
+    for (let yy = 2400; yy >= 2000; yy -= 100) { await page.evaluate((v) => window.scrollTo(0, v), yy); await sleep(60); }
+    await sleep(900);
     const hdr = await page.$eval(".hdr", (h) => ({ top: Math.round(h.getBoundingClientRect().top), scrolled: h.classList.contains("is-scrolled") }));
-    if (hdr.top !== 0 || !hdr.scrolled) fail(`sticky header not stuck after scrolling (top=${hdr.top}, compact=${hdr.scrolled})`);
+    if (hdr.top !== 0 || !hdr.scrolled) fail(`header did not come back scrolling up (top=${hdr.top}, solid=${hdr.scrolled})`);
+    const prog = await page.$eval(".hdr__progress span", (s) => parseFloat(getComputedStyle(s).transform.split(",")[0].replace("matrix(", "")) || 0);
+    if (!(prog > 0)) fail("scroll progress bar did not move");
     const counted = await page.$eval("[data-count='13']", (e) => e.textContent.trim());
     if (counted !== "13") fail(`counter ended at ${counted}`);
     page._problems.forEach((x) => fail("motion " + x));
