@@ -1,6 +1,6 @@
 {
  "fonts": {
-  "mona-sans.woff2": 68460
+  "mona-sans.woff2": 68564
  },
  "grain": 8021,
  "icons": {
@@ -174,10 +174,10 @@
      "bytes": 63378
     },
     {
-     "file": "hero-tall-720.webp",
-     "w": 720,
-     "h": 1280,
-     "bytes": 116858
+     "file": "hero-tall-760.webp",
+     "w": 760,
+     "h": 1351,
+     "bytes": 126658
     },
     {
      "file": "hero-tall-960.webp",
@@ -1103,6 +1103,130 @@
     255
    ],
    "alt": "A mop and a wet-floor sign"
+  },
+  "duo-kitchen-bg": {
+   "src": "pexels-6196682.jpg",
+   "aspect": "16:9",
+   "display": 1440,
+   "crop": [
+    2400,
+    1350
+   ],
+   "files": [
+    {
+     "file": "duo-kitchen-bg-960.webp",
+     "w": 960,
+     "h": 540,
+     "bytes": 28578
+    },
+    {
+     "file": "duo-kitchen-bg-1440.webp",
+     "w": 1440,
+     "h": 810,
+     "bytes": 50720
+    },
+    {
+     "file": "duo-kitchen-bg-1920.webp",
+     "w": 1920,
+     "h": 1080,
+     "bytes": 77494
+    }
+   ],
+   "ratio": [
+    960,
+    540
+   ],
+   "alt": ""
+  },
+  "duo-team-bg": {
+   "src": "pexels-6196225.jpg",
+   "aspect": "16:9",
+   "display": 1440,
+   "crop": [
+    2400,
+    1350
+   ],
+   "files": [
+    {
+     "file": "duo-team-bg-960.webp",
+     "w": 960,
+     "h": 540,
+     "bytes": 30068
+    },
+    {
+     "file": "duo-team-bg-1440.webp",
+     "w": 1440,
+     "h": 810,
+     "bytes": 51346
+    },
+    {
+     "file": "duo-team-bg-1920.webp",
+     "w": 1920,
+     "h": 1080,
+     "bytes": 79196
+    }
+   ],
+   "ratio": [
+    960,
+    540
+   ],
+   "alt": ""
+  },
+  "trolley": {
+   "src": "images.jfif",
+   "aspect": "4:3",
+   "display": 600,
+   "crop": [
+    603,
+    452
+   ],
+   "files": [
+    {
+     "file": "trolley-600.webp",
+     "w": 600,
+     "h": 450,
+     "bytes": 16066
+    },
+    {
+     "file": "trolley-603.webp",
+     "w": 603,
+     "h": 452,
+     "bytes": 16378
+    }
+   ],
+   "ratio": [
+    600,
+    450
+   ],
+   "alt": "A cleaner in yellow gloves preparing a trolley of cleaning supplies"
+  },
+  "office-mop": {
+   "src": "closeup-janitor-using-mop-clean-office-floor-maintain-workspace-hygiene-concept-janitorial-services-workplace-cleanliness-commercial-cleaning-office-hygiene-professional-janitor_91883.avif",
+   "aspect": "16:9",
+   "display": 640,
+   "crop": [
+    658,
+    370
+   ],
+   "files": [
+    {
+     "file": "office-mop-640.webp",
+     "w": 640,
+     "h": 360,
+     "bytes": 19846
+    },
+    {
+     "file": "office-mop-658.webp",
+     "w": 658,
+     "h": 370,
+     "bytes": 21102
+    }
+   ],
+   "ratio": [
+    640,
+    360
+   ],
+   "alt": "A flat mop working across a polished office floor"
   },
   "g-church": {
    "src": "pexels-8468417.jpg",

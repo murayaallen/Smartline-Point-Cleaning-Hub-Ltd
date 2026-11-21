@@ -305,18 +305,26 @@ def _grade(im, background=False):
     return im
 
 
+def _duotone(im):
+    """Black-and-white source -> the brand's navy/indigo duotone with a warm highlight."""
+    from PIL import ImageOps
+    g = ImageOps.autocontrast(im.convert("L"), cutoff=1)
+    return ImageOps.colorize(g, black=(8, 9, 32), mid=(47, 36, 131), white=(255, 224, 170), midpoint=120)
+
+
 def _export(key, src, aspect, focal, display, quality=80, background=False, extra_large=None):
     path = os.path.join(SRC, src)
     im = Image.open(path)
     im.load()
-    crop = _grade(_crop(im, aspect, focal), background)
+    cropped = _crop(im, aspect, focal)
+    crop = _duotone(cropped) if key.startswith("duo-") else _grade(cropped, background)
     cw, ch = crop.size
     if background:
         wants = [960, 1440, 1920]
     elif key == "hero-wide":
         wants = [960, 1440, 1920, 2400]
     elif key == "hero-tall":
-        wants = [480, 720, 960]
+        wants = [480, 760, 960]          # 760: a 412px phone at 1.75x needs 721px, so 720 tipped it to 960
     elif key == "hero":
         wants = [display, 700, int(round(display * 1.5)), 1000]   # 700 = phones at ~1.75x; 1000 caps it under 200 KB
     else:

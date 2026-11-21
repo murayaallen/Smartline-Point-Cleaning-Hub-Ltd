@@ -75,6 +75,7 @@
 
   /* ------------------------------------------------------------- split headings into masked words */
   function split(el) {
+    $$(".grad", el).forEach(function (g) { g.classList.remove("grad"); g.classList.add("grad-host"); });
     var walker = d.createTreeWalker(el, NodeFilter.SHOW_TEXT), nodes = [], i = 0;
     while (walker.nextNode()) nodes.push(walker.currentNode);
     nodes.forEach(function (n) {
@@ -83,7 +84,7 @@
         if (!p) return;
         if (/^\s+$/.test(p)) { frag.appendChild(d.createTextNode(p)); return; }
         var o = d.createElement("span"), inner = d.createElement("span");
-        o.className = "sw-w"; inner.className = "sw-i"; inner.textContent = p;
+        o.className = "sw-w"; inner.className = "sw-i" + (n.parentNode.closest && n.parentNode.closest(".grad-host") ? " grad" : ""); inner.textContent = p;
         inner.style.setProperty("--d", (Math.min(i++, 14) * 0.055).toFixed(3) + "s");
         o.appendChild(inner); frag.appendChild(o);
       });
@@ -108,25 +109,51 @@
   }
 
   /* ------------------------------------------------------------- the statement lights up word by word */
-  if (!reduce) {
+  var idle = w.requestIdleCallback || function (f) { return setTimeout(f, 200); };
+  if (!reduce) idle(function () {
     $$("[data-scrub]").forEach(function (el) {
-      var words = [];
-      var parts = el.textContent.split(/(\s+)/);
-      el.textContent = "";
-      parts.forEach(function (p) {
-        if (/^\s+$/.test(p) || !p) { el.appendChild(d.createTextNode(p)); return; }
-        var s = d.createElement("span"); s.className = "sw"; s.textContent = p; el.appendChild(s); words.push(s);
+      var words = [], walker = d.createTreeWalker(el, NodeFilter.SHOW_TEXT), nodes = [];
+      while (walker.nextNode()) nodes.push(walker.currentNode);
+      nodes.forEach(function (n) {
+        var key = n.parentNode.closest && n.parentNode.closest(".kw"), frag = d.createDocumentFragment();
+        n.nodeValue.split(/(\s+)/).forEach(function (p) {
+          if (!p) return;
+          if (/^\s+$/.test(p)) { frag.appendChild(d.createTextNode(p)); return; }
+          var sp = d.createElement("span"); sp.className = "sw" + (key ? " sw--key" : ""); sp.textContent = p;
+          if (key) sp._kw = key;
+          frag.appendChild(sp); words.push(sp);
+        });
+        n.parentNode.replaceChild(frag, n);
       });
-      var lit = -1;
+      el.classList.add("is-scrubbing");
+      var kws = $$(".kw", el), lit = -1;
       subs.push(function () {
         var r = el.getBoundingClientRect();
         if (r.bottom < -vh || r.top > vh * 1.5) return;
-        var p = clamp((vh * 0.82 - r.top) / (r.height + vh * 0.3), 0, 1);
-        var n = Math.round(p * words.length * 1.12);
+        var p = clamp((vh * 0.84 - r.top) / (r.height + vh * 0.28), 0, 1);
+        var n = Math.round(p * words.length * 1.1);
         if (n === lit) return;
         lit = n;
         for (var i = 0; i < words.length; i++) words[i].classList.toggle("is-lit", i < n);
+        kws.forEach(function (k) {
+          var ws = $$(".sw", k);
+          k.classList.toggle("is-lit", ws.length > 0 && ws[ws.length - 1].classList.contains("is-lit"));
+        });
       });
+      if (fine) magic(el, $$(".sw:not(.sw--key)", el));
+    });
+    req();
+  }, { timeout: 1200 });
+
+  /* ------------------------------------------------------------- the client's S draws itself beside the welcome */
+  var drawS = $(".draw-s");
+  if (drawS && !reduce) {
+    var dsPaths = $$("path", drawS), dsHost = drawS.closest("section");
+    subs.push(function () {
+      var r = dsHost.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > vh) return;
+      var p = clamp((vh - r.top) / (r.height * 0.85), 0, 1);
+      dsPaths.forEach(function (path, i) { path.style.strokeDashoffset = (1 - clamp(p * 1.35 - i * 0.14, 0, 1)).toFixed(4); });
     });
   }
 
@@ -138,7 +165,7 @@
       heroImg.style.translate = "0 " + (y * 0.28).toFixed(1) + "px";
       if (heroCopy) { heroCopy.style.translate = "0 " + (y * 0.12).toFixed(1) + "px"; heroCopy.style.opacity = clamp(1 - y / (vh * 0.85), 0, 1).toFixed(3); }
     });
-    var px = $$("[data-parallax-box] img, .cta__bg img, .phero__bg img");
+    var px = $$("[data-parallax-box] img, .cta__bg img, .phero__bg img, .bgph img");
     if (px.length) subs.push(function () {
       for (var i = 0; i < px.length; i++) {
         var box = px[i].parentNode.getBoundingClientRect();
@@ -180,6 +207,49 @@
       if (count) count.textContent = pad(1 + Math.round(p * (cards - 1)));
     });
   }
+
+  if (rail && track) {
+    var vp = $(".rail__viewport", rail), mBar = $(".rail__bar", rail), mCount = $(".rail__count", rail), nCards = $$(".rcard", track).length;
+    on(vp, "scroll", function () {
+      if (rail.classList.contains("is-pinned")) return;
+      var p = clamp(vp.scrollLeft / Math.max(1, vp.scrollWidth - vp.clientWidth), 0, 1);
+      if (mBar) mBar.style.setProperty("--p", (0.2 + p * 0.8).toFixed(3));
+      if (mCount) mCount.textContent = pad(1 + Math.round(p * (nCards - 1)));
+    }, { passive: true });
+  }
+
+  /* ------------------------------------------------------------- why: the reasons index */
+  $$("[data-rx]").forEach(function (rx) {
+    rx.classList.add("rx--js");
+    var items = $$("[data-rx-item]", rx), imgs = $$("[data-rx-img]", rx), now = $("[data-rx-now]", rx), ttl = $("[data-rx-title]", rx), cur = 0;
+    var canAuto = !reduce && fine && wide.matches;
+    function set(i) {
+      if (i === cur) return;
+      imgs.forEach(function (x) { x.classList.remove("is-prev"); });
+      imgs[cur].classList.remove("is-on"); imgs[cur].classList.add("is-prev");
+      cur = i;
+      imgs[i].classList.add("is-on");
+      items.forEach(function (it, k) {
+        it.classList.toggle("is-on", k === i);
+        $(".rx__btn", it).setAttribute("aria-expanded", String(k === i));
+      });
+      if (now) now.textContent = pad(i + 1);
+      if (ttl) ttl.textContent = $(".rx__t", items[i]).textContent;
+    }
+    items.forEach(function (it, i) {
+      on($(".rx__btn", it), "click", function () { set(i); });
+      if (fine) on(it, "mouseenter", function () { set(i); });
+    });
+    if (canAuto && "IntersectionObserver" in w) {
+      new IntersectionObserver(function (e) { rx.classList.toggle("is-auto", e[0].isIntersecting); }, { threshold: 0.35 }).observe(rx);
+      on(rx, "mouseenter", function () { rx.classList.add("is-paused"); });
+      on(rx, "mouseleave", function () { rx.classList.remove("is-paused"); });
+      on(rx, "focusin", function () { rx.classList.add("is-paused"); });
+      on(rx, "animationend", function (e) {
+        if (e.animationName === "rx-fill" && e.target.closest("[data-rx-item]") === items[cur]) set((cur + 1) % items.length);
+      });
+    }
+  });
 
   /* ------------------------------------------------------------- how we work: the active step follows the reader */
   var sxItems = $$("[data-sx-item]"), sxNow = $(".sx__now"), sxBar = $(".sx__bar");
@@ -514,6 +584,66 @@
       on(b, "click", function () { cookie.hidden = false; requestAnimationFrame(function () { cookie.classList.add("is-in"); }); });
     });
   }
+
+  /* ------------------------------------------------------------- interactive type: the logo's colours follow the cursor */
+  function hexRgb(hx) { return [parseInt(hx.slice(1, 3), 16), parseInt(hx.slice(3, 5), 16), parseInt(hx.slice(5, 7), 16)]; }
+  var HOT = [hexRgb("#FFC200"), hexRgb("#F8951A"), hexRgb("#FC621C")];
+  function hot(t) { var a = t < 0.5 ? HOT[0] : HOT[1], b = t < 0.5 ? HOT[1] : HOT[2], k = t < 0.5 ? t * 2 : (t - 0.5) * 2; return [0, 1, 2].map(function (j) { return a[j] + (b[j] - a[j]) * k; }); }
+  function magic(el, units) {
+    if (!units.length) return;
+    var base = (getComputedStyle(units[0]).color.match(/\d+/g) || [16, 18, 56]).slice(0, 3).map(Number), mx = 0, my = 0, active = false, raf = 0, R = 170;
+    function paint() {
+      raf = 0;
+      var box = el.getBoundingClientRect();
+      for (var i = 0; i < units.length; i++) {
+        var r = units[i].getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+        var k = active ? clamp(1 - Math.hypot(cx - mx, cy - my) / R, 0, 1) : 0;
+        if (k <= 0) { if (units[i]._m) { units[i].style.color = ""; units[i]._m = 0; } continue; }
+        k = 1 - Math.pow(1 - k, 2);
+        var c = hot(clamp((cx - box.left) / Math.max(1, box.width), 0, 1));
+        units[i].style.color = "rgb(" + [0, 1, 2].map(function (j) { return Math.round(base[j] + (c[j] - base[j]) * k); }).join(",") + ")";
+        units[i]._m = 1;
+      }
+    }
+    on(el, "pointermove", function (e) { mx = e.clientX; my = e.clientY; active = true; if (!raf) raf = requestAnimationFrame(paint); });
+    on(el, "pointerleave", function () { active = false; if (!raf) raf = requestAnimationFrame(paint); });
+  }
+  function charUnits(el) {
+    var walker = d.createTreeWalker(el, NodeFilter.SHOW_TEXT), nodes = [], out = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(function (n) {
+      if (!n.nodeValue.trim() || (n.parentNode.closest && n.parentNode.closest(".grad, .grad-host, .sw--key"))) return;
+      var frag = d.createDocumentFragment();
+      Array.prototype.forEach.call(n.nodeValue, function (ch) {
+        if (/\s/.test(ch)) { frag.appendChild(d.createTextNode(ch)); return; }
+        var sp = d.createElement("span"); sp.className = "mc"; sp.textContent = ch; frag.appendChild(sp); out.push(sp);
+      });
+      n.parentNode.replaceChild(frag, n);
+    });
+    return out;
+  }
+  if (fine && !reduce) idle(function () {
+    $$(".hero__title, .d1, .d2, .cta__title, .ftr__big").forEach(function (el) { magic(el, charUnits(el)); });
+  }, { timeout: 1500 });
+
+  /* ------------------------------------------------------------- text roll: labels slide up and a fresh copy follows */
+  if (!reduce && fine) idle(function () {
+    $$(".btn, .nav__link").forEach(function (el) {
+      for (var n = el.firstChild; n; n = n.nextSibling) {
+        if (n.nodeType === 3 && n.nodeValue.trim()) {
+          var t = n.nodeValue.trim(), wrap = d.createElement("span"), inner = d.createElement("span");
+          wrap.className = "rt"; wrap.setAttribute("data-t", t); inner.className = "rt__i"; inner.textContent = t;
+          wrap.appendChild(inner);
+          var lead = /^\s/.test(n.nodeValue), trail = /\s$/.test(n.nodeValue);
+          if (lead) el.insertBefore(d.createTextNode(" "), n);
+          el.insertBefore(wrap, n);
+          if (trail) el.insertBefore(d.createTextNode(" "), n);
+          el.removeChild(n);
+          break;
+        }
+      }
+    });
+  }, { timeout: 1500 });
 
   req();
 })();

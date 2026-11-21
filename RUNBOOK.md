@@ -19,6 +19,9 @@ a broken internal link or `#anchor`, an image without `alt`/`width`/`height`,
 inline script or style (the CSP forbids both), fumigation anywhere, JS over its
 budget, a hero image over 200 KB.
 
+Behaviour lives in `site/assets/js/main.js` (readable source); the build writes the
+`main.min.js` that pages load, and the 30 KB JS budget is checked on that file.
+
 Content lives in two files — edit these, never the HTML in `site/`:
 
 | File | Holds |

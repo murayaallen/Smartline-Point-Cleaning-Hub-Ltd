@@ -40,7 +40,18 @@ def ver(path):
         return hashlib.sha1(f.read()).hexdigest()[:8]
 
 
-V_CSS, V_BOOT, V_JS = ver("assets/css/main.css"), ver("assets/js/boot.js"), ver("assets/js/main.js")
+def minify_js():
+    """main.js is the hand-written source; ship main.min.js: block comments out, indentation
+    and blank lines gone, line breaks kept (no ASI surprises). Fails loudly if the result breaks."""
+    src = open(os.path.join(SITE, "assets/js/main.js"), encoding="utf-8").read()
+    out = re.sub(r"/\*.*?\*/", "", src, flags=re.S)
+    out = "\n".join(l.strip() for l in out.splitlines() if l.strip()) + "\n"
+    with open(os.path.join(SITE, "assets/js/main.min.js"), "w", encoding="utf-8", newline="\n") as f:
+        f.write(out)
+
+
+minify_js()
+V_CSS, V_BOOT, V_JS = ver("assets/css/main.css"), ver("assets/js/boot.js"), ver("assets/js/main.min.js")
 SPRITE = "/assets/img/icons.svg?v=" + ver("assets/img/icons.svg")
 
 
@@ -56,6 +67,8 @@ def icon(name, cls=""):
 SERVICES = [s for _, _, items in L.GROUPS for s, _ in items]
 SERVICE_LINK = {s: (link or "/services#" + slug(s)) for _, _, items in L.GROUPS for s, link in items}
 GROUP_ANCHOR = {g: a.split("#")[1] for g, a, _ in L.GROUPS}
+# home "Why Smartline": one photo per reason (none of them used elsewhere on the home page)
+REASON_IMAGE = ["svc-onetime", "about-hero", "why", "ra-hero", "svc-deep", "pc-standard"]
 GROUP_IMAGE = {"Commercial & institutional": "svc-commercial", "Homes & apartments": "svc-apartment",
                "Specialist cleans": "svc-postcon", "Outdoor": "svc-landscaping"}
 QQ_SERVICES = {
@@ -257,6 +270,17 @@ def bg_depth(mark=True):
     return '<div class="depth" aria-hidden="true"><span class="glow glow--a"></span><span class="glow glow--b"></span><span class="dots"></span>%s</div>' % wm
 
 
+def bg_photo(key, side="right", cls=""):
+    """A photo laid into the white space of a light section: faded, masked into the page."""
+    return ('<div class="bgph bgph--%s%s" aria-hidden="true"><div class="bgph__in">%s</div></div>'
+            % (side, (" " + cls) if cls else "", img(key, "(max-width: 760px) 100vw, 60vw", decorative=True).replace("<img ", '<img fetchpriority="low" ', 1)))
+
+
+def orbs(kind="a"):
+    """Soft colour drifting behind a light section (the logo's sun and indigo, heavily blurred)."""
+    return '<div class="orbs orbs--%s" aria-hidden="true"><span></span><span></span><span></span></div>' % kind
+
+
 def faq_block(items, eb, title, text, link=True):
     rows = "".join('<details class="faq__item"><summary><span class="faq__q">%s</span><span class="faq__pm" aria-hidden="true"></span></summary>'
                    '<div class="faq__a"><p>%s</p></div></details>' % (E(q), E(C.FAQ[q])) for q in items)
@@ -303,8 +327,10 @@ def seal(cls="seal"):
             '<img class="seal__ring" src="/assets/img/seal-ring.svg" width="200" height="200" alt=""></div>' % cls)
 
 
-def page_hero(trail, h1, lede, image=None, chips_html="", tex=False, service=False, eb=None, btns=""):
-    bg = img("page-bg", "100vw", decorative=True, eager=True) if tex else ""
+def page_hero(trail, h1, lede, image=None, chips_html="", tex=False, service=False, eb=None, btns="", bg_key=None):
+    if bg_key:
+        tex = True
+    bg = img(bg_key or "page-bg", "100vw", decorative=True, eager=True) if tex else ""
     media = ""
     if image:
         media = ('<figure class="phero__media" data-reveal="wipe"><div class="phero__frame">%s</div></figure>'
@@ -407,11 +433,6 @@ def home(pg):
     S = {s["id"]: s for s in pg["sections"]}
     h = S["H-01"]["p"]
     trust = "".join('<li>%s%s</li>' % (icon("check"), E(t)) for t in h["trust"])
-    stats = ('<div class="hstats"><div class="hstat"><span class="hstat__n">2018</span><span class="hstat__l">Trading since</span></div>'
-             '<div class="hstat"><span class="hstat__n" data-count="%d" data-suffix="+">%d+</span><span class="hstat__l">Named clients</span></div>'
-             '<div class="hstat"><span class="hstat__n" data-count="13">13</span><span class="hstat__l">Services</span></div>'
-             '<div class="hstat"><span class="hstat__n">24h</span><span class="hstat__l">Re-clean promise</span></div></div>'
-             % (len(L.CLIENTS), len(L.CLIENTS)))
     out = ['<section class="hero" aria-labelledby="hero-title"><div class="hero__media" aria-hidden="true">%s'
            '<span class="hero__fog"></span><span class="hero__blade"></span></div>'
            '<div class="hero__shade" aria-hidden="true"></div><span class="hero__sheen" aria-hidden="true"></span>'
@@ -421,10 +442,11 @@ def home(pg):
            '<p class="hero__lede">%s</p><div class="btns hero__btns"><a class="btn btn--sun btn--lg" href="%s" data-magnetic>Request a quote %s</a>'
            '<a class="btn btn--glass btn--lg" href="%s" target="_blank" rel="noopener">%s WhatsApp us</a></div>'
            '<ul class="hero__trust">%s</ul></div>%s</div>'
-           '<div class="hero__foot"><div class="wrap">%s</div></div></section>'
-           % (hero_picture(), eyebrow("Smartline Point Cleaning Hub Ltd · Est. 2018", "label--sun"),
+           '<div class="hero__foot"><div class="wrap hero__foot-in"><a class="hero__cue" href="#welcome"><i aria-hidden="true"></i>Scroll to explore</a>'
+           '<span class="hero__where">Kasarani, Nairobi &middot; serving Nairobi &amp; Kiambu</span></div></div></section>'
+           % (hero_picture(), eyebrow("Commercial · residential · post-construction · since 2018", "label--sun"),
               E(h["sub"]), quote_url(), icon("arrow-right"), E(C.wa_link()), icon("message-circle"), trust,
-              seal("seal hero__seal"), stats)]
+              seal("seal hero__seal"))]
 
     # trusted-by: the client names run past in display type
     names = "".join("<span>%s</span><i aria-hidden=\"true\"></i>" % E(n) for n, _ in L.CLIENTS)
@@ -436,12 +458,18 @@ def home(pg):
 
     # welcome — the client's own words, lit word by word as you read down
     w = S["H-03"]["p"]
-    out.append('<section class="sec welcome" id="welcome"><span class="tiles" aria-hidden="true"></span><div class="wrap">'
-               '<div class="welcome__head">%s<h2 class="d3" data-split>%s</h2></div>'
+    body = E(w["body"])
+    for phrase in ("cleanliness meets excellence", "spotless", "fresh", "healthier, happier", "satisfaction"):
+        body = body.replace(phrase, '<span class="kw">%s</span>' % phrase, 1)
+    head = E(w["heading"]).replace("every clean.", '<span class="grad">every clean.</span>')
+    out.append('<section class="sec welcome" id="welcome">%s%s<span class="tiles" aria-hidden="true"></span>'
+               '<div class="welcome__draw" aria-hidden="true">%s</div><div class="wrap">'
+               '<div class="welcome__head">%s<h2 class="d2 welcome__title" data-split>%s</h2></div>'
                '<p class="statement" data-scrub>%s</p>'
                '<div class="welcome__foot" data-reveal><div class="signature"><img src="/assets/img/logo-mark.svg" width="39" height="44" alt="" loading="lazy">'
                '<span>Assuring you the best</span></div><a class="btn btn--ghost" href="/about">About Smartline %s</a></div></div></section>'
-               % (eyebrow("Welcome"), E(w["heading"]), E(w["body"]), icon("arrow-right")))
+               % (bg_photo("cc-hero", "right", "bgph--tall"), orbs("a"), LO.mark_outline_svg(560, "draw-s", "dso"),
+                  eyebrow("Welcome"), head, body, icon("arrow-right")))
 
     # services — a pinned horizontal rail on desktop, a swipe deck on phones
     cards = []
@@ -457,7 +485,7 @@ def home(pg):
     cards.append('<article class="rcard rcard--end"><div class="rcard__body"><p class="label label--sun">Schedules</p>'
                  '<h3 class="d3">Once, or on a schedule</h3><div class="chips">%s</div>'
                  '<a class="btn btn--sun" href="/services">See all 13 services %s</a></div></article>' % (sched, icon("arrow-right")))
-    out.append('<section class="rail" id="services" aria-labelledby="h-services"><div class="rail__pin"><div class="wrap rail__head">'
+    out.append('<section class="rail" id="services" aria-labelledby="h-services">' + orbs("b") + '<div class="rail__pin"><div class="wrap rail__head">'
                '<div>%s<h2 class="d2" id="h-services" data-split>What we clean</h2></div>'
                '<p class="lede" data-reveal>Thirteen services across offices, institutions, homes and new builds &mdash; one point of contact for all of them.</p>'
                '<div class="rail__meter" aria-hidden="true"><span class="rail__count">01</span><span class="rail__bar"><span></span></span><span>05</span></div></div>'
@@ -465,13 +493,22 @@ def home(pg):
                % (eyebrow("Services"), "".join(cards)))
 
     # why — bento
-    reasons = "".join('<article class="bento__card" data-glow data-reveal><span class="bento__n">%02d</span><h3 class="h3">%s</h3><p>%s</p></article>'
-                      % (i + 1, E(t), E(dsc)) for i, (t, dsc) in enumerate(L.WHY))
-    out.append('<section class="sec sec--white why"><div class="wrap">%s<div class="bento" data-stagger>'
-               '<figure class="bento__img" data-reveal="wipe">%s<figcaption>Trained, supervised teams</figcaption></figure>%s</div></div></section>'
-               % (sec_head("Why Smartline", "Why clients stay with Smartline",
-                           "Six reasons, each one something you can hold us to."),
-                  img("why", "(max-width: 760px) 92vw, 520px"), reasons))
+    rx_imgs = "".join('<figure class="rx__img%s" data-rx-img>%s</figure>'
+                      % (" is-on" if i == 0 else "", img(REASON_IMAGE[i], "(max-width: 1040px) 92vw, 600px"))
+                      for i in range(len(L.WHY)))
+    rx_items = "".join(
+        '<li class="rx__item%s" data-rx-item><h3 class="rx__h"><button class="rx__btn" type="button" id="rx-b%d" aria-controls="rx-p%d" aria-expanded="%s">'
+        '<span class="rx__n">%02d</span><span class="rx__t">%s</span><span class="rx__pm" aria-hidden="true"></span></button></h3>'
+        '<div class="rx__p" id="rx-p%d" role="region" aria-labelledby="rx-b%d"><div><p>%s</p></div></div>'
+        '<span class="rx__bar" aria-hidden="true"><span></span></span></li>'
+        % (" is-on" if i == 0 else "", i + 1, i + 1, "true" if i == 0 else "false", i + 1, E(t), i + 1, i + 1, E(dsc))
+        for i, (t, dsc) in enumerate(L.WHY))
+    out.append('<section class="sec sec--white why" id="why">%s<div class="wrap">%s<div class="rx" data-rx>'
+               '<div class="rx__stage" aria-hidden="true">%s<div class="rx__cap"><span class="rx__count"><b data-rx-now>01</b> / %02d</span>'
+               '<span class="rx__title" data-rx-title>%s</span></div></div><ol class="rx__list">%s</ol></div></div></section>'
+               % (orbs("c"), sec_head("Why Smartline", "Why clients stay with Smartline",
+                                      "Six reasons, each one something you can hold us to."),
+                  rx_imgs, len(L.WHY), E(L.WHY[0][0]), rx_items))
 
     # how we work — pinned scrollytelling
     steps = S["H-06"]["p"]["items"]
@@ -487,7 +524,7 @@ def home(pg):
     # training
     tl = "".join('<li data-reveal><span class="ico">%s</span><div><b>%s</b><span>%s</span></div></li>'
                  % (icon(TRAINING_ICON[t]), E(t), E(dsc)) for t, dsc in L.TRAINING)
-    out.append('<section class="sec sec--white training"><div class="wrap split"><figure class="split__media" data-reveal="wipe">'
+    out.append('<section class="sec sec--white training">' + orbs("a") + '<div class="wrap split"><figure class="split__media" data-reveal="wipe">'
                '<div class="frame" data-parallax-box>%s</div><figcaption class="tag">%s Trained before placement</figcaption></figure>'
                '<div>%s<ul class="tlist" data-stagger>%s</ul></div></div></section>'
                % (img("training", "(max-width: 1040px) 92vw, 560px"), icon("badge-check"),
@@ -496,15 +533,15 @@ def home(pg):
     # guarantee
     g = S["H-08"]["p"]
     pts = "".join("<li>%s</li>" % E(x) for x in g["points"])
-    out.append('<section class="sec sec--sun guarantee"><span class="glow glow--sun" aria-hidden="true"></span><div class="wrap guarantee__grid">'
+    out.append('<section class="sec sec--sun guarantee"><span class="glow glow--sun" aria-hidden="true"></span>' + bg_photo("svc-washroom", "right") + '<div class="wrap guarantee__grid">'
                '<div class="guarantee__seal" data-reveal>%s</div><div>%s<h2 class="d2" data-split>%s</h2>'
                '<p class="promise" data-reveal>%s</p><ul class="ticks" data-stagger>%s</ul>'
                '<a class="btn btn--navy" href="%s" data-magnetic>Book a clean with the guarantee %s</a></div></div></section>'
                % (seal("seal seal--lg"), eyebrow("Our promise"), E(g["heading"]), E(g["promise"]), pts, quote_url(), icon("arrow-right")))
 
-    out.append('<section class="sec sec--paper">%s</section>'
-               % faq_block(S["H-09"]["p"]["items"], "Questions", "Questions we are asked",
-                           "The things clients ask before they book. Anything else, call or WhatsApp."))
+    out.append('<section class="sec sec--paper faqsec">%s%s</section>'
+               % (bg_photo("svc-residential", "left", "bgph--low"), faq_block(S["H-09"]["p"]["items"], "Questions", "Questions we are asked",
+                           "The things clients ask before they book. Anything else, call or WhatsApp.")))
     out.append(cta_band())
     return "".join(out)
 
@@ -517,7 +554,7 @@ def spec_table(rows, caption):
 def about(pg):
     S = {s["id"]: s for s in pg["sections"]}
     out = [page_hero([("/", "Home"), ("/about", "About")], "About Smartline", S["A-01"]["p"]["sub"], image="about-hero",
-                     eb="Est. 2018 · Kasarani, Nairobi")]
+                     eb="Est. 2018 · Kasarani, Nairobi", bg_key="duo-team-bg")]
     st = S["A-02"]["p"]
     out.append('<section class="sec sec--white story"><div class="wrap split"><div>%s<h2 class="d2" data-split>%s</h2>'
                '<p class="body-lg" data-reveal>%s</p><p class="body-lg" data-reveal>%s</p></div>'
@@ -529,7 +566,7 @@ def about(pg):
     out.append('<section class="sec sec--navy">%s<div class="wrap">%s<div class="vgrid" data-stagger>%s</div></div></section>'
                % (bg_depth(), sec_head("Purpose", "Vision and mission"), vm))
     ap = S["A-04"]["p"]
-    out.append('<section class="sec sec--paper approach"><span class="tiles" aria-hidden="true"></span><div class="wrap">%s<h2 class="d3" data-split>%s</h2>'
+    out.append('<section class="sec sec--paper approach">' + bg_photo("svc-commercial", "right", "bgph--tall") + orbs("b") + '<span class="tiles" aria-hidden="true"></span><div class="wrap">%s<h2 class="d3" data-split>%s</h2>'
                '<p class="statement" data-scrub>%s</p></div></section>' % (eyebrow("Our approach"), E(ap["heading"]), E(ap["body"])))
     tc = "".join('<article class="tcard" data-glow data-reveal><span class="ico">%s</span><span class="tcard__n">%02d</span><h3 class="h3">%s</h3><p>%s</p></article>'
                  % (icon(TRAINING_ICON[t]), i + 1, E(t), E(dsc)) for i, (t, dsc) in enumerate(L.TRAINING))
@@ -567,8 +604,8 @@ def services(pg):
     S = {s["id"]: s for s in pg["sections"]}
     hero = S["S-01"]["p"]
     ch = chips([g for g, _, _ in L.GROUPS], link=lambda g: "#" + GROUP_ANCHOR[g], cls="chip--glass")
-    out = [page_hero([("/", "Home"), ("/services", "Services")], "Our services", hero["sub"], chips_html=ch, tex=True,
-                     eb="13 services · one point of contact")]
+    out = [page_hero([("/", "Home"), ("/services", "Services")], "Our services", hero["sub"], chips_html=ch,
+                     eb="13 services · one point of contact", image="trolley", bg_key="duo-kitchen-bg")]
     sub = "".join('<li><a href="#%s"><small>%02d</small>%s</a></li>' % (GROUP_ANCHOR[g], i + 1, E(g)) for i, (g, _, _) in enumerate(L.GROUPS))
     out.append('<nav class="subnav" aria-label="Service groups"><div class="wrap"><ul class="subnav__list">%s</ul></div></nav>' % sub)
     blurb = {"Commercial & institutional": "Offices, banks, schools and churches, cleaned on a written schedule.",
@@ -630,8 +667,10 @@ def service_page(pg):
     btns = ('<div class="btns"><a class="btn btn--sun" href="%s" data-magnetic>Request a quote %s</a>'
             '<a class="btn btn--glass" href="%s" target="_blank" rel="noopener">%s WhatsApp us</a></div>'
             % (quote_url(QQ_SERVICES[slug_][0]), icon("arrow-right"), E(C.wa_link(pg["nav"])), icon("message-circle")))
+    hero_bg = {"/commercial-cleaning": "office-mop", "/residential-apartment-cleaning": "duo-kitchen-bg",
+               "/post-construction-cleaning": "duo-team-bg"}[slug_]
     out = [page_hero([("/", "Home"), ("/services", "Services"), (slug_, pg["nav"])], pg["h1"], hp["sub"],
-                     image=C.PAGE_IMAGES[slug_], service=True, btns=btns)]
+                     image=C.PAGE_IMAGES[slug_], service=True, btns=btns, bg_key=hero_bg)]
     intro = C.SERVICE_INTRO[slug_]
     who = S[pre + "-02"]["p"]["items"]
     out.append('<section class="sec sec--white"><div class="wrap intro"><div>%s<h2 class="d2" data-split>Who we do this for</h2>'
@@ -669,8 +708,8 @@ def service_page(pg):
 
 
 def clients(pg):
-    out = [page_hero([("/", "Home"), ("/clients", "Clients")], pg["h1"], pg["sections"][0]["p"]["sub"], tex=True,
-                     eb="Named with permission")]
+    out = [page_hero([("/", "Home"), ("/clients", "Clients")], pg["h1"], pg["sections"][0]["p"]["sub"],
+                     eb="Named with permission", image="office-mop", bg_key="duo-team-bg")]
     present = []
     for _, sector in L.CLIENTS:
         k = C.SECTOR_KEY[sector]
@@ -709,8 +748,8 @@ def clients(pg):
 
 def contact(pg):
     S = {s["id"]: s for s in pg["sections"]}
-    out = [page_hero([("/", "Home"), ("/contact", "Contact")], pg["h1"], S["K-01"]["p"]["sub"], tex=True,
-                     eb="Reply within one working day")]
+    out = [page_hero([("/", "Home"), ("/contact", "Contact")], pg["h1"], S["K-01"]["p"]["sub"],
+                     eb="Reply within one working day", image="svc-school", bg_key="page-bg")]
     card = ('<aside class="contact-card" data-reveal>%s<h2 class="d4">Prefer to talk?</h2><div class="btns">'
             '<a class="btn btn--sun btn--sm" href="tel:%s">%s Call</a><a class="btn btn--glass btn--sm" href="%s" target="_blank" rel="noopener">%s WhatsApp</a></div>'
             '<ul class="clist"><li><a href="tel:%s">%s<span><small>Call</small>%s</span></a></li>'
@@ -739,7 +778,7 @@ def contact(pg):
 
 def thank_you(pg):
     S = {s["id"]: s for s in pg["sections"]}
-    out = [page_hero(None, pg["h1"], S["T-01"]["p"]["sub"], eb="Request received")]
+    out = [page_hero(None, pg["h1"], S["T-01"]["p"]["sub"], eb="Request received", image="community", bg_key="duo-kitchen-bg")]
     out.append('<section class="sec sec--white"><div class="wrap">%s%s</div></section>'
                % (sec_head("Next", "What happens next"), timeline(S["T-02"]["p"]["items"])))
     out.append(cta_band("Need us sooner?", "Call or WhatsApp and we will pick it up straight away.", "Urgent"))
@@ -749,7 +788,8 @@ def thank_you(pg):
 def privacy(pg):
     secs = "".join('<section data-reveal><h2>%s</h2><p>%s</p></section>' % (E(t), E(b)) for t, b in C.PRIVACY)
     out = [page_hero([("/", "Home"), ("/privacy", "Privacy notice")], pg["h1"],
-                     "How we collect, use and protect your personal data under Kenya’s Data Protection Act, 2019.")]
+                     "How we collect, use and protect your personal data under Kenya’s Data Protection Act, 2019.",
+                     bg_key="duo-team-bg", eb="Data Protection Act, 2019")]
     out.append('<section class="sec sec--white"><div class="wrap"><div class="doc">%s<p class="doc__meta">Last updated %s</p></div></div></section>'
                % (secs, C.LAST_UPDATED))
     return "".join(out)
@@ -885,7 +925,7 @@ def head(pg, trail, faqs, index=True, key="page"):
             '<link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest">'
             '<link rel="preload" href="/assets/fonts/mona-sans.woff2" as="font" type="font/woff2" crossorigin>%s'
             '<link rel="stylesheet" href="/assets/css/main.css?v=%s">'
-            '<script src="/assets/js/boot.js?v=%s"></script><script src="/assets/js/main.js?v=%s" defer></script>'
+            '<script src="/assets/js/boot.js?v=%s"></script><script src="/assets/js/main.min.js?v=%s" defer></script>'
             '<meta property="og:type" content="website"><meta property="og:site_name" content="%s">'
             '<meta property="og:locale" content="en_GB"><meta property="og:title" content="%s">'
             '<meta property="og:description" content="%s"><meta property="og:url" content="%s">'
@@ -1346,6 +1386,14 @@ def verify(pages):
             errs.append("%s: fumigation appears on the page" % fn)
         if re.search(r"\bNone\b", raw_visible) or re.search(r'="None"', text):
             errs.append("%s: a Python None leaked into the page" % fn)
+        seen_src = {}
+        for t, a in sc.tags:
+            if t == "img" and a.get("src", "").startswith("/assets/img/") and a.get("src", "").endswith(".webp"):
+                key = re.sub(r"-\d+\.webp$", "", a["src"].rsplit("/", 1)[1])
+                src = (C.IMAGES.get(key) or next(((g[1],) for g in C.GALLERY if g[0] == key), (key,)))[0]
+                if src in seen_src and seen_src[src] != key or list(seen_src.values()).count(key) and key not in ("hero-wide",):
+                    errs.append("%s: photo %s appears twice (%s)" % (fn, src, key))
+                seen_src[src] = key
         labels = {a.get("for") for t, a in sc.tags if t == "label"}
         for t, a in sc.tags:
             if t == "img":
@@ -1394,7 +1442,7 @@ def verify(pages):
                 if target in page_ids and frag not in page_ids[target]:
                     errs.append("%s: missing anchor %s" % (fn, href))
     # budgets
-    js = os.path.getsize(os.path.join(SITE, "assets/js/main.js")) + os.path.getsize(os.path.join(SITE, "assets/js/boot.js"))
+    js = os.path.getsize(os.path.join(SITE, "assets/js/main.min.js")) + os.path.getsize(os.path.join(SITE, "assets/js/boot.js"))
     fonts = sum(os.path.getsize(os.path.join(SITE, "assets/fonts", f)) for f in os.listdir(os.path.join(SITE, "assets/fonts")))
     if js > 30 * 1024:
         errs.append("JavaScript %d bytes > 30 KB budget" % js)

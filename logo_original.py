@@ -407,6 +407,22 @@ def mark_parts_svg(height=96.0, cls="", gid="slp", mode="rev"):
                fill, s["rule"], _d(s["path"], T), gid, sw["rule"], _d(sw["path"], T), drop, dr["rule"], _d(dr["path"], T)))
 
 
+def mark_outline_svg(height=520.0, cls="", gid="slo"):
+    """The S as a gradient hairline (no fill) — each part has pathLength=1 so CSS/JS can
+    draw it on with stroke-dashoffset. Decorative: aria-hidden."""
+    bx0, by0, bx1, by1 = MARK_BOX
+    pad = 2.0
+    k = (height - 2 * pad) / (by1 - by0)
+    w = (bx1 - bx0) * k + 2 * pad
+    T = lambda x, y: ((x - bx0) * k + pad, (by1 - y) * k + pad)
+    stops = "".join('<stop offset="%s" stop-color="%s"/>' % (_fmt(o), c) for o, c in PARTS["swoosh"]["stops"])
+    paths = "".join('<path pathLength="1" d="%s"/>' % _d(PARTS[p]["path"], T) for p in ("swoosh", "S", "droplet"))
+    return ('<svg class="%s" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %s %s" aria-hidden="true" focusable="false">'
+            '<defs><linearGradient id="%s" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#2F2483"/>%s</linearGradient></defs>'
+            '<g fill="none" stroke="url(#%s)" stroke-width="1.4" vector-effect="non-scaling-stroke">%s</g></svg>'
+            % (cls, _fmt(w), _fmt(height), gid, stops.replace('offset="0"', 'offset="0.35"', 1), gid, paths))
+
+
 def seal_core_svg(size=200.0):
     """Centre of the Clean Quality Guaranteed seal: ink disc, brass ring, the reversed S."""
     c = size / 2

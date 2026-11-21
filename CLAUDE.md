@@ -222,6 +222,31 @@ the client's own logo and from Allen's own sites (Vistex motion system, Viwanda 
   1.6px to match the heavier type, in tinted rounded tiles with a gradient dot.
 - Home is full-bleed: art-directed hero (`hero-wide` 16:9 for laptops, `hero-tall` 9:16 for phones,
   same corridor photo) under a navy shade, glass stats strip, seal.
+- **v3 (21/11/2026, Allen's brief):**
+  - **No metrics anywhere.** Allen: "I dont want the fake metrics remove them." The hero stats strip
+    (2018 / 9+ / 13 / 24h) is gone; QA fails if `[data-count]`/`.hstats` ever come back. Do not add
+    counters, figures or "trusted by N" claims.
+  - **Welcome** is kinetic: the client's statement splits into words that sharpen from blur, flash
+    warm as they land and settle navy; key phrases (cleanliness meets excellence, spotless, fresh,
+    healthier happier, satisfaction) carry the gradient with a drawn underline; the S outline draws
+    itself in the margin with scroll; faded office photo in the white space.
+  - **Interactive type:** on mouse devices the logo's colours follow the cursor through the hero
+    headline, every display heading, the CTA title and the footer line (per-character colour, no
+    layout shift); welcome words react the same way. Buttons and nav labels roll on hover.
+  - **Why Smartline** is a **reasons index**, not cards: six large rows (accordion, `aria-expanded`),
+    a sticky photo stage that wipes to each reason's photo, autoplay with a progress line on desktop
+    (pauses on hover/focus), tap on phones. Photos per reason in `REASON_IMAGE` (build_site.py).
+  - **White space carries photos and colour:** `bg_photo()` lays a faded, masked photo into light
+    sections (welcome, guarantee, FAQ, About approach); `orbs()` drifts blurred sun/indigo colour
+    (still on phones and under reduced motion).
+  - **Every inner page hero has photos:** a background photo under the navy wash plus a framed photo.
+    Two photos dropped only for being black-and-white are back as **navy duotones** (`duo-*-bg`,
+    `_duotone()` in build_assets.py); two unused small shots frame heroes (`trolley`, `office-mop`).
+    `verify()` now **fails if the same photo appears twice on one page**.
+  - Phone performance: statement split, heading colour and text roll run at idle time; pointer-only
+    effects are skipped on touch; blur off on phones; phone hero has a 760w step.
+  - JS budget (≤ 30 KB, LAYOUT.md) is measured on what ships: `main.js` is the readable source,
+    `build_site.py` writes `main.min.js` (comments/indent stripped) and pages load that.
 - QA note: images inside the phone swipe deck load when swiped to, so `qa_browser.cjs` skips
   `.rail__viewport` in its "never loaded" check — that is correct lazy behaviour, not a gap.
 - CSP is strict (`script-src 'self'`, `style-src 'self'`): no inline scripts or style attributes;

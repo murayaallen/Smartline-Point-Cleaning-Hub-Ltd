@@ -287,6 +287,14 @@ IMAGES = {
                     "A cleaner working a full-height window"),
     # utility
     "notfound": ("cleaning (1).jpg", "4:3", (0.50, 0.55), 340, "A mop and a wet-floor sign"),
+    # v3 (21/11/2026) — inner page heroes. Two photos dropped only for being black and white
+    # come back as navy duotones (background only); two unused small photos frame the heroes.
+    "duo-kitchen-bg": ("pexels-6196682.jpg", "16:9", (0.50, 0.50), 1440, ""),
+    "duo-team-bg": ("pexels-6196225.jpg", "16:9", (0.50, 0.38), 1440, ""),
+    "trolley": ("images.jfif", "4:3", (0.50, 0.50), 600,
+                "A cleaner in yellow gloves preparing a trolley of cleaning supplies"),
+    "office-mop": ("closeup-janitor-using-mop-clean-office-floor-maintain-workspace-hygiene-concept-janitorial-services-workplace-cleanliness-commercial-cleaning-office-hygiene-professional-janitor_91883.avif",
+                   "16:9", (0.55, 0.55), 640, "A flat mop working across a polished office floor"),
 }
 
 # gallery: "Spaces we look after" (true of stock). Becomes "The work" when real photos replace it.

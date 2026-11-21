@@ -277,8 +277,23 @@ async function overflow(page) {
     if (hdr.top !== 0 || !hdr.scrolled) fail(`header did not come back scrolling up (top=${hdr.top}, solid=${hdr.scrolled})`);
     const prog = await page.$eval(".hdr__progress span", (s) => parseFloat(getComputedStyle(s).transform.split(",")[0].replace("matrix(", "")) || 0);
     if (!(prog > 0)) fail("scroll progress bar did not move");
-    const counted = await page.$eval("[data-count='13']", (e) => e.textContent.trim());
-    if (counted !== "13") fail(`counter ended at ${counted}`);
+    // no invented figures anywhere (Allen, 21/11/2026: "I dont want the fake metrics")
+    const metrics = await page.$$eval("[data-count], .hstats, .hstat", (x) => x.length);
+    if (metrics) fail(`hero metrics are back (${metrics} elements)`);
+    // the welcome statement scrubs and its keywords carry the gradient
+    const st = await page.$eval("[data-scrub]", (e) => ({ words: e.querySelectorAll(".sw").length, keys: e.querySelectorAll(".sw--key").length }));
+    if (st.words < 40 || st.keys < 4) fail(`welcome statement not split (${st.words} words, ${st.keys} keywords)`);
+    // reasons index: clicking a reason opens it and swaps the photo
+    await page.evaluate(() => document.querySelector("#why").scrollIntoView());
+    await sleep(600);
+    await page.click("[data-rx-item]:nth-child(4) .rx__btn");
+    await sleep(1300);
+    const rx = await page.evaluate(() => ({
+      open: [...document.querySelectorAll("[data-rx-item]")].findIndex((i) => i.classList.contains("is-on")),
+      img: [...document.querySelectorAll("[data-rx-img]")].findIndex((i) => i.classList.contains("is-on")),
+      expanded: document.querySelector("[data-rx-item]:nth-child(4) .rx__btn").getAttribute("aria-expanded"),
+      now: document.querySelector("[data-rx-now]").textContent }));
+    if (rx.open !== 3 || rx.img !== 3 || rx.expanded !== "true" || rx.now !== "04") fail(`reasons index did not switch: ${JSON.stringify(rx)}`);
     page._problems.forEach((x) => fail("motion " + x));
     log("ok  motion on: loader clears, hero entrance runs, counters land");
     await page.close();
