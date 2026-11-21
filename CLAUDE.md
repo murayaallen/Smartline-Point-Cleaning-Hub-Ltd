@@ -57,6 +57,12 @@ do not add anything more sensitive than that (bank statements, IDs, registers) t
   client-naming, pricing-display and WhatsApp-number decisions. Ref AMM-D-2026-187.
   Note: run these scripts with plain `python`, not `python -I` (brandkit import).
 
+## GitHub Pages preview (21/11/2026)
+https://murayaallen.github.io/Smartline-Point-Cleaning-Hub-Ltd/ — the link for showing the client before the domain is registered.
+`make_pages.py` → `dist/pages` (prefixed paths, noindex, share images re-pointed, server-only files
+dropped, form shows a preview note); `.github/workflows/pages.yml` republishes it to `gh-pages` on every
+push to main touching the site. Never edit `gh-pages` by hand. Details: RUNBOOK §2b.
+
 ## Status
 Quote **accepted** (16/11/2026). **Website v2 BUILT and verified (20/11/2026)** — `site/`.
 Next: client sign-offs in `CLIENT-REVIEW.md`, then deploy per `RUNBOOK.md`.

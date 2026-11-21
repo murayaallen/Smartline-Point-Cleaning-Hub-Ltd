@@ -61,6 +61,25 @@ because the local server sends CSS/HTML/JS uncompressed — Apache's `mod_deflat
 Motion is tested separately with animations on (loader, hero intro, statement scrub,
 pinned services rail, steps): all must run with zero console errors.
 
+## 2b. GitHub Pages preview — for showing the client before the domain is live
+
+https://murayaallen.github.io/Smartline-Point-Cleaning-Hub-Ltd/ — published automatically: every push to `main` that touches `site/`
+runs `.github/workflows/pages.yml`, which runs `make_pages.py` and force-pushes `dist/pages` to the
+`gh-pages` branch (one commit, replaced each time). GitHub Pages serves that branch
+(Settings → Pages → Deploy from a branch → `gh-pages` / root).
+
+What `make_pages.py` changes, because Pages serves the repo under a sub-path and has no Apache/PHP:
+every root path gets the `/Smartline-Point-Cleaning-Hub-Ltd/` prefix (HTML, srcset, CSS `url()`,
+JS, manifest); every page is `noindex, nofollow` (canonical still points at the real domain);
+og/twitter images point at the preview so WhatsApp shows the card; `.htaccess`, `form/`,
+`robots.txt`, `sitemap.xml`, `.well-known/` and `speculation-rules.json` are left out; a valid
+enquiry shows *"This is the preview link, so the form does not send yet"* instead of posting.
+No CSP/HSTS headers and no hover prefetch there — those are `.htaccess` features of the live host.
+`verify()` fails the build if any path escapes the prefix or points at a missing file.
+
+Local check: `python make_pages.py`, serve `dist/pages` under `/Smartline-Point-Cleaning-Hub-Ltd/`
+(extensionless → `.html`, unknown → `404.html`), browse every page on desktop and phone.
+
 ## 3. First deploy
 
 1. **Domain.** Register `smartlinepointcleaning.co.ke`; point its nameservers at the host.

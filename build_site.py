@@ -1364,7 +1364,7 @@ def build():
     write("robots.txt", "User-agent: *\nAllow: /\nDisallow: /form/\n\nSitemap: %s/sitemap.xml\n" % C.ORIGIN)
     write("site.webmanifest", json.dumps({
         "name": C.BRAND, "short_name": C.SHORT, "start_url": "/", "display": "browser",
-        "background_color": "#FAF8F4", "theme_color": "#0E1430", "lang": "en-GB",
+        "background_color": "#F5F5FA", "theme_color": "#101238", "lang": "en-GB",
         "icons": [{"src": "/icon-192.png", "sizes": "192x192", "type": "image/png"},
                   {"src": "/icon-512.png", "sizes": "512x512", "type": "image/png"}]}, indent=1))
     write(".htaccess", HTACCESS)

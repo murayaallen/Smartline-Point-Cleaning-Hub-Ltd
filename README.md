@@ -19,6 +19,7 @@ JSON-LD · sitemap, robots, manifest, `security.txt`.
 python build_assets.py [--force]   # fonts, icons, logo, seal, WebP images, share cards -> site/assets
 python build_site.py               # pages + server files, then verify() — fails loudly on any defect
 python make_upload.py              # dist/smartlinepointcleaning.co.ke-upload.zip (gitignored)
+python make_pages.py               # dist/pages — the GitHub Pages preview (CI publishes it to gh-pages)
 python serve_local.py 8765         # local preview that behaves like the live .htaccess
 node tools/qa_browser.cjs <out>    # browser QA, 11 pages x desktop + phone, plus interactions
 ```
@@ -32,6 +33,7 @@ node tools/qa_browser.cjs <out>    # browser QA, 11 pages x desktop + phone, plu
 | `build_site.py` | Renders every page and server file; `verify()` checks HTML, links, anchors, SEO lengths, CSP, budgets |
 | `site/assets/css/main.css`, `site/assets/js/*.js` | Hand-written v2 design system and motion engine (loader, squeegee hero, split text, scrub, pinned rail, scrollytelling, marquees, view transitions, forms, consent) |
 | `make_upload.py` | Packages `site/` for `public_html` and checks the zip |
+| `make_pages.py` + `.github/workflows/pages.yml` | GitHub Pages preview at https://murayaallen.github.io/Smartline-Point-Cleaning-Hub-Ltd/ — prefixed paths, noindex, form shows a preview note; republished on every push to main |
 | `tools/qa_browser.cjs` | puppeteer-core + installed Edge; exits 1 on any console error, overflow or broken interaction |
 | `RUNBOOK.md` | Build, QA, first deploy, live checks, Google set-up, maintenance |
 | `CLIENT-REVIEW.md` | What the client must approve or supply; none of it blocks launch |
