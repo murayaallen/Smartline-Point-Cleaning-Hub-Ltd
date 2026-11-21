@@ -266,6 +266,14 @@ the client's own logo and from Allen's own sites (Vistex motion system, Viwanda 
     page on both devices** — the reduced-motion passes could not see this class of bug.
   - JS shipped is 29.5 KB of the 30 KB budget — new behaviour should go in an on-demand module
     like `wipe.js`, not into main.js.
+- **v5 (21/11/2026) — no plain cards left on the inner pages:**
+  - `training_record()` is shared: home Training and About Training both use the record card
+    (About pairs it with the carpet-machine photo, `svc-carpet`).
+  - Service pages: "What is included" is one **scope-of-work document** (`.record.scope`):
+    groups flow in columns with drawn ticks, "Agreed in writing" stamp, supervisor sign-off and a
+    link to get it scoped.
+  - Clients: an **editorial index** — numbered rows, client names in large display type, a rule
+    that extends and a warm wash on hover, sector chip; the filter and deep links are unchanged.
 - QA note: images inside the phone swipe deck load when swiped to, so `qa_browser.cjs` skips
   `.rail__viewport` in its "never loaded" check — that is correct lazy behaviour, not a gap.
 - CSP is strict (`script-src 'self'`, `style-src 'self'`): no inline scripts or style attributes;

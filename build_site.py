@@ -272,6 +272,20 @@ def bg_depth(mark=True):
     return '<div class="depth" aria-hidden="true"><span class="glow glow--a"></span><span class="glow glow--b"></span><span class="dots"></span>%s</div>' % wm
 
 
+TICK = ('<svg class="record__tick" viewBox="0 0 24 24" aria-hidden="true" focusable="false">'
+        '<circle cx="12" cy="12" r="10.5" pathLength="1"/><path d="M7 12.4l3.3 3.3L17 9" pathLength="1"/></svg>')
+
+
+def training_record(foot="Refreshed on the job by a named supervisor"):
+    """Six training areas as one record card; the ticks draw in sequence when it scrolls in."""
+    rows = "".join('<li class="record__row"><span class="ico">%s</span><div><b>%s</b><span>%s</span></div>%s</li>'
+                   % (icon(TRAINING_ICON[t]), E(t), E(dsc), TICK) for t, dsc in L.TRAINING)
+    return ('<div class="record" data-reveal><div class="record__head"><span class="record__t">Training record</span>'
+            '<span class="record__stamp">Before placement</span></div><ol class="record__list">%s</ol>'
+            '<div class="record__foot"><img src="/assets/img/logo-mark.svg" width="26" height="29" alt="" loading="lazy">'
+            '<span>%s</span></div></div>' % (rows, E(foot)))
+
+
 def bg_photo(key, side="right", cls=""):
     """A photo laid into the white space of a light section: faded, masked into the page."""
     return ('<div class="bgph bgph--%s%s" aria-hidden="true"><div class="bgph__in">%s</div></div>'
@@ -524,17 +538,11 @@ def home(pg):
                   len(steps), lis))
 
     # training
-    tick = '<svg class="record__tick" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10.5" pathLength="1"/><path d="M7 12.4l3.3 3.3L17 9" pathLength="1"/></svg>'
-    rows = "".join('<li class="record__row"><span class="ico">%s</span><div><b>%s</b><span>%s</span></div>%s</li>'
-                   % (icon(TRAINING_ICON[t]), E(t), E(dsc), tick) for t, dsc in L.TRAINING)
     out.append('<section class="sec sec--white training">' + orbs("a") + '<div class="wrap split"><figure class="split__media" data-reveal="wipe">'
                '<div class="frame" data-parallax-box>%s</div><figcaption class="tag">%s Trained before placement</figcaption></figure>'
-               '<div>%s<div class="record" data-reveal><div class="record__head"><span class="record__t">Training record</span>'
-               '<span class="record__stamp">Before placement</span></div><ol class="record__list">%s</ol>'
-               '<div class="record__foot"><img src="/assets/img/logo-mark.svg" width="26" height="29" alt="" loading="lazy">'
-               '<span>Refreshed on the job by a named supervisor</span></div></div></div></div></section>'
+               '<div>%s%s</div></div></section>'
                % (img("training", "(max-width: 1040px) 92vw, 560px"), icon("badge-check"),
-                  sec_head("Training", "Every Smartline cleaner is trained in"), rows))
+                  sec_head("Training", "Every Smartline cleaner is trained in"), training_record()))
 
     # the finish — wipe the glass (the window photo, misted; the visitor clears it)
     out.append('<section class="sec sec--navy wipe" id="finish" aria-labelledby="h-finish">%s<div class="wrap wipe__grid"><div class="wipe__copy">%s'
@@ -589,11 +597,13 @@ def about(pg):
     ap = S["A-04"]["p"]
     out.append('<section class="sec sec--paper approach">' + bg_photo("svc-commercial", "right", "bgph--tall") + orbs("b") + '<span class="tiles" aria-hidden="true"></span><div class="wrap">%s<h2 class="d3" data-split>%s</h2>'
                '<p class="statement" data-scrub>%s</p></div></section>' % (eyebrow("Our approach"), E(ap["heading"]), E(ap["body"])))
-    tc = "".join('<article class="tcard" data-glow data-reveal><span class="ico">%s</span><span class="tcard__n">%02d</span><h3 class="h3">%s</h3><p>%s</p></article>'
-                 % (icon(TRAINING_ICON[t]), i + 1, E(t), E(dsc)) for i, (t, dsc) in enumerate(L.TRAINING))
-    out.append('<section class="sec sec--white"><div class="wrap">%s<div class="tgrid" data-stagger>%s</div></div></section>'
-               % (sec_head("Training", "How our cleaners are trained",
-                           "Six areas, covered before anyone is placed on a site &mdash; and refreshed by the supervisor on the job."), tc))
+    out.append('<section class="sec sec--white training">%s<div class="wrap split split--rev"><figure class="split__media" data-reveal="wipe">'
+               '<div class="frame" data-parallax-box>%s</div><figcaption class="tag">%s Equipment, chemicals, conduct</figcaption></figure>'
+               '<div>%s%s</div></div></section>'
+               % (orbs("b"), img("svc-carpet", "(max-width: 1040px) 92vw, 560px"), icon("badge-check"),
+                  sec_head("Training", "How our cleaners are trained",
+                           "Six areas, covered before anyone is placed on a site &mdash; and refreshed by the supervisor on the job."),
+                  training_record()))
     out.append('<section class="sec sec--paper"><div class="wrap">%s<div class="facts-wrap">%s'
                '<aside class="doc-card" data-reveal><span class="ico">%s</span><h3 class="h3">Supplier documents</h3>'
                '<p>Procurement teams can request our registration documents and anything else their supplier process needs.</p>'
@@ -697,11 +707,18 @@ def service_page(pg):
     out.append('<section class="sec sec--white"><div class="wrap intro"><div>%s<h2 class="d2" data-split>Who we do this for</h2>'
                '%s</div><div>%s</div></div></section>'
                % (eyebrow("Overview"), chips(who, cls="chip--lg"), "".join('<p class="body-lg" data-reveal>%s</p>' % E(p) for p in intro)))
-    cards = "".join('<article class="ccard" data-glow data-reveal><span class="ccard__n">%02d</span><h3 class="d4">%s</h3><ul class="ticks">%s</ul></article>'
-                    % (i + 1, E(t), "".join("<li>%s</li>" % E(x) for x in xs)) for i, (t, xs) in enumerate(S[pre + "-03"]["p"]["groups"]))
-    out.append('<section class="sec sec--paper"><span class="tiles" aria-hidden="true"></span><div class="wrap">%s<div class="checklist" data-stagger>%s</div></div></section>'
+    groups = S[pre + "-03"]["p"]["groups"]
+    blocks = "".join('<div class="scope__group"><h3 class="scope__h"><span>%02d</span>%s</h3><ul class="scope__list">%s</ul></div>'
+                     % (i + 1, E(t), "".join("<li>%s%s</li>" % (TICK, E(x)) for x in xs)) for i, (t, xs) in enumerate(groups))
+    out.append('<section class="sec sec--paper"><span class="tiles" aria-hidden="true"></span><div class="wrap">%s'
+               '<div class="record scope" data-reveal><div class="record__head"><span class="record__t">Scope of work &middot; %s</span>'
+               '<span class="record__stamp">Agreed in writing</span></div><div class="scope__cols">%s</div>'
+               '<div class="record__foot"><img src="/assets/img/logo-mark.svg" width="26" height="29" alt="" loading="lazy">'
+               '<span>Checked against on every visit &middot; signed off by a named supervisor</span>'
+               '<a class="link-arrow scope__cta" href="%s">Get this scoped for your premises %s</a></div></div></div></section>'
                % (sec_head("Scope", "What is included",
-                           "Agreed in writing before the first visit, and checked against on every visit after it."), cards))
+                           "Agreed in writing before the first visit, and checked against on every visit after it."),
+                  E(pg["nav"]), blocks, quote_url(QQ_SERVICES[slug_][0]), icon("arrow-right")))
     out.append('<section class="sec sec--navy">%s<div class="wrap">%s%s</div></section>'
                % (bg_depth(), sec_head("Method", "How it runs"), timeline(S[pre + "-04"]["p"]["items"])))
     stp = S[pre + "-05"]["p"]
@@ -741,7 +758,8 @@ def clients(pg):
            '<p class="sr-only" id="filter-status" aria-live="polite"></p>'
            % "".join('<button class="chip" type="button" data-filter="%s" aria-pressed="false">%s</button>'
                      % (k, E(C.SECTOR_LABEL[k])) for k in present))
-    cl = "".join('<li class="client" data-sector="%s" data-glow><span class="client__n">%02d</span><span class="client__name">%s</span><span class="client__sector">%s</span></li>'
+    cl = "".join('<li class="client" data-sector="%s"><span class="client__n">%02d</span><span class="client__name">%s</span>'
+                 '<span class="client__rule" aria-hidden="true"></span><span class="client__sector">%s</span></li>'
                  % (C.SECTOR_KEY[s], i + 1, E(n), E(s)) for i, (n, s) in enumerate(L.CLIENTS))
     out.append('<section class="sec sec--white"><div class="wrap">%s%s<ul class="clients" data-stagger>%s</ul></div></section>'
                % (sec_head("Clients", "Clients served",

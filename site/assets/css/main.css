@@ -799,7 +799,7 @@ html.motion-failed .loader { display: none; }
   .hdr__phone span { display: none; }
   .mega__grid { grid-template-columns: repeat(3, 1fr); }
   .mega__feature { grid-column: span 2; }
-      .tgrid, .checklist, .related, .clients { grid-template-columns: repeat(2, 1fr); }
+      .tgrid, .checklist, .related { grid-template-columns: repeat(2, 1fr); }
   .checklist--4 { grid-template-columns: repeat(2, 1fr); }
   .srow { grid-template-columns: 200px 1fr; }
   .srow__actions { grid-column: 2; display: flex; flex-wrap: wrap; }
@@ -1038,9 +1038,50 @@ html.js .record.is-in .record__tick path, html.js .record.is-in .record__tick ci
 .record__foot img { width: 26px; height: 29px; }
 @media (max-width: 760px) {
   .record__head, .record__row, .record__foot { padding-left: 18px; padding-right: 18px; }
+  .record__head { flex-wrap: wrap; gap: 10px; }
+  .record__stamp { order: -1; }
   .record__row { grid-template-columns: 40px 1fr 26px; gap: 12px; }
   .record__row .ico { width: 40px; height: 40px; }
   .record__tick { width: 26px; height: 26px; }
+}
+
+/* ---------------------------------------------------------------- scope of work (service pages) */
+.scope__cols { columns: 3 260px; column-gap: 0; }
+.scope__group { break-inside: avoid; padding: 24px 28px 20px; border-right: 1px dashed var(--line-2); border-bottom: 1px solid var(--line); }
+.scope__h { display: flex; align-items: baseline; gap: 12px; margin-bottom: 12px; font: 700 17px/1.25 var(--font); font-stretch: 112%; color: var(--navy); }
+.scope__h span { font: 800 13px/1 var(--font); font-stretch: 120%; color: var(--amber-ink); }
+.scope__list li { display: flex; gap: 10px; align-items: center; padding: 6px 0; font-size: 15px; color: var(--text-2); }
+.scope__list .record__tick { width: 22px; height: 22px; flex: none; }
+.scope .record__foot { flex-wrap: wrap; }
+.scope__cta { margin-left: auto; }
+.scope__group:nth-child(1) .record__tick * { transition-delay: .4s; } .scope__group:nth-child(2) .record__tick * { transition-delay: .6s; }
+.scope__group:nth-child(3) .record__tick * { transition-delay: .8s; } .scope__group:nth-child(4) .record__tick * { transition-delay: 1s; }
+.scope__group:nth-child(5) .record__tick * { transition-delay: 1.2s; } .scope__group:nth-child(6) .record__tick * { transition-delay: 1.4s; }
+
+/* ---------------------------------------------------------------- clients: an editorial index */
+.clients { display: block; border-top: 1px solid var(--line-2); }
+.client { position: relative; display: grid; grid-template-columns: 64px auto 1fr auto; align-items: center; gap: 22px; min-height: 0; padding: 26px 8px;
+  border: 0; border-bottom: 1px solid var(--line-2); border-radius: 0; background: transparent; overflow: hidden; isolation: isolate;
+  transition: padding .6s var(--ease-out), background-color .4s; }
+.client::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(255,194,0,.12), rgba(252,98,28,.04) 60%, transparent);
+  transform: scaleX(0); transform-origin: left; transition: transform .7s var(--ease-out); }
+.client:hover { padding-left: 22px; background: transparent; transform: none; box-shadow: none; }
+.client:hover::before { transform: scaleX(1); }
+.client__n { font: 800 14px/1 var(--font); font-stretch: 120%; color: var(--amber-ink); }
+.client__name { margin: 0; font: 760 clamp(22px, 2.6vw, 40px)/1.08 var(--font); font-stretch: 118%; letter-spacing: -.025em; color: var(--navy); transition: color .4s; }
+.client:hover .client__name { color: var(--indigo); }
+.client__rule { height: 1px; background: var(--line-2); transform-origin: left; transform: scaleX(.25); transition: transform .8s var(--ease-out), background-color .4s; }
+.client:hover .client__rule { transform: scaleX(1); background: var(--amber); }
+.client__sector { padding: 8px 14px; border-radius: var(--pill); background: var(--paper); font: 600 13px/1 var(--font); font-stretch: 108%; color: var(--text-2); white-space: nowrap; }
+@media (max-width: 760px) {
+  .scope__cols { columns: 1; }
+  .scope__group { border-right: 0; padding: 20px 18px 16px; }
+  .scope__cta { margin-left: 0; }
+  .client { grid-template-columns: 34px 1fr; gap: 6px 12px; padding: 18px 4px; }
+  .client__rule { display: none; }
+  .client__sector { grid-column: 2; justify-self: start; padding: 6px 12px; font-size: 12.5px; }
+  .client__name { font-size: 22px; }
+  .client:hover { padding-left: 4px; }
 }
 
 /* ---------------------------------------------------------------- the finish: wipe the glass */
