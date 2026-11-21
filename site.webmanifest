@@ -1,0 +1,22 @@
+{
+ "name": "Smartline Point Cleaning Hub Ltd",
+ "short_name": "Smartline",
+ "start_url": "/Smartline-Point-Cleaning-Hub-Ltd/",
+ "display": "browser",
+ "background_color": "#F5F5FA",
+ "theme_color": "#101238",
+ "lang": "en-GB",
+ "icons": [
+  {
+   "src": "/Smartline-Point-Cleaning-Hub-Ltd/icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png"
+  },
+  {
+   "src": "/Smartline-Point-Cleaning-Hub-Ltd/icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png"
+  }
+ ],
+ "scope": "/Smartline-Point-Cleaning-Hub-Ltd/"
+}
