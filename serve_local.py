@@ -20,6 +20,17 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     def log_message(self, *a):
         pass
 
+    def end_headers(self):
+        # same prefetch-on-hover rules the live .htaccess announces
+        if self.path.endswith(".html"):
+            self.send_header("Speculation-Rules", '"/speculation-rules.json"')
+        super().end_headers()
+
+    def guess_type(self, path):
+        if str(path).endswith("speculation-rules.json"):
+            return "application/speculationrules+json"
+        return super().guess_type(path)
+
     def _resolve(self):
         path = self.path.split("?")[0].split("#")[0]
         if path == "/":

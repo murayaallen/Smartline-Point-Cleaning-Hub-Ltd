@@ -928,8 +928,9 @@ RewriteCond %{HTTP_HOST} ^www\. [NC]
 RewriteCond %{REQUEST_URI} !^/\.well-known/
 RewriteRule ^ https://__DOMAIN__%{REQUEST_URI} [R=301,L,NE]
 
-# 2. Never serve dotfiles, build leftovers or source maps
+# 2. Never serve dotfiles, build leftovers or source maps (the speculation rules are the one .json we publish)
 RewriteRule (^|/)\.(?!well-known/) - [F]
+RewriteCond %{REQUEST_URI} !^/speculation-rules\.json$
 RewriteRule \.(py|md|json|lock|map|log|bak|sql)$ - [F,NC]
 
 # 3. /index.html -> /   and   /page.html -> /page
@@ -956,6 +957,8 @@ Header always set Referrer-Policy "strict-origin-when-cross-origin"
 Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=()"
 Header always set Cross-Origin-Opener-Policy "same-origin"
 Header always set Content-Security-Policy "default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self'; img-src 'self' data: https://www.googletagmanager.com https://*.google-analytics.com; font-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests"
+# Chromium prefetches a page when a visitor hovers its link (rules in a file, so the CSP stays strict)
+Header set Speculation-Rules "\"/speculation-rules.json\""
 Header unset X-Powered-By
 Header always unset X-Powered-By
 
@@ -974,6 +977,10 @@ Header set Cache-Control "public, max-age=2592000"
 Header set Cache-Control "public, max-age=86400"
 </FilesMatch>
 </IfModule>
+
+<Files "speculation-rules.json">
+ForceType application/speculationrules+json
+</Files>
 
 <IfModule mod_deflate.c>
 AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml application/javascript application/json application/xml image/svg+xml application/manifest+json
@@ -1209,6 +1216,11 @@ def build():
     write("form/enquiry.php", php_handler())
     write(".well-known/security.txt", "Contact: mailto:%s\nExpires: 2027-11-20T00:00:00.000Z\nPreferred-Languages: en\nCanonical: %s/.well-known/security.txt\n"
           % (C.EMAIL, C.ORIGIN))
+    # prefetch (not prerender: the hero intro should play when the page is actually seen)
+    write("speculation-rules.json", json.dumps({"prefetch": [{
+        "where": {"and": [{"href_matches": "/*"}, {"not": {"href_matches": "/form/*"}},
+                          {"not": {"selector_matches": "[target=_blank], [download]"}}]},
+        "eagerness": "moderate"}]}, indent=1) + "\n")
     return pages
 
 

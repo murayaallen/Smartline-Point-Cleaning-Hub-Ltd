@@ -1,4 +1,5 @@
-/* Smartline — browser QA through real device emulation (puppeteer-core + the installed Edge).
+/* Smartline — browser QA through real device emulation (puppeteer-core + an installed Chromium:
+ * $QA_BROWSER if set, else Chrome, else Edge — the first one that actually launches).
  *
  *   NODE_PATH=<folder with puppeteer-core/node_modules> node tools/qa_browser.cjs <out_dir> [base_url]
  *
@@ -15,7 +16,16 @@ const path = require("path");
 const fs = require("fs");
 const puppeteer = require("puppeteer-core");
 
-const EDGE = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe";
+const BROWSERS = [process.env.QA_BROWSER,
+  "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"].filter((x) => x && fs.existsSync(x));
+async function launch() {          // an Edge mid-update refuses to start headless; try the next one
+  for (const exe of BROWSERS) {
+    try { return await puppeteer.launch({ executablePath: exe, headless: true, protocolTimeout: 120000, args: ["--no-first-run", "--disable-gpu"] }); }
+    catch (e) { console.log("  (could not start " + exe + ")"); }
+  }
+  throw new Error("no Chromium browser would start: " + BROWSERS.join(", "));
+}
 const OUT = process.argv[2] || "qa_out";
 const BASE = process.argv[3] || "http://127.0.0.1:8765";
 const PAGES = ["/", "/about", "/services", "/commercial-cleaning", "/residential-apartment-cleaning",
@@ -91,7 +101,8 @@ async function overflow(page) {
 }
 
 (async () => {
-  const browser = await puppeteer.launch({ executablePath: EDGE, headless: true, protocolTimeout: 120000, args: ["--no-first-run", "--disable-gpu"] });
+  const browser = await launch();
+  log("browser: " + (await browser.version()));
 
   // ---------------------------------------------------------- 1. every page, both devices
   for (const p of PAGES) {

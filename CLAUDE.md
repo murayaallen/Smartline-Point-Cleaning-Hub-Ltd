@@ -119,7 +119,7 @@ Source: `share_card.jpeg` (client-supplied 16/11/2026) + the company profile.
 `LAYOUT.md` + `wireframes.html`, generated from `site_layout.py`. 8 content pages (64 sections),
 3 utility pages (thank-you, privacy, 404), 9 global elements incl. cookie notice (GA4 only after
 consent). Home is 10 sections: hero → proof + trusted-by → welcome → services (+ schedules)
-→ why → how we work → trained cleaners → testimonials → FAQ → CTA. Quote form is two
+→ why → how we work → trained cleaners → guarantee → FAQ → CTA (testimonials removed 17/11/2026). Quote form is two
 steps (the job, then you), six required fields, pre-filled from `?service=`.
 - **Service copy for all 13 is DRAFT** — written by us, needs client approval. So do the
   one-line proofs under the six reasons (incl. the re-clean promise).
@@ -173,7 +173,8 @@ returns empty. 45 files in `media/all`: **29 placed, 9 gallery tiles, 7 dropped.
 ## Website build — DONE 20/11/2026
 Pipeline: `build_assets.py [--force]` → `build_site.py` (verify gates) → `make_upload.py`
 (zip in gitignored `dist/`) · preview `serve_local.py 8765` · QA `tools/qa_browser.cjs`
-(puppeteer-core 23.11.1 + installed Edge; must end `ALL CHECKS PASSED`). Full steps in `RUNBOOK.md`.
+(puppeteer-core 23.11.1 + Chrome, falling back to Edge — Edge 158 refused to start headless on
+21/11/2026 mid-update; `$QA_BROWSER` overrides; must end `ALL CHECKS PASSED`). Full steps in `RUNBOOK.md`.
 - Content edits go in `site_layout.py` / `site_content.py`, never in `site/*.html` (generated).
   CSS/JS in `site/assets/` ARE hand-written source — edit them directly.
 - Switches in `site_content.py`: `LOGO_CONCEPT="original"` (the client's logo),
@@ -183,7 +184,8 @@ Pipeline: `build_assets.py [--force]` → `build_site.py` (verify gates) → `ma
   form, filter, lightbox, loader, header hide/return, progress bar); motion-on check: loader, hero
   intro, statement scrub, pinned rail, steps all run with zero console errors; Lighthouse local:
   a11y/best-practices/SEO **100** on all 10 runs, perf 96–99 desktop, 83–94 phone (local server
-  sends uncompressed; observed LCP 210 ms).
+  sends uncompressed; observed LCP 210 ms). 21/11/2026 width sweep: every page at 1920, 1280, 1024,
+  768 and 360 — no overflow, no script errors.
 - Schema is **LocalBusiness** (schema.org has no CleaningService type) — no geo, openingHours,
   sameAs or aggregateRating until the client supplies real values. The 404 page has no canonical.
 
@@ -209,6 +211,13 @@ the client's own logo and from Allen's own sites (Vistex motion system, Viwanda 
   with a big gradient step counter; diagonal wipe reveals on photos; drawn timelines; velocity
   marquees (client names, outlined CTA words); magnetic buttons + cursor glow on cards (mouse only);
   cross-page **view transitions** (Chromium). `boot.js` reveals everything if `main.js` never runs.
+- **Prefetch on hover** (21/11/2026): `.htaccess` sends `Speculation-Rules: "/speculation-rules.json"`
+  (a file, not inline script, so the CSP stays strict); Chromium prefetches same-site pages on hover
+  (`eagerness: moderate`; `/form/*` and new-tab links excluded). Prefetch, **not prerender** — a
+  prerendered page would play its hero intro unseen. `serve_local.py` sends the same header.
+  Verified: hover fetched /about and /clients with `Sec-Purpose: prefetch`; clicks land in ~200 ms.
+- Squeegee sheen: a diagonal light band wipes across card/gallery photos on hover.
+- Keyboard: tabbing to an off-screen card in the pinned rail scrolls the page until it is in view.
 - Icons: Lucide restyled, square caps, miter joins (Allen rejected rounded/childish icons) — now
   1.6px to match the heavier type, in tinted rounded tiles with a gradient dot.
 - Home is full-bleed: art-directed hero (`hero-wide` 16:9 for laptops, `hero-tall` 9:16 for phones,

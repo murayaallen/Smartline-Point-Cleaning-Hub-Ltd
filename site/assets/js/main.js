@@ -163,6 +163,15 @@
     };
     layouts.push(setRail); setRail();
     if (wide.addEventListener) wide.addEventListener("change", function () { setRail(); req(); });
+    /* keyboard: a card tabbed to off to the side scrolls the page until the rail brings it into view */
+    on(track, "focusin", function (e) {
+      if (!rail.classList.contains("is-pinned")) return;
+      var card = e.target.closest(".rcard");
+      if (!card || !dist) return;
+      var p = clamp((card.offsetLeft - 60) / dist, 0, 1);
+      var top = rail.getBoundingClientRect().top + w.scrollY + p * dist;
+      w.scrollTo({ top: top, behavior: "auto" });
+    });
     subs.push(function () {
       if (!rail.classList.contains("is-pinned")) return;
       var p = clamp(-rail.getBoundingClientRect().top / Math.max(1, dist), 0, 1);

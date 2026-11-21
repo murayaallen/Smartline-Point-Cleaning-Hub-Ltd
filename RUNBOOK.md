@@ -42,7 +42,8 @@ NODE_PATH=<dir>/node_modules node tools/qa_browser.cjs <out_dir>
 ```
 
 `qa_browser.cjs` needs `puppeteer-core@23.11.1` installed in any folder
-(`npm i puppeteer-core@23.11.1`) and drives the installed Edge. It loads all
+(`npm i puppeteer-core@23.11.1`) and drives the installed Chrome (or Edge if Chrome
+is missing or will not start; set `QA_BROWSER` to force one). It loads all
 11 pages at 1440 px and as a 390 px phone, fails on any console error, failed
 request or sideways scroll, then clicks through the menu, mega menu, the
 two-step quote form (validation and a real submit), the client filter, the
@@ -83,7 +84,8 @@ pinned services rail, steps): all must run with zero console errors.
 | `/no-such-page` | the 404 page **with status 404** |
 | `/.htaccess`, `/form/`, `/site_content.py` | 403 |
 | `/form/enquiry.php` by GET | 303 to `/contact` |
-| Response headers | CSP, HSTS, `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy` |
+| Response headers | CSP, HSTS, `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy`, `Speculation-Rules` |
+| `/speculation-rules.json` | 200, `application/speculationrules+json` (every other `.json` stays 403) |
 | securityheaders.com | A or A+ |
 | Rich Results Test, home + one service page | LocalBusiness, Breadcrumb, FAQ detected, no errors |
 | PageSpeed Insights, phone | 90+ performance, 100 the rest |

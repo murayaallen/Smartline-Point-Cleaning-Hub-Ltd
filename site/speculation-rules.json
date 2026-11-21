@@ -1,0 +1,24 @@
+{
+ "prefetch": [
+  {
+   "where": {
+    "and": [
+     {
+      "href_matches": "/*"
+     },
+     {
+      "not": {
+       "href_matches": "/form/*"
+      }
+     },
+     {
+      "not": {
+       "selector_matches": "[target=_blank], [download]"
+      }
+     }
+    ]
+   },
+   "eagerness": "moderate"
+  }
+ ]
+}

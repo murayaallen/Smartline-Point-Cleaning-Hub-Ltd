@@ -21,7 +21,7 @@ ZIP = os.path.join(DIST, "%s-upload.zip" % C.DOMAIN)
 REQUIRED = [
     ".htaccess", "robots.txt", "sitemap.xml", "site.webmanifest", "favicon.ico", "favicon.svg",
     "apple-touch-icon.png", "icon-192.png", "icon-512.png", ".well-known/security.txt",
-    "form/.htaccess", "form/enquiry.php",
+    "form/.htaccess", "form/enquiry.php", "speculation-rules.json",
     "index.html", "about.html", "services.html", "commercial-cleaning.html",
     "residential-apartment-cleaning.html", "post-construction-cleaning.html", "clients.html",
     "contact.html", "thank-you.html", "privacy.html", "404.html",
