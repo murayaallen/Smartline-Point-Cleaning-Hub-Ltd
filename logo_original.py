@@ -423,6 +423,22 @@ def mark_outline_svg(height=520.0, cls="", gid="slo"):
             % (cls, _fmt(w), _fmt(height), gid, stops.replace('offset="0"', 'offset="0.35"', 1), gid, paths))
 
 
+def part_path(part, height, ox=0.0, oy=0.0, rot=0.0):
+    """SVG path data for one logo part ("S", "swoosh", "droplet") scaled to `height`, placed at
+    (ox, oy), rotated `rot` degrees about its own centre. Used to draw the background shapes."""
+    import math
+    bx0, by0, bx1, by1 = PARTS[part]["bbox"]
+    k = height / (by1 - by0)
+    w = (bx1 - bx0) * k
+    cx, cy = ox + w / 2, oy + height / 2
+    c, s = math.cos(math.radians(rot)), math.sin(math.radians(rot))
+
+    def T(x, y):
+        px, py = (x - bx0) * k + ox - cx, (by1 - y) * k + oy - cy
+        return (cx + px * c - py * s, cy + px * s + py * c)
+    return _d(PARTS[part]["path"], T), w
+
+
 def seal_core_svg(size=200.0):
     """Centre of the Clean Quality Guaranteed seal: ink disc, brass ring, the reversed S."""
     c = size / 2

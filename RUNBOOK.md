@@ -7,7 +7,7 @@ committed `site/` folder as a zip.
 ## 1. Build
 
 ```bash
-python build_assets.py           # font, grain, icons, logo, seal, images, share cards  (only when these change)
+python build_assets.py           # font, grain, shapes, QR, icons, logo, seal, images, share cards (needs: pip install segno)
 python build_assets.py --force   # re-encode every image, e.g. after changing a crop or the grade
 python build_site.py             # 11 pages + .htaccess, PHP handler, sitemap, robots, manifest — verify() runs last
 python make_upload.py            # dist/smartlinepointcleaning.co.ke-upload.zip, re-opened and checked

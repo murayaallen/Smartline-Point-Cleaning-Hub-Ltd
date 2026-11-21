@@ -1,8 +1,19 @@
 {
  "fonts": {
-  "mona-sans.woff2": 68344
+  "mona-sans.woff2": 68420
  },
  "grain": 8021,
+ "shapes": {
+  "waves.svg": 6869,
+  "drops.svg": 3658,
+  "rings-light.svg": 659,
+  "rings-dark.svg": 659,
+  "ribbon.svg": 1586
+ },
+ "qr": {
+  "modules": 45,
+  "bytes": 2976
+ },
  "icons": {
   "icons": [
    "phone",

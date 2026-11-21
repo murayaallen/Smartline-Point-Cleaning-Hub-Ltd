@@ -55,8 +55,37 @@
     setTimeout(finish, 2800);
   } else {
     if (loader && loader.parentNode) loader.parentNode.removeChild(loader);
-    startHero();
+    if (h.classList.contains("pt-arrive")) setTimeout(startHero, 420); else startHero();
   }
+
+  /* ------------------------------------------------------------- page-to-page loading screen
+     Leaving: a navy panel wipes in from the right (the squeegee edge leading), the client's S and a
+     loading line on it, then the browser navigates. Arriving: boot.js saw the flag and the panel is
+     already covering the first paint; it wipes off to the left. Prefetch-on-hover means the next page
+     is usually ready before the panel has finished. Off under reduced motion. */
+  if (h.classList.contains("pt-arrive")) requestAnimationFrame(function () {
+    requestAnimationFrame(function () {
+      h.classList.add("pt-out");
+      setTimeout(function () { h.classList.remove("pt-arrive", "pt-out"); }, 900);
+    });
+  });
+  function leave(href) {
+    try { sessionStorage.setItem("sl-pt", "1"); } catch (x) {}
+    h.classList.remove("pt-arrive", "pt-out");
+    h.classList.add("pt-leave");
+    if (href) setTimeout(function () { w.location.href = href; }, 480);
+  }
+  if ($(".pt") && !reduce) on(d, "click", function (e) {
+    var a = e.target.closest && e.target.closest("a[href]");
+    if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    if ((a.target && a.target !== "_self") || a.hasAttribute("download")) return;
+    var url = new URL(a.href, w.location.href);
+    if (url.origin !== w.location.origin || /^\/form\//.test(url.pathname)) return;
+    if (url.pathname === w.location.pathname && url.search === w.location.search) return;   /* same page: anchors */
+    e.preventDefault();
+    leave(url.href);
+  });
+  on(w, "pageshow", function (e) { if (e.persisted) h.classList.remove("pt-leave", "pt-arrive", "pt-out"); });
 
   /* ------------------------------------------------------------- header: solid, hide on the way down, progress */
   var hdr = $(".hdr"), prog = $(".hdr__progress"), docH = 1, menuOpen = false;
@@ -137,6 +166,14 @@
     revealables.forEach(function (el) { el.classList.add("is-in"); });
   }
 
+  /* ------------------------------------------------------------- mouse-only effects live in fx.js (phones never fetch it) */
+  function loadFx() {
+    if (!fine || reduce || loadFx.done) return;
+    loadFx.done = 1;
+    var src = d.body.getAttribute("data-fx");
+    if (src) { var sc = d.createElement("script"); sc.src = src; d.head.appendChild(sc); }
+  }
+
   /* ------------------------------------------------------------- the statement lights up word by word */
   var idle = w.requestIdleCallback || function (f) { return setTimeout(f, 200); };
   if (!reduce) idle(function () {
@@ -169,9 +206,9 @@
           k.classList.toggle("is-lit", ws.length > 0 && ws[ws.length - 1].classList.contains("is-lit"));
         });
       });
-      if (fine) magic(el, $$(".sw:not(.sw--key)", el));
     });
     req();
+    loadFx();
   }, { timeout: 1200 });
 
   /* ------------------------------------------------------------- the client's S draws itself beside the welcome */
@@ -347,24 +384,6 @@
         }
         requestAnimationFrame(loop);
       })(last);
-    });
-  }
-
-  /* ------------------------------------------------------------- pointer niceties: magnetic buttons, card glow */
-  if (fine && !reduce) {
-    $$("[data-magnetic]").forEach(function (b) {
-      on(b, "pointermove", function (e) {
-        var r = b.getBoundingClientRect();
-        b.style.translate = ((e.clientX - r.left - r.width / 2) * 0.18).toFixed(1) + "px " + ((e.clientY - r.top - r.height / 2) * 0.28).toFixed(1) + "px";
-      });
-      on(b, "pointerleave", function () { b.style.translate = ""; });
-    });
-    $$("[data-glow]").forEach(function (c) {
-      on(c, "pointermove", function (e) {
-        var r = c.getBoundingClientRect();
-        c.style.setProperty("--mx", (e.clientX - r.left) + "px");
-        c.style.setProperty("--my", (e.clientY - r.top) + "px");
-      });
     });
   }
 
@@ -581,6 +600,7 @@
       if (!checkAll(form)) { e.preventDefault(); return; }
       var btn = $("[type=submit]:not([hidden])", form);
       if (btn) { btn.disabled = true; btn.setAttribute("aria-busy", "true"); }
+      if (!reduce && $(".pt")) leave(null);
     });
   });
   var err = params.get("error"), msgBox = $("#form-msg");
@@ -626,66 +646,6 @@
       on(b, "click", function () { cookie.hidden = false; requestAnimationFrame(function () { cookie.classList.add("is-in"); }); });
     });
   }
-
-  /* ------------------------------------------------------------- interactive type: the logo's colours follow the cursor */
-  function hexRgb(hx) { return [parseInt(hx.slice(1, 3), 16), parseInt(hx.slice(3, 5), 16), parseInt(hx.slice(5, 7), 16)]; }
-  var HOT = [hexRgb("#FFC200"), hexRgb("#F8951A"), hexRgb("#FC621C")];
-  function hot(t) { var a = t < 0.5 ? HOT[0] : HOT[1], b = t < 0.5 ? HOT[1] : HOT[2], k = t < 0.5 ? t * 2 : (t - 0.5) * 2; return [0, 1, 2].map(function (j) { return a[j] + (b[j] - a[j]) * k; }); }
-  function magic(el, units) {
-    if (!units.length) return;
-    var base = (getComputedStyle(units[0]).color.match(/\d+/g) || [16, 18, 56]).slice(0, 3).map(Number), mx = 0, my = 0, active = false, raf = 0, R = 170;
-    function paint() {
-      raf = 0;
-      var box = el.getBoundingClientRect();
-      for (var i = 0; i < units.length; i++) {
-        var r = units[i].getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-        var k = active ? clamp(1 - Math.hypot(cx - mx, cy - my) / R, 0, 1) : 0;
-        if (k <= 0) { if (units[i]._m) { units[i].style.color = ""; units[i]._m = 0; } continue; }
-        k = 1 - Math.pow(1 - k, 2);
-        var c = hot(clamp((cx - box.left) / Math.max(1, box.width), 0, 1));
-        units[i].style.color = "rgb(" + [0, 1, 2].map(function (j) { return Math.round(base[j] + (c[j] - base[j]) * k); }).join(",") + ")";
-        units[i]._m = 1;
-      }
-    }
-    on(el, "pointermove", function (e) { mx = e.clientX; my = e.clientY; active = true; if (!raf) raf = requestAnimationFrame(paint); });
-    on(el, "pointerleave", function () { active = false; if (!raf) raf = requestAnimationFrame(paint); });
-  }
-  function charUnits(el) {
-    var walker = d.createTreeWalker(el, NodeFilter.SHOW_TEXT), nodes = [], out = [];
-    while (walker.nextNode()) nodes.push(walker.currentNode);
-    nodes.forEach(function (n) {
-      if (!n.nodeValue.trim() || (n.parentNode.closest && n.parentNode.closest(".grad, .grad-host, .sw--key"))) return;
-      var frag = d.createDocumentFragment();
-      Array.prototype.forEach.call(n.nodeValue, function (ch) {
-        if (/\s/.test(ch)) { frag.appendChild(d.createTextNode(ch)); return; }
-        var sp = d.createElement("span"); sp.className = "mc"; sp.textContent = ch; frag.appendChild(sp); out.push(sp);
-      });
-      n.parentNode.replaceChild(frag, n);
-    });
-    return out;
-  }
-  if (fine && !reduce) idle(function () {
-    $$(".hero__title, .d1, .d2, .cta__title, .ftr__big").forEach(function (el) { magic(el, charUnits(el)); });
-  }, { timeout: 1500 });
-
-  /* ------------------------------------------------------------- text roll: labels slide up and a fresh copy follows */
-  if (!reduce && fine) idle(function () {
-    $$(".btn, .nav__link").forEach(function (el) {
-      for (var n = el.firstChild; n; n = n.nextSibling) {
-        if (n.nodeType === 3 && n.nodeValue.trim()) {
-          var t = n.nodeValue.trim(), wrap = d.createElement("span"), inner = d.createElement("span");
-          wrap.className = "rt"; wrap.setAttribute("data-t", t); inner.className = "rt__i"; inner.textContent = t;
-          wrap.appendChild(inner);
-          var lead = /^\s/.test(n.nodeValue), trail = /\s$/.test(n.nodeValue);
-          if (lead) el.insertBefore(d.createTextNode(" "), n);
-          el.insertBefore(wrap, n);
-          if (trail) el.insertBefore(d.createTextNode(" "), n);
-          el.removeChild(n);
-          break;
-        }
-      }
-    });
-  }, { timeout: 1500 });
 
   req();
 })();

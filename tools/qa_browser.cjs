@@ -77,8 +77,9 @@ async function scrollThrough(page) {          // like a visitor: triggers lazy i
     window.scrollTo(0, 0);
   });
   await page.waitForNetworkIdle({ idleTime: 400, timeout: 20000 }).catch(() => {});
-  // images in the sideways swipe deck load when swiped to, not when the page scrolls past
-  const pending = await page.$$eval("img", (imgs) => imgs.filter((i) => i.getAttribute("src") && !(i.complete && i.naturalWidth > 0) && !i.closest(".rail__viewport")).map((i) => i.getAttribute("src")));
+  // images in the sideways swipe deck load when swiped to, and images in hidden panels (inactive
+  // picker tabs, the desktop-only QR) load when shown: neither counts as "never loaded"
+  const pending = await page.$$eval("img", (imgs) => imgs.filter((i) => i.getAttribute("src") && !(i.complete && i.naturalWidth > 0) && !i.closest(".rail__viewport") && i.getClientRects().length > 0).map((i) => i.getAttribute("src")));
   return pending;
 }
 
@@ -303,8 +304,19 @@ async function overflow(page) {
     await sleep(3200);
     const spotless = await page.$eval(".wipe__stage", (s) => s.classList.contains("is-spotless"));
     if (!spotless) fail("wipe button did not leave the glass spotless");
+    // page-to-page loading screen: a nav click shows it, the next page arrives covered and clears it
+    await page.evaluate(() => scrollTo(0, 0));
+    await sleep(900);
+    await page.click('.nav__link[href="/about"]');
+    await sleep(250);
+    const leaving = await page.evaluate(() => document.documentElement.classList.contains("pt-leave"));
+    if (!leaving) fail("loading screen did not start when leaving the page");
+    await page.waitForFunction(() => location.pathname === "/about", { timeout: 10000 }).catch(() => fail("nav click did not reach /about"));
+    await sleep(1600);
+    const settled = await page.evaluate(() => ({ cls: document.documentElement.className, vis: getComputedStyle(document.querySelector(".pt")).visibility }));
+    if (/pt-/.test(settled.cls) || settled.vis !== "hidden") fail(`loading screen stuck after arriving: ${JSON.stringify(settled)}`);
     page._problems.forEach((x) => fail("motion " + x));
-    log("ok  motion on: loader, hero entrance, no metrics, statement split, reasons index, wipe the glass");
+    log("ok  motion on: loader, hero entrance, no metrics, statement split, reasons index, wipe the glass, page-to-page loading screen");
     await page.close();
   }
 

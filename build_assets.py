@@ -120,6 +120,96 @@ def build_grain():
     return os.path.getsize(dest)
 
 
+
+
+def build_qr():
+    """A WhatsApp QR for desktop visitors on the contact page (segno, navy on white, quiet zone kept)."""
+    import segno
+    qr = segno.make(C.wa_link(), error="m")
+    buf = io.BytesIO()
+    qr.save(buf, kind="svg", scale=1, border=2, dark="#101238", light="#ffffff", xmldecl=False, svgns=True, nl=False,
+            svgclass=None, lineclass=None)
+    svg = buf.getvalue().decode("utf-8").replace("<svg ", '<svg role="img" aria-label="QR code: chat with Smartline on WhatsApp" ', 1)
+    with open(os.path.join(IMG, "wa-qr.svg"), "w", encoding="utf-8") as f:
+        f.write(svg)
+    return {"modules": qr.symbol_size(scale=1, border=2)[0], "bytes": len(svg)}
+
+# ------------------------------------------------------------------ vector shapes (original, from the logo's geometry)
+def build_shapes():
+    """Decorative vectors for the backgrounds — drawn here, not downloaded, so nothing to license:
+      waves     wiped streaks: parallel flowing lines, indigo to sun
+      drops     the logo's own droplet, scattered at sizes and angles
+      rings     seal language: hairline rings, a dashed ring, two diamonds (light + dark versions)
+      ribbon    the logo's swoosh, outlined and echoed, as a ribbon for navy sections
+    """
+    import math
+    import random
+    import logo_original as LO
+    out_dir = os.path.join(IMG, "shapes")
+    os.makedirs(out_dir, exist_ok=True)
+    grad = ('<linearGradient id="g" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2F2483"/>'
+            '<stop offset=".55" stop-color="#F8951A"/><stop offset="1" stop-color="#FFC200"/></linearGradient>')
+    files = {}
+
+    # waves: seven lines, each a smooth sum of two sines, drifting apart toward the right
+    W, H = 1600, 360
+    lines = []
+    for i in range(7):
+        pts = []
+        for x in range(0, W + 1, 20):
+            t = x / W
+            y = (H * 0.18 + i * 26 + math.sin(t * 5.2 + i * 0.45) * (18 + i * 3)
+                 + math.sin(t * 11.0 + i) * 6 + t * i * 9)
+            pts.append("%d %.1f" % (x, y))
+        lines.append('<path d="M%s" stroke-opacity="%.2f"/>' % (" L".join(pts), 0.9 - i * 0.1))
+    files["waves.svg"] = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %d %d" preserveAspectRatio="none"><defs>%s</defs>'
+                          '<g fill="none" stroke="url(#g)" stroke-width="1.3">%s</g></svg>' % (W, H, grad, "".join(lines)))
+
+    # drops: the client's droplet, scattered (fixed seed: the same picture every build)
+    rnd = random.Random(48018)
+    S = 640
+    drops = []
+    for i in range(13):
+        size = rnd.choice([14, 18, 24, 32, 44, 60])
+        x, y = rnd.uniform(20, S - 80), rnd.uniform(20, S - 80)
+        d, _ = LO.part_path("droplet", size, x, y, rnd.uniform(-30, 30))
+        if i % 3 == 0:
+            drops.append('<path d="%s" fill="none" stroke="#2F2483" stroke-opacity=".5" stroke-width="1.2"/>' % d)
+        else:
+            drops.append('<path d="%s" fill="url(#gd)" fill-opacity="%.2f"/>' % (d, rnd.uniform(0.35, 0.85)))
+    files["drops.svg"] = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %d %d"><defs><linearGradient id="gd" x1="0" y1="0" x2="1" y2="1">'
+                          '<stop offset="0" stop-color="#FFC200"/><stop offset="1" stop-color="#FC621C"/></linearGradient></defs>%s</svg>'
+                          % (S, S, "".join(drops)))
+
+    # rings: concentric hairlines with a dashed ring and diamonds, two colourways
+    def rings(col):
+        c = 300
+        parts = ['<circle cx="%d" cy="%d" r="%d" stroke-opacity="%.2f"/>' % (c, c, r, op)
+                 for r, op in ((290, .35), (240, .55), (236, .25), (170, .45), (110, .3))]
+        parts.append('<circle cx="%d" cy="%d" r="205" stroke-dasharray="2 9" stroke-opacity=".7"/>' % (c, c))
+        dia = "".join('<path d="M%d %d l7 -11 l7 11 l-7 11z" fill="%s" stroke="none" fill-opacity=".8"/>' % (x - 7, c, "#F8951A")
+                      for x in (c - 240, c + 240))
+        return ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600"><g fill="none" stroke="%s" stroke-width="1">%s</g>%s</svg>'
+                % (col, "".join(parts), dia))
+    files["rings-light.svg"] = rings("#FFFFFF")
+    files["rings-dark.svg"] = rings("#2F2483")
+
+    # ribbon: the swoosh outlined, echoed three times, drifting
+    rib = []
+    for i, (dx, dy, op) in enumerate(((0, 0, .9), (26, 18, .55), (52, 36, .3))):
+        d, w = LO.part_path("swoosh", 420, 40 + dx, 40 + dy, -12)
+        rib.append('<path d="%s" stroke-opacity="%.2f"/>' % (d, op))
+    files["ribbon.svg"] = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 620"><defs>%s</defs>'
+                           '<g fill="none" stroke="url(#g)" stroke-width="1.4">%s</g></svg>' % (grad, "".join(rib)))
+
+    sizes = {}
+    for name, svg in files.items():
+        with open(os.path.join(out_dir, name), "w", encoding="utf-8") as f:
+            f.write(svg)
+        sizes[name] = len(svg)
+    return sizes
+
+
 # ------------------------------------------------------------------ logo + seal (vector, text outlined)
 def _pdf_to_svg(draw, w, h, crop=True, pad=1.0):
     """draw(canvas) on a w x h point page -> SVG with text converted to outlines."""
@@ -452,6 +542,8 @@ def main():
     manifest = {}
     manifest["fonts"] = build_fonts()
     manifest["grain"] = build_grain()
+    manifest["shapes"] = build_shapes()
+    manifest["qr"] = build_qr()
     manifest["icons"] = build_icons()
     manifest["logo"] = build_logo()
     manifest["seal"] = build_seal()

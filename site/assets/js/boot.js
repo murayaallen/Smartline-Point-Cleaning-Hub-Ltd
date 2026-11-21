@@ -9,5 +9,11 @@
     else sessionStorage.setItem("sl-seen", "1");
   } catch (e) { h.classList.add("loaded-before"); }
   if (w.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) h.classList.add("reduce-motion");
+  try {   /* arriving from another page of the site: the loading panel covers the first paint */
+    if (sessionStorage.getItem("sl-pt")) {
+      sessionStorage.removeItem("sl-pt");
+      if (!h.classList.contains("reduce-motion")) h.classList.add("pt-arrive");
+    }
+  } catch (e) {}
   setTimeout(function () { if (!w.__slMotion) h.classList.add("motion-failed"); }, 3000);
 })(document, window);
