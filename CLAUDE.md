@@ -62,6 +62,11 @@ https://murayaallen.github.io/Smartline-Point-Cleaning-Hub-Ltd/ — the link for
 `make_pages.py` → `dist/pages` (prefixed paths, noindex, share images re-pointed, server-only files
 dropped, form shows a preview note); `.github/workflows/pages.yml` republishes it to `gh-pages` on every
 push to main touching the site. Never edit `gh-pages` by hand. Details: RUNBOOK §2b.
+**LIVE and verified 21/11/2026**: all 10 pages 200 on extensionless URLs, missing pages get the real
+404 page, browser QA on the live URL passed (desktop + phone, motion on, no request escapes the prefix,
+page loading screen, preview form note). Lesson: Pages did **not** switch on when the Actions bot created
+`gh-pages`; one push to `gh-pages` from Allen's own account enabled it. Settings → Pages now serves
+`gh-pages` / root — leave it.
 
 ## Status
 Quote **accepted** (16/11/2026). **Website v2 BUILT and verified (20/11/2026)** — `site/`.
