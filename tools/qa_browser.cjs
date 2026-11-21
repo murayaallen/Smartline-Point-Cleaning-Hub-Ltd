@@ -294,10 +294,36 @@ async function overflow(page) {
       expanded: document.querySelector("[data-rx-item]:nth-child(4) .rx__btn").getAttribute("aria-expanded"),
       now: document.querySelector("[data-rx-now]").textContent }));
     if (rx.open !== 3 || rx.img !== 3 || rx.expanded !== "true" || rx.now !== "04") fail(`reasons index did not switch: ${JSON.stringify(rx)}`);
+    // wipe the glass: the module loads near the section, mists the pane, and the button clears it
+    await page.evaluate(() => document.querySelector("#finish").scrollIntoView({ block: "center" }));
+    await sleep(1800);
+    const misted = await page.$eval(".wipe__stage", (s) => s.classList.contains("is-misted"));
+    if (!misted) fail("wipe module did not mist the glass");
+    await page.click("[data-wipe-go]");
+    await sleep(3200);
+    const spotless = await page.$eval(".wipe__stage", (s) => s.classList.contains("is-spotless"));
+    if (!spotless) fail("wipe button did not leave the glass spotless");
     page._problems.forEach((x) => fail("motion " + x));
-    log("ok  motion on: loader clears, hero entrance runs, counters land");
+    log("ok  motion on: loader, hero entrance, no metrics, statement split, reasons index, wipe the glass");
     await page.close();
   }
+
+  // ---------------------------------------------------------- 3. motion ON, every page: nothing may stay hidden
+  // (the reduced-motion passes above cannot see a reveal that never fires — this one can)
+  for (const p of PAGES) {
+    for (const d of Object.keys(DEVICES)) {
+      const page = await newPage(browser, d, true);
+      await page.goto(BASE + p, { waitUntil: "load" });
+      await sleep(3300);
+      await page.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 250) { scrollTo(0, y); await new Promise((r) => setTimeout(r, 50)); } });
+      await sleep(1200);
+      const stuck = await page.$$eval("[data-reveal], [data-split]", (els) => els.filter((e) => !e.classList.contains("is-in")).map((e) => e.tagName + "." + e.className.split(" ")[0]));
+      if (stuck.length) fail(`${p} [${d}] motion on: still hidden after scrolling: ${stuck.slice(0, 5).join(", ")}`);
+      page._problems.forEach((x) => fail(`${p} [${d}] motion on: ${x}`));
+      await page.close();
+    }
+  }
+  log("ok  motion on, every page and device: every reveal fires");
 
   await browser.close();
   fs.writeFileSync(path.join(OUT, "report.txt"), failures.length ? failures.join("\n") : "ALL CHECKS PASSED\n");

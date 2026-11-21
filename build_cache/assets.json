@@ -1,6 +1,6 @@
 {
  "fonts": {
-  "mona-sans.woff2": 68564
+  "mona-sans.woff2": 68344
  },
  "grain": 8021,
  "icons": {
@@ -1171,6 +1171,40 @@
     540
    ],
    "alt": ""
+  },
+  "wipe": {
+   "src": "window cleaning.jpg",
+   "aspect": "4:5",
+   "display": 560,
+   "crop": [
+    3589,
+    4486
+   ],
+   "files": [
+    {
+     "file": "wipe-560.webp",
+     "w": 560,
+     "h": 700,
+     "bytes": 14382
+    },
+    {
+     "file": "wipe-840.webp",
+     "w": 840,
+     "h": 1050,
+     "bytes": 24282
+    },
+    {
+     "file": "wipe-1120.webp",
+     "w": 1120,
+     "h": 1400,
+     "bytes": 35604
+    }
+   ],
+   "ratio": [
+    560,
+    700
+   ],
+   "alt": "A window washer resting against a tall pane of glass"
   },
   "trolley": {
    "src": "images.jfif",

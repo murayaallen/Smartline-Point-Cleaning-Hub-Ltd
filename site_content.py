@@ -291,6 +291,9 @@ IMAGES = {
     # come back as navy duotones (background only); two unused small photos frame the heroes.
     "duo-kitchen-bg": ("pexels-6196682.jpg", "16:9", (0.50, 0.50), 1440, ""),
     "duo-team-bg": ("pexels-6196225.jpg", "16:9", (0.50, 0.38), 1440, ""),
+    # home "wipe the glass": the window washer, full height (Allen 21/11/2026: "the window wipe image can be used")
+    "wipe": ("window cleaning.jpg", "4:5", (0.62, 0.56), 560,
+             "A window washer resting against a tall pane of glass"),
     "trolley": ("images.jfif", "4:3", (0.50, 0.50), 600,
                 "A cleaner in yellow gloves preparing a trolley of cleaning supplies"),
     "office-mop": ("closeup-janitor-using-mop-clean-office-floor-maintain-workspace-hygiene-concept-janitorial-services-workplace-cleanliness-commercial-cleaning-office-hygiene-professional-janitor_91883.avif",

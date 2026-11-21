@@ -18,6 +18,8 @@ them blocks launch except where marked; each is a one-line change in
 | 7 | **Areas served** — Nairobi and Kiambu | footer, schema, FAQ | `AREAS` |
 | 8 | **Privacy notice** — enquiries deleted within 12 months; client records kept for the contract plus the legal period | /privacy | `PRIVACY` |
 | 9 | **Named clients** — all nine, permission given 17/11/2026 | Home proof strip, Clients, Contact | `site_layout.CLIENTS` |
+| 10 | **"The finish" copy** — "Glass shows every shortcut… see the standard we work to on every visit" (a stock photo of a window washer is the interactive; it is not presented as their job) | Home, "Clean you can see through" | `build_site.home()` |
+| 11 | **Training record** — "Before placement" and "Refreshed on the job by a named supervisor" are commitments | Home, Training | `build_site.home()` |
 
 ## Supply (we cannot invent these)
 

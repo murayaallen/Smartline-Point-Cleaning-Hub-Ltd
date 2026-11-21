@@ -100,10 +100,39 @@
   });
   var revealables = $$("[data-reveal], [data-split], .tl");
   if ("IntersectionObserver" in w && !reduce) {
+    /* Chrome counts clip-path when it decides what is on screen, so a photo that starts fully
+       wiped away would never "intersect". Watch its parent instead and reveal the photo from that. */
+    var watched = [];
     var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add("is-in"); io.unobserve(en.target); } });
-    }, { rootMargin: "0px 0px -9% 0px", threshold: 0.06 });
-    revealables.forEach(function (el) { io.observe(el); });
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        (en.target._reveal || [en.target]).forEach(function (el) { el.classList.add("is-in"); });
+        io.unobserve(en.target);
+      });
+    }, { rootMargin: "0px 0px -9% 0px", threshold: 0 });
+    revealables.forEach(function (el) {
+      var t = el.getAttribute("data-reveal") === "wipe" ? el.parentElement : el;
+      if (!t._reveal) t._reveal = [];
+      t._reveal.push(el);
+      if (watched.indexOf(t) < 0) { watched.push(t); io.observe(t); }
+    });
+    /* safety net: a fast fling, an anchor jump or a restored scroll position can carry an element
+       past the viewport between two frames — anything already reached is revealed regardless */
+    var lastSweep = 0;
+    subs.push(function () {
+      var now = performance.now();
+      if (now - lastSweep < 300) return;
+      lastSweep = now;
+      watched = watched.filter(function (t) {
+        if (t._reveal[0].classList.contains("is-in")) return false;
+        if (t.getBoundingClientRect().top < vh * 0.91) {
+          t._reveal.forEach(function (el) { el.classList.add("is-in"); });
+          io.unobserve(t);
+          return false;
+        }
+        return true;
+      });
+    });
   } else {
     revealables.forEach(function (el) { el.classList.add("is-in"); });
   }
@@ -250,6 +279,19 @@
       });
     }
   });
+
+  /* ------------------------------------------------------------- wipe the glass: its module loads only when the section comes near */
+  var wipeStage = $("[data-wipe]");
+  if (wipeStage && !reduce && "IntersectionObserver" in w) {
+    var wio = new IntersectionObserver(function (en) {
+      if (!en[0].isIntersecting) return;
+      wio.disconnect();
+      var sc = d.createElement("script");
+      sc.src = wipeStage.getAttribute("data-wipe");
+      d.head.appendChild(sc);
+    }, { rootMargin: "700px 0px" });
+    wio.observe(wipeStage);
+  }
 
   /* ------------------------------------------------------------- how we work: the active step follows the reader */
   var sxItems = $$("[data-sx-item]"), sxNow = $(".sx__now"), sxBar = $(".sx__bar");

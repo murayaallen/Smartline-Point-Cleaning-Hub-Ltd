@@ -25,7 +25,7 @@ REQUIRED = [
     "index.html", "about.html", "services.html", "commercial-cleaning.html",
     "residential-apartment-cleaning.html", "post-construction-cleaning.html", "clients.html",
     "contact.html", "thank-you.html", "privacy.html", "404.html",
-    "assets/css/main.css", "assets/js/main.min.js", "assets/js/boot.js", "assets/img/icons.svg",
+    "assets/css/main.css", "assets/js/main.min.js", "assets/js/wipe.min.js", "assets/js/boot.js", "assets/img/icons.svg",
 ]
 NEVER = (".py", ".pyc", ".md", ".map", ".DS_Store", "Thumbs.db")
 
@@ -38,7 +38,7 @@ def build():
         for n in sorted(names):
             full = os.path.join(base, n)
             rel = os.path.relpath(full, SITE).replace(os.sep, "/")
-            if rel == "assets/js/main.js":       # readable source; pages load main.min.js
+            if rel in ("assets/js/main.js", "assets/js/wipe.js"):     # readable sources; pages load the .min.js
                 continue
             if rel.endswith(NEVER):
                 sys.exit("upload: refusing to ship %s" % rel)

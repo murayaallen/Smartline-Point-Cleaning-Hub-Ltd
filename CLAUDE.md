@@ -247,6 +247,25 @@ the client's own logo and from Allen's own sites (Vistex motion system, Viwanda 
     effects are skipped on touch; blur off on phones; phone hero has a 760w step.
   - JS budget (≤ 30 KB, LAYOUT.md) is measured on what ships: `main.js` is the readable source,
     `build_site.py` writes `main.min.js` (comments/indent stripped) and pages load that.
+- **v4 (21/11/2026):**
+  - **"Wipe the glass"** (Allen: "the window wipe image can be used"): home section *The finish*
+    between Training and the guarantee. `window cleaning.jpg` (key `wipe`) sits under a misted pane
+    drawn on a canvas; the cursor (hover) or a finger (drag) clears it, a two-row demo pass runs on
+    first view and yields the moment the visitor touches the glass, the button runs a full squeegee
+    pass, "Streak-free" + sheen when ≥ 88 % is clear. `site/assets/js/wipe.js` → `wipe.min.js`
+    (5 KB, own 8 KB budget), fetched by main.js only when the section is within 700 px; never under
+    reduced motion (the photo is then simply clean). The home CTA band uses `duo-team-bg` because
+    the window photo now leads its own section (no photo twice on a page).
+  - **Training (home) is a training record**: one document card, six entries with icons, ticks that
+    draw in sequence, "Before placement" stamp, supervisor sign-off line.
+  - **Bug fixed — photos invisible with motion on:** Chrome counts `clip-path` when deciding
+    visibility, so every `data-reveal="wipe"` photo (inner-page hero photos, About/service-page
+    photos, home training) started fully clipped and never revealed. The reveal observer now
+    watches the photo's parent, and a 300 ms safety net reveals anything already scrolled to (fast
+    flings, anchor jumps, restored scroll). `qa_browser.cjs` now runs a **motion-ON sweep of every
+    page on both devices** — the reduced-motion passes could not see this class of bug.
+  - JS shipped is 29.5 KB of the 30 KB budget — new behaviour should go in an on-demand module
+    like `wipe.js`, not into main.js.
 - QA note: images inside the phone swipe deck load when swiped to, so `qa_browser.cjs` skips
   `.rail__viewport` in its "never loaded" check — that is correct lazy behaviour, not a gap.
 - CSP is strict (`script-src 'self'`, `style-src 'self'`): no inline scripts or style attributes;

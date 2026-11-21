@@ -40,18 +40,20 @@ def ver(path):
         return hashlib.sha1(f.read()).hexdigest()[:8]
 
 
-def minify_js():
-    """main.js is the hand-written source; ship main.min.js: block comments out, indentation
-    and blank lines gone, line breaks kept (no ASI surprises). Fails loudly if the result breaks."""
-    src = open(os.path.join(SITE, "assets/js/main.js"), encoding="utf-8").read()
+def minify_js(name):
+    """assets/js/<name>.js is the hand-written source; ship <name>.min.js: block comments out,
+    indentation and blank lines gone, line breaks kept (no ASI surprises)."""
+    src = open(os.path.join(SITE, "assets/js/%s.js" % name), encoding="utf-8").read()
     out = re.sub(r"/\*.*?\*/", "", src, flags=re.S)
     out = "\n".join(l.strip() for l in out.splitlines() if l.strip()) + "\n"
-    with open(os.path.join(SITE, "assets/js/main.min.js"), "w", encoding="utf-8", newline="\n") as f:
+    with open(os.path.join(SITE, "assets/js/%s.min.js" % name), "w", encoding="utf-8", newline="\n") as f:
         f.write(out)
 
 
-minify_js()
+minify_js("main")
+minify_js("wipe")          # loaded on demand by main.js when the wipe section comes near
 V_CSS, V_BOOT, V_JS = ver("assets/css/main.css"), ver("assets/js/boot.js"), ver("assets/js/main.min.js")
+V_WIPE = ver("assets/js/wipe.min.js")
 SPRITE = "/assets/img/icons.svg?v=" + ver("assets/img/icons.svg")
 
 
@@ -289,7 +291,7 @@ def faq_block(items, eb, title, text, link=True):
             '<div class="faq" data-reveal>%s</div></div>' % (eyebrow(eb), E(title), E(text), more, rows))
 
 
-def cta_band(heading="Book your clean today", sub=None, eb="Assuring you the best"):
+def cta_band(heading="Book your clean today", sub=None, eb="Assuring you the best", bg="cta-bg"):
     sub_html = ('<p class="lede">%s</p>' % E(sub)) if sub else '<p class="lede">Call, WhatsApp or send the form. We reply within one working day.</p>'
     run = "".join('<span>%s</span><i aria-hidden="true"></i>' % E(heading) for _ in range(4))
     return ('<section class="cta" aria-label="%s"><div class="cta__bg" aria-hidden="true">%s<span class="glow glow--a"></span>'
@@ -300,7 +302,7 @@ def cta_band(heading="Book your clean today", sub=None, eb="Assuring you the bes
             '<div class="cta__side" data-reveal><a class="cta__phone" href="tel:%s"><small>Call or WhatsApp</small>%s</a>'
             '<div class="btns"><a class="btn btn--sun" href="%s" data-magnetic>Request a quote %s</a>'
             '<a class="btn btn--glass" href="%s" target="_blank" rel="noopener">%s WhatsApp us</a></div></div></div></section>'
-            % (E(heading), img("cta-bg", "100vw", decorative=True), run, run, eyebrow(eb, "label--sun"), E(heading), sub_html,
+            % (E(heading), img(bg, "100vw", decorative=True), run, run, eyebrow(eb, "label--sun"), E(heading), sub_html,
                C.PHONE_E164, E(C.PHONE), quote_url(), icon("arrow-right"), E(C.wa_link()), icon("message-circle")))
 
 
@@ -522,13 +524,32 @@ def home(pg):
                   len(steps), lis))
 
     # training
-    tl = "".join('<li data-reveal><span class="ico">%s</span><div><b>%s</b><span>%s</span></div></li>'
-                 % (icon(TRAINING_ICON[t]), E(t), E(dsc)) for t, dsc in L.TRAINING)
+    tick = '<svg class="record__tick" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10.5" pathLength="1"/><path d="M7 12.4l3.3 3.3L17 9" pathLength="1"/></svg>'
+    rows = "".join('<li class="record__row"><span class="ico">%s</span><div><b>%s</b><span>%s</span></div>%s</li>'
+                   % (icon(TRAINING_ICON[t]), E(t), E(dsc), tick) for t, dsc in L.TRAINING)
     out.append('<section class="sec sec--white training">' + orbs("a") + '<div class="wrap split"><figure class="split__media" data-reveal="wipe">'
                '<div class="frame" data-parallax-box>%s</div><figcaption class="tag">%s Trained before placement</figcaption></figure>'
-               '<div>%s<ul class="tlist" data-stagger>%s</ul></div></div></section>'
+               '<div>%s<div class="record" data-reveal><div class="record__head"><span class="record__t">Training record</span>'
+               '<span class="record__stamp">Before placement</span></div><ol class="record__list">%s</ol>'
+               '<div class="record__foot"><img src="/assets/img/logo-mark.svg" width="26" height="29" alt="" loading="lazy">'
+               '<span>Refreshed on the job by a named supervisor</span></div></div></div></div></section>'
                % (img("training", "(max-width: 1040px) 92vw, 560px"), icon("badge-check"),
-                  sec_head("Training", "Every Smartline cleaner is trained in"), tl))
+                  sec_head("Training", "Every Smartline cleaner is trained in"), rows))
+
+    # the finish — wipe the glass (the window photo, misted; the visitor clears it)
+    out.append('<section class="sec sec--navy wipe" id="finish" aria-labelledby="h-finish">%s<div class="wrap wipe__grid"><div class="wipe__copy">%s'
+               '<h2 class="d2" id="h-finish" data-split>Clean you can <span class="grad">see through.</span></h2>'
+               '<p class="lede" data-reveal>Glass shows every shortcut. It is where a hurried clean gives itself away &mdash; and where ours '
+               'should not. Clear the pane and see the standard we work to on every visit.</p>'
+               '<div class="btns" data-reveal><button class="btn btn--sun wipe__go" type="button" data-wipe-go>%s<span class="wipe__go-t">Wipe it clean</span></button>'
+               '<a class="btn btn--glass" href="%s">Book a clean %s</a></div>'
+               '<p class="wipe__note" data-reveal>%sOn a phone, drag a finger across the glass. On a computer, just move the cursor over it.</p></div>'
+               '<figure class="wipe__stage" data-wipe="/assets/js/wipe.min.js?v=%s">%s<canvas class="wipe__fog" aria-hidden="true"></canvas>'
+               '<span class="wipe__hint" aria-hidden="true"><i></i>Wipe the glass</span>'
+               '<span class="wipe__done" aria-hidden="true">%sStreak-free</span><span class="wipe__bar" aria-hidden="true"><span></span></span>'
+               '</figure></div></section>'
+               % (bg_depth(), eyebrow("The finish"), icon("scan-search"), quote_url(), icon("arrow-right"),
+                  icon("arrow-right"), V_WIPE, img("wipe", "(max-width: 1040px) 92vw, 560px"), icon("circle-check")))
 
     # guarantee
     g = S["H-08"]["p"]
@@ -542,7 +563,7 @@ def home(pg):
     out.append('<section class="sec sec--paper faqsec">%s%s</section>'
                % (bg_photo("svc-residential", "left", "bgph--low"), faq_block(S["H-09"]["p"]["items"], "Questions", "Questions we are asked",
                            "The things clients ask before they book. Anything else, call or WhatsApp.")))
-    out.append(cta_band())
+    out.append(cta_band(bg="duo-team-bg"))
     return "".join(out)
 
 
@@ -1446,6 +1467,9 @@ def verify(pages):
     fonts = sum(os.path.getsize(os.path.join(SITE, "assets/fonts", f)) for f in os.listdir(os.path.join(SITE, "assets/fonts")))
     if js > 30 * 1024:
         errs.append("JavaScript %d bytes > 30 KB budget" % js)
+    wipe = os.path.getsize(os.path.join(SITE, "assets/js/wipe.min.js"))
+    if wipe > 8 * 1024:
+        errs.append("wipe.min.js %d bytes > 8 KB budget (it loads on demand, but stays small)" % wipe)
     if fonts > 120 * 1024:
         errs.append("fonts %d bytes > 120 KB budget" % fonts)
     for f in MAN["images"]["hero-tall"]["files"]:
