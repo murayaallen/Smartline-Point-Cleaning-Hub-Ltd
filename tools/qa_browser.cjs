@@ -285,7 +285,7 @@ async function overflow(page) {
     const st = await page.$eval("[data-scrub]", (e) => ({ words: e.querySelectorAll(".sw").length, keys: e.querySelectorAll(".sw--key").length }));
     if (st.words < 40 || st.keys < 4) fail(`welcome statement not split (${st.words} words, ${st.keys} keywords)`);
     // reasons index: clicking a reason opens it and swaps the photo
-    await page.evaluate(() => document.querySelector("#why").scrollIntoView());
+    await page.evaluate(() => document.querySelector("#why").scrollIntoView({ behavior: "instant" }));   // html is scroll-behavior: smooth — a 4,700px glide could still be moving when the click lands
     await sleep(600);
     await page.click("[data-rx-item]:nth-child(4) .rx__btn");
     await sleep(1300);
@@ -296,7 +296,7 @@ async function overflow(page) {
       now: document.querySelector("[data-rx-now]").textContent }));
     if (rx.open !== 3 || rx.img !== 3 || rx.expanded !== "true" || rx.now !== "04") fail(`reasons index did not switch: ${JSON.stringify(rx)}`);
     // wipe the glass: the module loads near the section, mists the pane, and the button clears it
-    await page.evaluate(() => document.querySelector("#finish").scrollIntoView({ block: "center" }));
+    await page.evaluate(() => document.querySelector("#finish").scrollIntoView({ block: "center", behavior: "instant" }));
     await sleep(1800);
     const misted = await page.$eval(".wipe__stage", (s) => s.classList.contains("is-misted"));
     if (!misted) fail("wipe module did not mist the glass");

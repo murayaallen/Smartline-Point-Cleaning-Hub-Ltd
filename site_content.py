@@ -223,15 +223,16 @@ PRIVACY = [
 # exports WebP at 1x/1.5x/2x of the display width (capped at the source).
 IMAGES = {
     # home
-    "hero": ("corridor+4.webp", "4:5", (0.50, 0.55), 560,
-             "A freshly cleaned corridor, its polished terrazzo floor reflecting the light"),
-    # v2 full-bleed hero: wide for laptops, tall for phones (same photograph, art-directed)
-    "hero-wide": ("corridor+4.webp", "16:9", (0.56, 0.30), 1440,
-                  "A freshly cleaned corridor, its polished terrazzo floor reflecting the light"),
-    "hero-tall": ("corridor+4.webp", "9:16", (0.58, 0.50), 480,
-                  "A freshly cleaned corridor, its polished terrazzo floor reflecting the light"),
-    "why": ("pexels-6196222.jpg", "3:4", (0.50, 0.62), 480,
-            "A uniformed cleaning crew with their equipment outside a house"),
+    "hero": ("unsplash-vrNujj2iGGY.jpg", "4:5", (0.50, 0.62), 560,
+             "A bright glass lobby, its polished floor mirroring the columns and daylight"),
+    # v9 (22/11/2026) the "Squeegee" hero: full-bleed under the mist — 16:10 on laptops,
+    # 4:5 on phones — same photograph, art-directed
+    "hero-wide": ("unsplash-vrNujj2iGGY.jpg", "16:10", (0.50, 0.62), 1440,
+                  "A bright glass lobby, its polished floor mirroring the columns and daylight"),
+    "hero-tall": ("unsplash-vrNujj2iGGY.jpg", "4:5", (0.50, 0.66), 480,
+                  "A bright glass lobby, its polished floor mirroring the columns and daylight"),
+    "why": ("unsplash-TPyA1_0a1uE.jpg", "3:4", (0.50, 0.60), 480,
+            "A bright, spotless bathroom with a freestanding bath and wooden floor"),
     "training": ("cleaning.jpg", "4:3", (0.62, 0.50), 520,
                  "Gloved hands spraying and wiping a surface"),
     # backgrounds
@@ -239,15 +240,15 @@ IMAGES = {
                ""),  # decorative under an ink overlay
     "page-bg": ("office floor.jpg", "21:9", (0.50, 0.70), 1440, ""),
     # about
-    "about-hero": ("pexels-6195121.jpg", "16:9", (0.50, 0.38), 640,
-                   "Three cleaners in uniform at the start of a shift"),
-    "story": ("pexels-6196695.jpg", "4:5", (0.60, 0.45), 480,
-              "A cleaner in overalls working on a kitchen wall"),
-    "community": ("pexels-6195895.jpg", "4:5", (0.40, 0.55), 480,
-                  "A cleaning crew loading equipment into a van"),
+    "about-hero": ("unsplash-7NvBEeHDY7M.jpg", "16:9", (0.50, 0.50), 640,
+                   "A bright open-plan living space, clean and ready for its owners"),
+    "story": ("unsplash-9gzU1mtTzWM.jpg", "4:5", (0.50, 0.55), 480,
+              "A blue spray bottle of cleaner beside a roll of paper towel"),
+    "community": ("unsplash-SaVqlZczQXs.jpg", "4:5", (0.47, 0.55), 480,
+                  "Eco cleaning sprays, a cloth and rubber gloves on a bath edge"),
     # service rows
-    "svc-commercial": ("bg11.jpg", "4:3", (0.55, 0.50), 400,
-                       "A cleaner with a trolley wiping a lift panel in a bright office lobby"),
+    "svc-commercial": ("unsplash-pYlBAu3de0w.jpg", "4:3", (0.45, 0.55), 400,
+                       "A bright open-plan office with clear desks and clean carpet"),
     "svc-carpet": ("Cleaning-Company-South-Africa.webp", "4:3", (0.50, 0.62), 400,
                    "A rotary machine shampooing a carpet"),
     "svc-school": ("hospital floor.avif", "4:3", (0.50, 0.50), 400,
@@ -256,8 +257,8 @@ IMAGES = {
                    "Wooden benches and arched windows in a bright church hall"),
     "svc-residential": ("pexels-pixabay-48889.jpg", "4:3", (0.55, 0.50), 400,
                         "A flat mop working across a wooden floor"),
-    "svc-apartment": ("pexels-9462733.jpg", "4:3", (0.50, 0.58), 400,
-                      "Housekeepers changing the linen on a bed"),
+    "svc-apartment": ("unsplash-ooDvIpnXkwo.jpg", "4:3", (0.50, 0.55), 400,
+                      "A freshly made bed with crisp white linen and pillows"),
     "svc-move": ("pexels-4246098.jpg", "4:3", (0.50, 0.55), 400,
                  "Furniture under dust sheets and stacked moving boxes"),
     "svc-sofa": ("pexels-4401535.jpg", "4:3", (0.45, 0.50), 400,
@@ -270,32 +271,31 @@ IMAGES = {
                  "A scrubbing brush and suds on terracotta tiles"),
     "svc-onetime": ("pexels-caleboquendo-34516664.jpg", "4:3", (0.55, 0.58), 400,
                     "A cleaning trolley, mops and a bin ready in a corridor"),
-    "svc-landscaping": ("pexels-jessicairoh-33123333.jpg", "4:3", (0.50, 0.62), 400,
-                        "A groundsman with a brush cutter in a green compound"),
+    "svc-landscaping": ("unsplash-BoVg3wUOJ_g.jpg", "4:3", (0.50, 0.60), 400,
+                        "A freshly mown, striped lawn between trimmed hedges"),
     # service pages
     "cc-hero": ("office floor.jpg", "4:3", (0.55, 0.50), 600,
                 "A clean open office lobby with glazed partitions"),
-    "ra-hero": ("pexels-6196692.jpg", "4:3", (0.50, 0.50), 600,
-                "Two cleaners at work in a modern apartment kitchen"),
+    "ra-hero": ("unsplash-7pvC_d2iXSE.jpg", "4:3", (0.50, 0.55), 600,
+                "A bright, tidy living room with large windows and plants"),
     "pc-hero": ("pexels-7937304.jpg", "4:3", (0.50, 0.55), 600,
                 "A freshly plastered room before handover"),
     "cc-standard": ("corridor+4.webp", "4:5", (0.50, 0.62), 460,
                     "A polished corridor floor after a commercial clean"),
-    "ra-standard": ("pexels-6197124.jpg", "4:5", (0.50, 0.42), 460,
-                    "A cleaner finishing a glass window in a home"),
-    "pc-standard": ("pexels-6197122.jpg", "4:5", (0.50, 0.42), 460,
-                    "A cleaner working a full-height window"),
+    "ra-standard": ("unsplash-12WFO8yWrsw.jpg", "4:5", (0.50, 0.55), 460,
+                    "A clean, light-filled living room opening onto a view"),
+    "pc-standard": ("unsplash-XKLZia7hPYI.jpg", "4:5", (0.50, 0.55), 460,
+                    "A newly fitted white kitchen, clean and ready for handover"),
     # utility
     "notfound": ("cleaning (1).jpg", "4:3", (0.50, 0.55), 340, "A mop and a wet-floor sign"),
-    # v3 (21/11/2026) — inner page heroes. Two photos dropped only for being black and white
-    # come back as navy duotones (background only); two unused small photos frame the heroes.
-    "duo-kitchen-bg": ("pexels-6196682.jpg", "16:9", (0.50, 0.50), 1440, ""),
-    "duo-team-bg": ("pexels-6196225.jpg", "16:9", (0.50, 0.38), 1440, ""),
+    # v7 (22/11/2026) — inner page hero backgrounds, full colour (no people: Allen, 22/11/2026).
+    "kitchen-bg": ("unsplash-GliaHAJ3_5A.jpg", "16:9", (0.50, 0.45), 1440, ""),
+    "glass-bg": ("unsplash-mN4sEfN79SE.jpg", "16:9", (0.50, 0.50), 1440, ""),
     # home "wipe the glass": the window washer, full height (Allen 21/11/2026: "the window wipe image can be used")
     "wipe": ("window cleaning.jpg", "4:5", (0.62, 0.56), 560,
              "A window washer resting against a tall pane of glass"),
-    "trolley": ("images.jfif", "4:3", (0.50, 0.50), 600,
-                "A cleaner in yellow gloves preparing a trolley of cleaning supplies"),
+    "workspace": ("unsplash-zWWhupBREII.jpg", "4:3", (0.50, 0.55), 600,
+                  "A bright, uncluttered workspace with a clean desk and shelving"),
     "office-mop": ("closeup-janitor-using-mop-clean-office-floor-maintain-workspace-hygiene-concept-janitorial-services-workplace-cleanliness-commercial-cleaning-office-hygiene-professional-janitor_91883.avif",
                    "16:9", (0.55, 0.55), 640, "A flat mop working across a polished office floor"),
 }
@@ -303,7 +303,7 @@ IMAGES = {
 # gallery: "Spaces we look after" (true of stock). Becomes "The work" when real photos replace it.
 GALLERY = [
     ("g-church", "pexels-8468417.jpg", "3:4", (0.50, 0.55), "Churches", "A bright church hall with wooden benches"),
-    ("g-linen", "pexels-9462733.jpg", "3:4", (0.50, 0.55), "Short-stay turnovers", "Bed linen being changed"),
+    ("g-linen", "unsplash-ooDvIpnXkwo.jpg", "3:4", (0.50, 0.55), "Short-stay turnovers", "A freshly made bed with white linen"),
     ("g-glass", "photo-1721620958961-cccc239cbb49.avif", "3:4", (0.50, 0.50), "Glass and partitions", "A squeegee on patterned glass"),
     ("g-polish", "why-professional-deep-cleaning-services-are-vital-after-heavy-rain-in-dubai.webp", "4:3", (0.50, 0.55), "Hard floors", "A floor machine on a polished floor"),
     ("g-newbuild", "pexels-7937304.jpg", "4:3", (0.50, 0.55), "New builds", "A plastered room awaiting handover"),

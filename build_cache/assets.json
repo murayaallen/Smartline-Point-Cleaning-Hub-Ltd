@@ -1,6 +1,6 @@
 {
  "fonts": {
-  "mona-sans.woff2": 68420
+  "mona-sans.woff2": 68316
  },
  "grain": 8021,
  "shapes": {
@@ -76,7 +76,7 @@
    125.28,
    140
   ],
-  "mark_png": "D:\\Projects\\Smartline Point Cleaning Hub Ltd\\site\\icon-512.png"
+  "mark_png": "C:\\Users\\hp\\Desktop\\Smartline-Point-Cleaning-Hub-Ltd\\site\\icon-512.png"
  },
  "seal": {
   "seal-core.svg": [
@@ -90,152 +90,146 @@
  },
  "images": {
   "hero": {
-   "src": "corridor+4.webp",
+   "src": "unsplash-vrNujj2iGGY.jpg",
    "aspect": "4:5",
    "display": 560,
    "crop": [
-    2500,
-    3125
+    6336,
+    7920
    ],
    "files": [
     {
      "file": "hero-560.webp",
      "w": 560,
      "h": 700,
-     "bytes": 76250
+     "bytes": 39130
     },
     {
      "file": "hero-700.webp",
      "w": 700,
      "h": 875,
-     "bytes": 108960
+     "bytes": 55246
     },
     {
      "file": "hero-840.webp",
      "w": 840,
      "h": 1050,
-     "bytes": 144460
+     "bytes": 73136
     },
     {
      "file": "hero-1000.webp",
      "w": 1000,
      "h": 1250,
-     "bytes": 188106
+     "bytes": 95528
     }
    ],
    "ratio": [
     560,
     700
    ],
-   "alt": "A freshly cleaned corridor, its polished terrazzo floor reflecting the light"
+   "alt": "A bright glass lobby, its polished floor mirroring the columns and daylight"
   },
   "hero-wide": {
-   "src": "corridor+4.webp",
-   "aspect": "16:9",
+   "src": "unsplash-vrNujj2iGGY.jpg",
+   "aspect": "16:10",
    "display": 1440,
    "crop": [
-    2500,
-    1406
+    6336,
+    3960
    ],
    "files": [
     {
      "file": "hero-wide-960.webp",
      "w": 960,
-     "h": 540,
-     "bytes": 39658
+     "h": 600,
+     "bytes": 35338
     },
     {
      "file": "hero-wide-1440.webp",
      "w": 1440,
-     "h": 810,
-     "bytes": 70438
+     "h": 900,
+     "bytes": 65174
     },
     {
      "file": "hero-wide-1920.webp",
      "w": 1920,
-     "h": 1080,
-     "bytes": 104792
-    },
-    {
-     "file": "hero-wide-2400.webp",
-     "w": 2400,
-     "h": 1350,
-     "bytes": 145518
+     "h": 1200,
+     "bytes": 100492
     }
    ],
    "ratio": [
     960,
-    540
+    600
    ],
-   "alt": "A freshly cleaned corridor, its polished terrazzo floor reflecting the light"
+   "alt": "A bright glass lobby, its polished floor mirroring the columns and daylight"
   },
   "hero-tall": {
-   "src": "corridor+4.webp",
-   "aspect": "9:16",
+   "src": "unsplash-vrNujj2iGGY.jpg",
+   "aspect": "4:5",
    "display": 480,
    "crop": [
-    1875,
-    3333
+    6336,
+    7920
    ],
    "files": [
     {
      "file": "hero-tall-480.webp",
      "w": 480,
-     "h": 853,
-     "bytes": 63378
+     "h": 600,
+     "bytes": 26324
     },
     {
      "file": "hero-tall-760.webp",
      "w": 760,
-     "h": 1351,
-     "bytes": 126658
+     "h": 950,
+     "bytes": 53026
     },
     {
      "file": "hero-tall-960.webp",
      "w": 960,
-     "h": 1706,
-     "bytes": 178564
+     "h": 1200,
+     "bytes": 74256
     }
    ],
    "ratio": [
     480,
-    853
+    600
    ],
-   "alt": "A freshly cleaned corridor, its polished terrazzo floor reflecting the light"
+   "alt": "A bright glass lobby, its polished floor mirroring the columns and daylight"
   },
   "why": {
-   "src": "pexels-6196222.jpg",
+   "src": "unsplash-TPyA1_0a1uE.jpg",
    "aspect": "3:4",
    "display": 480,
    "crop": [
-    2400,
-    3200
+    4024,
+    5365
    ],
    "files": [
     {
      "file": "why-480.webp",
      "w": 480,
      "h": 640,
-     "bytes": 36696
+     "bytes": 46664
     },
     {
      "file": "why-720.webp",
      "w": 720,
      "h": 960,
-     "bytes": 66834
+     "bytes": 86740
     },
     {
      "file": "why-960.webp",
      "w": 960,
      "h": 1280,
-     "bytes": 101002
+     "bytes": 133598
     }
    ],
    "ratio": [
     480,
     640
    ],
-   "alt": "A uniformed cleaning crew with their equipment outside a house"
+   "alt": "A bright, spotless bathroom with a freestanding bath and wooden floor"
   },
   "training": {
    "src": "cleaning.jpg",
@@ -340,140 +334,140 @@
    "alt": ""
   },
   "about-hero": {
-   "src": "pexels-6195121.jpg",
+   "src": "unsplash-7NvBEeHDY7M.jpg",
    "aspect": "16:9",
    "display": 640,
    "crop": [
-    2400,
-    1350
+    4292,
+    2414
    ],
    "files": [
     {
      "file": "about-hero-640.webp",
      "w": 640,
      "h": 360,
-     "bytes": 12800
+     "bytes": 14820
     },
     {
      "file": "about-hero-960.webp",
      "w": 960,
      "h": 540,
-     "bytes": 22520
+     "bytes": 28696
     },
     {
      "file": "about-hero-1280.webp",
      "w": 1280,
      "h": 720,
-     "bytes": 34136
+     "bytes": 46248
     }
    ],
    "ratio": [
     640,
     360
    ],
-   "alt": "Three cleaners in uniform at the start of a shift"
+   "alt": "A bright open-plan living space, clean and ready for its owners"
   },
   "story": {
-   "src": "pexels-6196695.jpg",
+   "src": "unsplash-9gzU1mtTzWM.jpg",
    "aspect": "4:5",
    "display": 480,
    "crop": [
-    2400,
-    3000
+    2500,
+    3125
    ],
    "files": [
     {
      "file": "story-480.webp",
      "w": 480,
      "h": 600,
-     "bytes": 12036
+     "bytes": 11042
     },
     {
      "file": "story-720.webp",
      "w": 720,
      "h": 900,
-     "bytes": 21266
+     "bytes": 23520
     },
     {
      "file": "story-960.webp",
      "w": 960,
      "h": 1200,
-     "bytes": 31640
+     "bytes": 38622
     }
    ],
    "ratio": [
     480,
     600
    ],
-   "alt": "A cleaner in overalls working on a kitchen wall"
+   "alt": "A blue spray bottle of cleaner beside a roll of paper towel"
   },
   "community": {
-   "src": "pexels-6195895.jpg",
+   "src": "unsplash-SaVqlZczQXs.jpg",
    "aspect": "4:5",
    "display": 480,
    "crop": [
-    1280,
-    1600
+    3213,
+    4016
    ],
    "files": [
     {
      "file": "community-480.webp",
      "w": 480,
      "h": 600,
-     "bytes": 22678
+     "bytes": 20758
     },
     {
      "file": "community-720.webp",
      "w": 720,
      "h": 900,
-     "bytes": 37574
+     "bytes": 37930
     },
     {
      "file": "community-960.webp",
      "w": 960,
      "h": 1200,
-     "bytes": 53322
+     "bytes": 57246
     }
    ],
    "ratio": [
     480,
     600
    ],
-   "alt": "A cleaning crew loading equipment into a van"
+   "alt": "Eco cleaning sprays, a cloth and rubber gloves on a bath edge"
   },
   "svc-commercial": {
-   "src": "bg11.jpg",
+   "src": "unsplash-pYlBAu3de0w.jpg",
    "aspect": "4:3",
    "display": 400,
    "crop": [
-    1333,
-    1000
+    4472,
+    3354
    ],
    "files": [
     {
      "file": "svc-commercial-400.webp",
      "w": 400,
      "h": 300,
-     "bytes": 12756
+     "bytes": 14640
     },
     {
      "file": "svc-commercial-600.webp",
      "w": 600,
      "h": 450,
-     "bytes": 21898
+     "bytes": 26110
     },
     {
      "file": "svc-commercial-800.webp",
      "w": 800,
      "h": 600,
-     "bytes": 31654
+     "bytes": 39752
     }
    ],
    "ratio": [
     400,
     300
    ],
-   "alt": "A cleaner with a trolley wiping a lift panel in a bright office lobby"
+   "alt": "A bright open-plan office with clear desks and clean carpet"
   },
   "svc-carpet": {
    "src": "Cleaning-Company-South-Africa.webp",
@@ -612,38 +606,38 @@
    "alt": "A flat mop working across a wooden floor"
   },
   "svc-apartment": {
-   "src": "pexels-9462733.jpg",
+   "src": "unsplash-ooDvIpnXkwo.jpg",
    "aspect": "4:3",
    "display": 400,
    "crop": [
-    2400,
-    1800
+    3712,
+    2784
    ],
    "files": [
     {
      "file": "svc-apartment-400.webp",
      "w": 400,
      "h": 300,
-     "bytes": 14052
+     "bytes": 7300
     },
     {
      "file": "svc-apartment-600.webp",
      "w": 600,
      "h": 450,
-     "bytes": 24754
+     "bytes": 12380
     },
     {
      "file": "svc-apartment-800.webp",
      "w": 800,
      "h": 600,
-     "bytes": 36254
+     "bytes": 17660
     }
    ],
    "ratio": [
     400,
     300
    ],
-   "alt": "Housekeepers changing the linen on a bed"
+   "alt": "A freshly made bed with crisp white linen and pillows"
   },
   "svc-move": {
    "src": "pexels-4246098.jpg",
@@ -850,38 +844,38 @@
    "alt": "A cleaning trolley, mops and a bin ready in a corridor"
   },
   "svc-landscaping": {
-   "src": "pexels-jessicairoh-33123333.jpg",
+   "src": "unsplash-BoVg3wUOJ_g.jpg",
    "aspect": "4:3",
    "display": 400,
    "crop": [
-    2774,
-    2080
+    5333,
+    4000
    ],
    "files": [
     {
      "file": "svc-landscaping-400.webp",
      "w": 400,
      "h": 300,
-     "bytes": 33012
+     "bytes": 18062
     },
     {
      "file": "svc-landscaping-600.webp",
      "w": 600,
      "h": 450,
-     "bytes": 62554
+     "bytes": 42288
     },
     {
      "file": "svc-landscaping-800.webp",
      "w": 800,
      "h": 600,
-     "bytes": 93348
+     "bytes": 78410
     }
    ],
    "ratio": [
     400,
     300
    ],
-   "alt": "A groundsman with a brush cutter in a green compound"
+   "alt": "A freshly mown, striped lawn between trimmed hedges"
   },
   "cc-hero": {
    "src": "office floor.jpg",
@@ -918,38 +912,38 @@
    "alt": "A clean open office lobby with glazed partitions"
   },
   "ra-hero": {
-   "src": "pexels-6196692.jpg",
+   "src": "unsplash-7pvC_d2iXSE.jpg",
    "aspect": "4:3",
    "display": 600,
    "crop": [
-    2400,
-    1800
+    2844,
+    2133
    ],
    "files": [
     {
      "file": "ra-hero-600.webp",
      "w": 600,
      "h": 450,
-     "bytes": 15668
+     "bytes": 28054
     },
     {
      "file": "ra-hero-900.webp",
      "w": 900,
      "h": 675,
-     "bytes": 25604
+     "bytes": 56562
     },
     {
      "file": "ra-hero-1200.webp",
      "w": 1200,
      "h": 900,
-     "bytes": 37318
+     "bytes": 93434
     }
    ],
    "ratio": [
     600,
     450
    ],
-   "alt": "Two cleaners at work in a modern apartment kitchen"
+   "alt": "A bright, tidy living room with large windows and plants"
   },
   "pc-hero": {
    "src": "pexels-7937304.jpg",
@@ -1020,72 +1014,72 @@
    "alt": "A polished corridor floor after a commercial clean"
   },
   "ra-standard": {
-   "src": "pexels-6197124.jpg",
+   "src": "unsplash-12WFO8yWrsw.jpg",
    "aspect": "4:5",
    "display": 460,
    "crop": [
-    2400,
-    3000
+    4110,
+    5138
    ],
    "files": [
     {
      "file": "ra-standard-460.webp",
      "w": 460,
      "h": 575,
-     "bytes": 14826
+     "bytes": 24956
     },
     {
      "file": "ra-standard-690.webp",
      "w": 690,
-     "h": 862,
-     "bytes": 25614
+     "h": 863,
+     "bytes": 51570
     },
     {
      "file": "ra-standard-920.webp",
      "w": 920,
      "h": 1150,
-     "bytes": 38412
+     "bytes": 87746
     }
    ],
    "ratio": [
     460,
     575
    ],
-   "alt": "A cleaner finishing a glass window in a home"
+   "alt": "A clean, light-filled living room opening onto a view"
   },
   "pc-standard": {
-   "src": "pexels-6197122.jpg",
+   "src": "unsplash-XKLZia7hPYI.jpg",
    "aspect": "4:5",
    "display": 460,
    "crop": [
-    2400,
-    3000
+    4115,
+    5144
    ],
    "files": [
     {
      "file": "pc-standard-460.webp",
      "w": 460,
      "h": 575,
-     "bytes": 16722
+     "bytes": 22194
     },
     {
      "file": "pc-standard-690.webp",
      "w": 690,
-     "h": 862,
-     "bytes": 28992
+     "h": 863,
+     "bytes": 42826
     },
     {
      "file": "pc-standard-920.webp",
      "w": 920,
      "h": 1150,
-     "bytes": 43046
+     "bytes": 67462
     }
    ],
    "ratio": [
     460,
     575
    ],
-   "alt": "A cleaner working a full-height window"
+   "alt": "A newly fitted white kitchen, clean and ready for handover"
   },
   "notfound": {
    "src": "cleaning (1).jpg",
@@ -1115,32 +1109,32 @@
    ],
    "alt": "A mop and a wet-floor sign"
   },
-  "duo-kitchen-bg": {
-   "src": "pexels-6196682.jpg",
+  "kitchen-bg": {
+   "src": "unsplash-GliaHAJ3_5A.jpg",
    "aspect": "16:9",
    "display": 1440,
    "crop": [
-    2400,
-    1350
+    5930,
+    3336
    ],
    "files": [
     {
-     "file": "duo-kitchen-bg-960.webp",
+     "file": "kitchen-bg-960.webp",
      "w": 960,
      "h": 540,
-     "bytes": 28578
+     "bytes": 28268
     },
     {
-     "file": "duo-kitchen-bg-1440.webp",
+     "file": "kitchen-bg-1440.webp",
      "w": 1440,
      "h": 810,
-     "bytes": 50720
+     "bytes": 49610
     },
     {
-     "file": "duo-kitchen-bg-1920.webp",
+     "file": "kitchen-bg-1920.webp",
      "w": 1920,
      "h": 1080,
-     "bytes": 77494
+     "bytes": 72924
     }
    ],
    "ratio": [
@@ -1149,32 +1143,32 @@
    ],
    "alt": ""
   },
-  "duo-team-bg": {
-   "src": "pexels-6196225.jpg",
+  "glass-bg": {
+   "src": "unsplash-mN4sEfN79SE.jpg",
    "aspect": "16:9",
    "display": 1440,
    "crop": [
-    2400,
-    1350
+    4868,
+    2738
    ],
    "files": [
     {
-     "file": "duo-team-bg-960.webp",
+     "file": "glass-bg-960.webp",
      "w": 960,
      "h": 540,
-     "bytes": 30068
+     "bytes": 49102
     },
     {
-     "file": "duo-team-bg-1440.webp",
+     "file": "glass-bg-1440.webp",
      "w": 1440,
      "h": 810,
-     "bytes": 51346
+     "bytes": 99930
     },
     {
-     "file": "duo-team-bg-1920.webp",
+     "file": "glass-bg-1920.webp",
      "w": 1920,
      "h": 1080,
-     "bytes": 79196
+     "bytes": 162298
     }
    ],
    "ratio": [
@@ -1217,33 +1211,39 @@
    ],
    "alt": "A window washer resting against a tall pane of glass"
   },
-  "trolley": {
-   "src": "images.jfif",
+  "workspace": {
+   "src": "unsplash-zWWhupBREII.jpg",
    "aspect": "4:3",
    "display": 600,
    "crop": [
-    603,
-    452
+    5120,
+    3840
    ],
    "files": [
     {
-     "file": "trolley-600.webp",
+     "file": "workspace-600.webp",
      "w": 600,
      "h": 450,
-     "bytes": 16066
+     "bytes": 25030
     },
     {
-     "file": "trolley-603.webp",
-     "w": 603,
-     "h": 452,
-     "bytes": 16378
+     "file": "workspace-900.webp",
+     "w": 900,
+     "h": 675,
+     "bytes": 52058
+    },
+    {
+     "file": "workspace-1200.webp",
+     "w": 1200,
+     "h": 900,
+     "bytes": 83620
     }
    ],
    "ratio": [
     600,
     450
    ],
-   "alt": "A cleaner in yellow gloves preparing a trolley of cleaning supplies"
+   "alt": "A bright, uncluttered workspace with a clean desk and shelving"
   },
   "office-mop": {
    "src": "closeup-janitor-using-mop-clean-office-floor-maintain-workspace-hygiene-concept-janitorial-services-workplace-cleanliness-commercial-cleaning-office-hygiene-professional-janitor_91883.avif",
@@ -1315,44 +1315,44 @@
    "caption": "Churches"
   },
   "g-linen": {
-   "src": "pexels-9462733.jpg",
+   "src": "unsplash-ooDvIpnXkwo.jpg",
    "aspect": "3:4",
    "display": 380,
    "crop": [
-    2400,
-    3200
+    3712,
+    4949
    ],
    "files": [
     {
      "file": "g-linen-380.webp",
      "w": 380,
      "h": 507,
-     "bytes": 18200
+     "bytes": 9642
     },
     {
      "file": "g-linen-570.webp",
      "w": 570,
      "h": 760,
-     "bytes": 31280
+     "bytes": 16290
     },
     {
      "file": "g-linen-760.webp",
      "w": 760,
      "h": 1013,
-     "bytes": 46732
+     "bytes": 24290
     },
     {
      "file": "g-linen-1400.webp",
      "w": 1400,
      "h": 1867,
-     "bytes": 153042
+     "bytes": 81766
     }
    ],
    "ratio": [
     380,
     507
    ],
-   "alt": "Bed linen being changed",
+   "alt": "A freshly made bed with white linen",
    "caption": "Short-stay turnovers"
   },
   "g-glass": {
@@ -1751,39 +1751,39 @@
  "og": {
   "/": {
    "file": "og/home.jpg",
-   "bytes": 120180
+   "bytes": 89516
   },
   "/about": {
    "file": "og/about.jpg",
-   "bytes": 63882
+   "bytes": 66596
   },
   "/services": {
    "file": "og/services.jpg",
-   "bytes": 72402
+   "bytes": 71245
   },
   "/commercial-cleaning": {
    "file": "og/commercial-cleaning.jpg",
-   "bytes": 74568
+   "bytes": 70658
   },
   "/residential-apartment-cleaning": {
    "file": "og/residential-apartment-cleaning.jpg",
-   "bytes": 74654
+   "bytes": 95326
   },
   "/post-construction-cleaning": {
    "file": "og/post-construction-cleaning.jpg",
-   "bytes": 57435
+   "bytes": 54512
   },
   "/clients": {
    "file": "og/clients.jpg",
-   "bytes": 71576
+   "bytes": 69679
   },
   "/contact": {
    "file": "og/contact.jpg",
-   "bytes": 71670
+   "bytes": 69700
   },
   "/privacy": {
    "file": "og/privacy.jpg",
-   "bytes": 112831
+   "bytes": 83130
   }
  }
 }

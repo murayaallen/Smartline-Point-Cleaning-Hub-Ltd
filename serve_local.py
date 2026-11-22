@@ -11,6 +11,7 @@ import sys
 
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "site")
 PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 8765
+CONCEPTS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "dist", "concepts")
 
 
 class Handler(http.server.SimpleHTTPRequestHandler):
@@ -42,7 +43,32 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             return path + ".html"
         return None
 
+    def _concept(self):
+        """Dev only: /concepts/* serves the hero concepts from dist/concepts (make_concepts.py).
+        They are never in site/, so they never reach the upload or the Pages preview."""
+        import mimetypes
+        path = self.path.split("?")[0].split("#")[0]
+        rel = path[len("/concepts"):].lstrip("/") or "index.html"
+        full = os.path.normpath(os.path.join(CONCEPTS, rel))
+        if not full.startswith(CONCEPTS):
+            return False
+        if not os.path.isfile(full) and os.path.isfile(full + ".html"):
+            full += ".html"
+        if not os.path.isfile(full):
+            return False
+        with open(full, "rb") as f:
+            data = f.read()
+        self.send_response(200)
+        self.send_header("Content-Type", mimetypes.guess_type(full)[0] or "application/octet-stream")
+        self.send_header("Content-Length", str(len(data)))
+        self.send_header("Cache-Control", "no-store")
+        self.end_headers()
+        self.wfile.write(data)
+        return True
+
     def do_GET(self):
+        if self.path.startswith("/concepts") and self._concept():
+            return
         target = self._resolve()
         if target is None:
             self.send_response(404)
