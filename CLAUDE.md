@@ -317,6 +317,77 @@ the client's own logo and from Allen's own sites (Vistex motion system, Viwanda 
   the host. Honeypot, 3-second time trap, 5/hour per IP, customer copy.
 - `security.txt` expires 20/11/2027 — rebuild before then.
 
+## Website v7 "Bright" + social pack (22/11/2026) — Allen's brief, do not undo
+Allen: "vivid, visible, bright to imply the cleaning aspect, animated, **remove photos of actual
+people — we don't want fake personnel**; it's about showcasing the service."
+- **No people in any photo.** 14 image keys that showed faces or full figures were replaced with
+  people-free Unsplash photos (Unsplash License, downloaded 22/11/2026 at full resolution into
+  gitignored `media/all/unsplash-<id>.jpg`; page = unsplash.com/photos/<id>): hero/hero-wide/hero-tall
+  vrNujj2iGGY · about-hero 7NvBEeHDY7M · story 9gzU1mtTzWM · community SaVqlZczQXs · why TPyA1_0a1uE ·
+  svc-commercial pYlBAu3de0w · svc-apartment + g-linen ooDvIpnXkwo · svc-landscaping BoVg3wUOJ_g ·
+  ra-hero 7pvC_d2iXSE · ra-standard 12WFO8yWrsw · pc-standard XKLZia7hPYI · workspace (was trolley)
+  zWWhupBREII · kitchen-bg (was duo-kitchen-bg) GliaHAJ3_5A · glass-bg (was duo-team-bg) mN4sEfN79SE.
+  Faceless "hands on a tool" shots (training, g-glass, svc-sofa, svc-carpet…) stay: they show the service.
+  New sources take a bright grade (`_grade(bright=True)` for `unsplash-*`).
+- `build_assets.py` no longer needs the originals: a missing source reuses the WebP files already
+  built from it (fresh clones have no `media/all`). `--force` still needs every original.
+- **Design:** the navy bands are gone except the footer. `main.css` ends with a v7 layer that remaps
+  `--on-dark*`/`--line-dark` inside `.hero/.phero/.cta/.sec--navy`, so navy-era components read on
+  light. Water-blue accent `--aqua #0EA5E9` / `--aqua-ink #0272A8` and `--grad-fresh` (aqua→indigo)
+  beside the swoosh; gradient words on light use `--grad-deep` (legible). Header is dark-on-light
+  from first paint. theme-color `#F2FAFF`.
+- **Home hero:** daylight ground, framed photo right (squeegee fog pass kept), three floating badges
+  (Streak-free finish / Sanitised touchpoints / Checked by a supervisor), seal on the frame corner.
+  ≤1040px: text first, photo card below. Fixed the phone hero eyebrow running into the header.
+- **Bubbles + sparkles:** `fizz()` in build_site.py — pure CSS (`.fizz i` rise, `.fizz b` twinkle),
+  in the home hero, inner heroes and CTA band; still scatter under reduced motion.
+- **Phones: section-by-section transition** — every section arrives like a sheet (rounded top
+  corners, inset edges, rise) via CSS `animation-timeline: view()`; no JS, off under reduced motion,
+  absent where unsupported.
+- QA fix: `qa_browser.cjs` jumps to #why/#finish with `behavior: "instant"` — `html` is
+  `scroll-behavior: smooth`, and a 4,700 px glide was still moving when the test clicked (flaky).
+- Verified 22/11/2026: `verify()` OK, `make_pages.py` OK, `qa_browser.cjs` **ALL CHECKS PASSED**.
+- **Social media pack:** `python make_social.py` → `social/` (gitignored, regenerate any time):
+  46 images — 9 brand/company posts + 13 service spotlights (1080²), a 6-slide Instagram carousel
+  (1080×1350), 11 stories/WhatsApp Status (1080×1920), 3 link posts (1200×630), Facebook/LinkedIn/X
+  covers and a profile picture — plus `CAPTIONS.md` (caption + hashtags per image, 4-week calendar)
+  and `00-overview.jpg`. Copy comes from site_layout, so it matches the site. Its `verify()` fails on
+  fumigation, testimonial/metric wording, or ≠ 13 service posts. MuPDF drops SVG gradient fills, so
+  `svg()` repaints each gradient through a mask (the logo swoosh must stay orange).
+
+## v8 — slim type, three tones, loader with the name, hero concepts (22/11/2026)
+Allen: "the letters and words look fat — a slimmer approach"; "three tones, two baseline and a
+third that is striking"; "where did the loading screen with the logo and company name go?"
+- **Slim type:** every display weight/width in main.css mapped down (780–850 → 560–640, width
+  120–125% → 100–112%); hero title 560 / 104%. Share cards' static Mona "display" instance is
+  108 / 600. **Do not bring back the heavy wide display.**
+- **Three tones, from the logo:** white (base, ~60%) · navy/indigo (base, ~30%) · swoosh orange
+  (the one accent, ~10%: CTAs, one word per headline, sparks). v7's water-blue is folded into
+  indigo (`--aqua*` now alias indigo; sky tints are indigo-tinted whites). No fourth hue.
+- **Loader** now sets SMARTLINE / POINT CLEANING HUB LTD letter by letter in the profile's Gotham
+  Black (`loader_wordmark()`), after the S assembles, tagline in orange. Shows on **every fresh
+  landing** (boot.js: skipped only when arriving page-to-page, which has its own panel). Never
+  under reduced motion — that is the OS "Show animations" switch on Windows.
+- **Hero concepts for review** (dev only): `python make_concepts.py` → gitignored `dist/concepts`,
+  served by `serve_local.py` at `/concepts/a|b|c` (real home page, hero swapped; switcher pill).
+  Source in `concepts/concepts.css|js`. A Squeegee (mist wiped by a blade, frosted panel, scroll
+  settles into a card) · B Droplet (logo droplet falls with the photo inside, scroll grows it from
+  the bulb centre to full screen) · C Navy deck (navy statement, accent word cycles services,
+  card deck fans out as white rises). **Allen picked A** (22/11/2026) — now the live hero (v9).
+
+## v9 — the Squeegee hero, the neon S, auras (22/11/2026)
+- **Home hero = concept A**, wired into the real site: `.hero.hx` (keeps `.hero` so main.js and QA
+  see the entrance), 190vh with a sticky `.hx__pin`; main.js writes `--p` (replaced the old hero
+  parallax). Photo `hero-wide` 16:10 / `hero-tall` 4:5 from vrNujj2iGGY, full-bleed. Mist + blade
+  entrance, frosted panel, scroll settles into a rounded card with "Assuring you the best."
+- **Welcome S is neon** (`neon_mark()`): glowing tubes draw on with scroll (`.nm-tube`), then at
+  `p > .56` `.is-lit` flickers the real logo colours on (indigo S, swoosh gradient, navy droplet)
+  with a breathing glow. Sits in the left column on desktop; a soft watermark on phones.
+- **Aura on every content section** (`add_auras()` in `page()`): drifting indigo / orange / sun
+  light (radial gradients, no blur filter — cheap on phones) and travelling squeegee streaks along
+  the swoosh curve; variants a/b/c alternate down the page. The faint v3 `.orbs` are hidden.
+- Verified: verify OK, make_pages OK, qa_browser ALL CHECKS PASSED (motion on and off, both devices).
+
 ## Open
 - Client: sign-off on drafted copy (13 services, 20 FAQs, re-clean promise, standards,
   areas, privacy retention) — all listed in `CLIENT-REVIEW.md`. None blocks launch.

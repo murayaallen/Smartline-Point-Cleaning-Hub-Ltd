@@ -20,6 +20,7 @@ python build_assets.py [--force]   # fonts, icons, logo, seal, WebP images, shar
 python build_site.py               # pages + server files, then verify() — fails loudly on any defect
 python make_upload.py              # dist/smartlinepointcleaning.co.ke-upload.zip (gitignored)
 python make_pages.py               # dist/pages — the GitHub Pages preview (CI publishes it to gh-pages)
+python make_social.py              # social/ — branded social media pack + CAPTIONS.md (gitignored)
 python serve_local.py 8765         # local preview that behaves like the live .htaccess
 node tools/qa_browser.cjs <out>    # browser QA, 11 pages x desktop + phone, plus interactions
 ```

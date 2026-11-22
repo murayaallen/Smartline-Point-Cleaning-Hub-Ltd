@@ -76,7 +76,7 @@ def build_icons():
 # ------------------------------------------------------------------ fonts
 FONT_SRC = os.path.join(CACHE, "mona-sans-latin.woff2")
 STATIC = {   # static instances for the share cards (PIL) and the seal (ReportLab)
-    "display": {"wdth": 125, "wght": 800},
+    "display": {"wdth": 108, "wght": 600},    # v8: slimmer (was 125 / 800)
     "label": {"wdth": 125, "wght": 650},
     "text": {"wdth": 100, "wght": 500},
 }
@@ -382,10 +382,20 @@ def _crop(im, aspect, focal):
     return im.crop((x0, y0, x0 + cw, y0 + ch))
 
 
-def _grade(im, background=False):
+def _grade(im, background=False, bright=False):
     """One grade for the whole set so mixed sources read as one shoot:
-    a touch warmer, saturation -10%, contrast +3%."""
+    a touch warmer, saturation -10%, contrast +3%.
+    v7 (22/11/2026, "vivid, bright, imply clean"): photos sourced from then on take the
+    bright grade instead — lifted exposure, a cool fresh white, saturation +8%."""
     im = im.convert("RGB")
+    if bright:
+        r, g, b = im.split()
+        r = r.point(lambda v: int(v * 0.985))
+        b = b.point(lambda v: min(255, int(v * 1.02 + 2)))
+        im = Image.merge("RGB", (r, g, b))
+        im = ImageEnhance.Brightness(im).enhance(1.05)
+        im = ImageEnhance.Color(im).enhance(1.08 if not background else 0.98)
+        return ImageEnhance.Contrast(im).enhance(1.04)
     r, g, b = im.split()
     r = r.point(lambda v: min(255, int(v * 1.025)))
     b = b.point(lambda v: int(v * 0.975))
@@ -402,17 +412,37 @@ def _duotone(im):
     return ImageOps.colorize(g, black=(8, 9, 32), mid=(47, 36, 131), white=(255, 224, 170), midpoint=120)
 
 
+def _previous():
+    try:
+        with open(MANIFEST, encoding="utf-8") as f:
+            return json.load(f).get("images", {})
+    except (OSError, ValueError):
+        return {}
+
+
+PREVIOUS = _previous()
+
+
 def _export(key, src, aspect, focal, display, quality=80, background=False, extra_large=None):
     path = os.path.join(SRC, src)
+    if not os.path.exists(path):
+        # media/all is gitignored, so a fresh clone has no originals. Reuse the WebP files
+        # already built from this exact source; fail only when there is nothing to reuse.
+        old = PREVIOUS.get(key)
+        if (not FORCE and old and old.get("src") == src
+                and all(os.path.exists(os.path.join(IMG, x["file"])) for x in old["files"])):
+            return {k: v for k, v in old.items() if k not in ("alt", "caption")}
+        raise SystemExit("image %s: source media/all/%s is missing and no built files match it" % (key, src))
     im = Image.open(path)
     im.load()
     cropped = _crop(im, aspect, focal)
-    crop = _duotone(cropped) if key.startswith("duo-") else _grade(cropped, background)
+    crop = (_duotone(cropped) if key.startswith("duo-")
+            else _grade(cropped, background, bright=src.startswith("unsplash-")))
     cw, ch = crop.size
     if background:
         wants = [960, 1440, 1920]
     elif key == "hero-wide":
-        wants = [960, 1440, 1920, 2400]
+        wants = [960, 1440, 1920]        # v9: full-bleed again (the Squeegee hero)
     elif key == "hero-tall":
         wants = [480, 760, 960]          # 760: a 412px phone at 1.75x needs 721px, so 720 tipped it to 960
     elif key == "hero":

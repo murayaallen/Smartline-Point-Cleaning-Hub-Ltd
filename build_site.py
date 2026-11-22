@@ -125,7 +125,7 @@ def hero_picture():
     ss = lambda rec: ", ".join("/assets/img/%s %dw" % (f["file"], f["w"]) for f in rec["files"])
     fb = wide["files"][1]
     return ('<picture><source media="(max-width: 760px)" srcset="%s" sizes="100vw">'
-            '<img class="hero__img" src="/assets/img/%s" srcset="%s" sizes="100vw" width="%d" height="%d" alt="%s" '
+            '<img class="hx__img" src="/assets/img/%s" srcset="%s" sizes="100vw" width="%d" height="%d" alt="%s" '
             'fetchpriority="high" decoding="async"></picture>'
             % (ss(tall), fb["file"], ss(wide), wide["files"][0]["w"], wide["files"][0]["h"], E(wide["alt"])))
 
@@ -141,13 +141,36 @@ def page_transition():
             '<span class="pt__bar"><span></span></span></div></div>' % LO.mark_parts_svg(64, "pt__s", "ptg"))
 
 
+def loader_wordmark():
+    """SMARTLINE / POINT CLEANING HUB LTD in the profile's own Gotham Black, one path per letter
+    of the name so the loader can set it letter by letter (delays by nth-child in main.css)."""
+    s1 = 60.0
+    w1 = LO.text_width("SMARTLINE", s1)
+    cap1 = .70 * s1
+    x, letters = 0.0, []
+    for ch in "SMARTLINE":
+        path, adv = LO._text_paths(ch, s1, x, cap1, "#FFFFFF")
+        letters.append(path.replace("<path ", '<path class="lw" ', 1))
+        x += adv
+    line2 = "POINT CLEANING HUB LTD"
+    s2 = s1 * .34
+    track = (w1 - LO.text_width(line2, s2)) / (len(line2) - 1)
+    base2 = cap1 + s1 * .30 + .70 * s2
+    sub, _ = LO._text_paths(line2, s2, 0, base2, "#FFFFFF", tracking=track)
+    h = base2 + 2
+    return ('<svg class="loader__word" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %.1f %.1f" width="%.0f" height="%.0f" '
+            'aria-hidden="true" focusable="false"><g>%s</g>%s</svg>'
+            % (w1 + 1, h, w1 + 1, h, "".join(letters), sub.replace("<path ", '<path class="lw-sub" ', 1)))
+
+
 def loader():
-    """First visit per session: the client's S assembles — swoosh, body, droplet — then the
-    screen wipes away diagonally like a squeegee pass. CSS-driven; main.js only removes it."""
+    """Fresh landing (not page-to-page): the client's S assembles — swoosh, body, droplet — the
+    company name sets itself letter by letter, the tagline follows, then the screen wipes away
+    like a squeegee pass. CSS-driven; main.js only removes it."""
     words = "".join("<span>%s</span> " % w for w in "Assuring you the best".split())
-    return ('<div class="loader" aria-hidden="true"><div class="loader__stage">%s'
+    return ('<div class="loader" aria-hidden="true"><div class="loader__stage">%s%s'
             '<p class="loader__tag">%s</p></div><span class="loader__line"></span></div>'
-            % (LO.mark_parts_svg(104, "loader__mark", "ldg"), words.strip()))
+            % (LO.mark_parts_svg(104, "loader__mark", "ldg"), loader_wordmark(), words.strip()))
 
 
 def mega():
@@ -294,7 +317,7 @@ def bg_depth(mark=True, ribbon=False, hero=False):
     and optionally the logo's swoosh as a ribbon, or the hero's seal rings and droplets."""
     wm = ('<img class="wm" src="/assets/img/logo-mark-rev.svg" width="353" height="400" alt="" loading="lazy">' if mark else "")
     extra = (shape("ribbon", "shape--ribbon") if ribbon else "") + (
-        shape("rings-light", "shape--hero-rings") + shape("drops", "shape--hero-drops") if hero else "")
+        shape("rings-dark", "shape--hero-rings") + shape("drops", "shape--hero-drops") if hero else "")
     return ('<div class="depth" aria-hidden="true"><span class="glow glow--a"></span><span class="glow glow--b"></span>'
             '<span class="dots"></span>%s%s</div>' % (wm, extra))
 
@@ -324,6 +347,71 @@ def orbs(kind="a"):
     return '<div class="orbs orbs--%s" aria-hidden="true"><span></span><span></span><span></span></div>' % kind
 
 
+SPARKLE = ('<svg viewBox="0 0 24 24" focusable="false"><path d="M12 0c.7 6.4 5.6 11.3 12 12-6.4.7-11.3 5.6-12 12-.7-6.4-5.6-11.3-12-12C6.4 11.3 11.3 6.4 12 0z"/></svg>')
+
+
+def neon_mark(height=560.0):
+    """v9: the client's S as neon — glowing tubes (pathLength=1, drawn on with scroll by main.js)
+    over the real logo colours, which flicker on once the tubes close (.is-lit). Decorative."""
+    bx0, by0, bx1, by1 = LO.MARK_BOX
+    pad = 4.0
+    k = (height - 2 * pad) / (by1 - by0)
+    w = (bx1 - bx0) * k + 2 * pad
+    T = lambda x, y: ((x - bx0) * k + pad, (by1 - y) * k + pad)
+    P = LO.PARTS
+    ax = P["swoosh"]["axis"]
+    (gx1, gy1), (gx2, gy2) = T(ax[0], ax[1]), T(ax[2], ax[3])
+    stops = "".join('<stop offset="%s" stop-color="%s"/>' % (LO._fmt(o), c) for o, c in P["swoosh"]["stops"])
+    d = {p: LO._d(P[p]["path"], T) for p in ("S", "swoosh", "droplet")}
+    return ('<svg class="draw-s neon-s" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %s %s" aria-hidden="true" focusable="false">'
+            '<defs><linearGradient id="nsg" gradientUnits="userSpaceOnUse" x1="%s" y1="%s" x2="%s" y2="%s">%s</linearGradient></defs>'
+            '<g class="ns-fill"><path class="ns-s" fill="#2F2483" fill-rule="%s" d="%s"/><path class="ns-sw" fill="url(#nsg)" fill-rule="%s" d="%s"/>'
+            '<path class="ns-dr" fill="#101238" fill-rule="%s" d="%s"/></g>'
+            '<g class="ns-tubes" fill="none" stroke-width="2.4" vector-effect="non-scaling-stroke">'
+            '<path class="nm-tube nt-sw" pathLength="1" d="%s"/><path class="nm-tube nt-s" pathLength="1" d="%s"/>'
+            '<path class="nm-tube nt-dr" pathLength="1" d="%s"/></g></svg>'
+            % (LO._fmt(w), LO._fmt(height), LO._fmt(gx1), LO._fmt(gy1), LO._fmt(gx2), LO._fmt(gy2), stops,
+               P["S"]["rule"], d["S"], P["swoosh"]["rule"], d["swoosh"], P["droplet"]["rule"], d["droplet"],
+               d["swoosh"], d["S"], d["droplet"]))
+
+
+AURA_KIND = "abc"
+
+
+def aura(i):
+    """v9: a vivid light field behind a light section — drifting indigo / orange / sun light and
+    travelling squeegee streaks. Three variants, alternated down the page. Decorative, CSS only."""
+    kind = AURA_KIND[i % 3]
+    g = "fl%d" % i
+    streaks = ""
+    if kind in "ac":
+        ys = (60, 120, 170, 230) if kind == "a" else (40, 95, 150)
+        paths = "".join('<path pathLength="1" class="st st--%d" d="M-40 %d C 260 %d, 520 %d, 820 %d S 1320 %d, 1640 %d"/>'
+                        % (j, y, y - 70, y + 60, y - 10, y + 50, y - 30) for j, y in enumerate(ys))
+        streaks = ('<svg class="aura__streaks aura__streaks--%s" viewBox="0 0 1600 280" preserveAspectRatio="none" focusable="false">'
+                   '<defs><linearGradient id="%s" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#FFC200"/>'
+                   '<stop offset=".5" stop-color="#FC621C"/><stop offset="1" stop-color="#3E31A6"/></linearGradient></defs>'
+                   '<g fill="none" stroke="url(#%s)">%s</g></svg>' % (kind, g, g, paths))
+    return '<div class="aura aura--%s" aria-hidden="true"><span></span><span></span><span></span>%s</div>' % (kind, streaks)
+
+
+def add_auras(body):
+    """Lay an aura into every content section (the hero, trusted strip and CTA have their own)."""
+    n = [0]
+
+    def rep(m):
+        n[0] += 1
+        return m.group(0) + aura(n[0] - 1)
+    return re.sub(r'<section class="sec[ "][^>]*>', rep, body)
+
+
+def fizz(kind="a", bubbles=10, sparkles=4):
+    """v7 'bright': soap bubbles rising and sparkle glints twinkling — the clean made visible.
+    Pure CSS (positions and timings by nth-child in main.css); still under reduced motion."""
+    return ('<div class="fizz fizz--%s" aria-hidden="true">%s%s</div>'
+            % (kind, "<i></i>" * bubbles, ('<b>%s</b>' % SPARKLE) * sparkles))
+
+
 def faq_block(items, eb, title, text, link=True):
     rows = "".join('<details class="faq__item"><summary><span class="faq__q">%s</span><span class="faq__pm" aria-hidden="true"></span></summary>'
                    '<div class="faq__a"><p>%s</p></div></details>' % (E(q), E(C.FAQ[q])) for q in items)
@@ -336,14 +424,14 @@ def cta_band(heading="Book your clean today", sub=None, eb="Assuring you the bes
     sub_html = ('<p class="lede">%s</p>' % E(sub)) if sub else '<p class="lede">Call, WhatsApp or send the form. We reply within one working day.</p>'
     run = "".join('<span>%s</span><i aria-hidden="true"></i>' % E(heading) for _ in range(4))
     return ('<section class="cta" aria-label="%s"><div class="cta__bg" aria-hidden="true">%s%s<span class="glow glow--a"></span>'
-            '<span class="glow glow--sun"></span></div>'
+            '<span class="glow glow--sun"></span></div>%s'
             '<div class="marquee marquee--cta" aria-hidden="true" data-marquee="-0.6"><div class="marquee__track">'
             '<div class="marquee__group">%s</div><div class="marquee__group">%s</div></div></div>'
             '<div class="wrap cta__grid"><div>%s<h2 class="d1 cta__title" data-split>%s</h2>%s</div>'
             '<div class="cta__side" data-reveal><a class="cta__phone" href="tel:%s"><small>Call or WhatsApp</small>%s</a>'
             '<div class="btns"><a class="btn btn--sun" href="%s" data-magnetic>Request a quote %s</a>'
             '<a class="btn btn--glass" href="%s" target="_blank" rel="noopener">%s WhatsApp us</a></div></div></div></section>'
-            % (E(heading), img(bg, "100vw", decorative=True), shape("rings-light", "shape--cta-rings"), run, run, eyebrow(eb, "label--sun"), E(heading), sub_html,
+            % (E(heading), img(bg, "100vw", decorative=True), shape("rings-dark", "shape--cta-rings"), fizz("cta", 12, 5), run, run, eyebrow(eb, "label--sun"), E(heading), sub_html,
                C.PHONE_E164, E(C.PHONE), quote_url(), icon("arrow-right"), E(C.wa_link()), icon("message-circle")))
 
 
@@ -382,8 +470,8 @@ def page_hero(trail, h1, lede, image=None, chips_html="", tex=False, service=Fal
     inner = ('<div class="phero__text">%s%s<h1 class="d1" data-split>%s</h1><p class="lede" data-reveal>%s</p>%s%s</div>'
              % (crumbs(trail) if trail else "", eyebrow(eb, "label--sun") if eb else "", E(h1), E(lede),
                 ('<div data-reveal>%s</div>' % btns) if btns else "", chips_html))
-    return ('<section class="%s"><div class="phero__bg" aria-hidden="true">%s</div>%s'
-            '<div class="wrap phero__grid">%s%s</div></section>' % (cls, bg, bg_depth(hero=True), inner, media))
+    return ('<section class="%s"><div class="phero__bg" aria-hidden="true">%s</div>%s%s'
+            '<div class="wrap phero__grid">%s%s</div></section>' % (cls, bg, bg_depth(hero=True), fizz("phero", 9, 4), inner, media))
 
 
 # ================================================================== forms
@@ -476,20 +564,23 @@ def home(pg):
     S = {s["id"]: s for s in pg["sections"]}
     h = S["H-01"]["p"]
     trust = "".join('<li>%s%s</li>' % (icon("check"), E(t)) for t in h["trust"])
-    out = ['<section class="hero" aria-labelledby="hero-title"><div class="hero__media" aria-hidden="true">%s'
-           '<span class="hero__fog"></span><span class="hero__blade"></span></div>'
-           '<div class="hero__shade" aria-hidden="true"></div><span class="hero__sheen" aria-hidden="true"></span>'
-           '<div class="wrap hero__inner"><div class="hero__copy">%s'
-           '<h1 class="hero__title" id="hero-title"><span class="ln"><span class="w">Where</span> <span class="w">cleanliness</span></span> '
-           '<span class="ln"><span class="w">meets</span> <span class="w grad">excellence.</span></span></h1>'
-           '<p class="hero__lede">%s</p><div class="btns hero__btns"><a class="btn btn--sun btn--lg" href="%s" data-magnetic>Request a quote %s</a>'
-           '<a class="btn btn--glass btn--lg" href="%s" target="_blank" rel="noopener">%s WhatsApp us</a></div>'
-           '<ul class="hero__trust">%s</ul></div>%s</div>'
-           '<div class="hero__foot"><div class="wrap hero__foot-in"><a class="hero__cue" href="#welcome"><i aria-hidden="true"></i>Scroll to explore</a>'
-           '<span class="hero__where">Kasarani, Nairobi &middot; serving Nairobi &amp; Kiambu</span></div></div></section>'
-           % (hero_picture(), eyebrow("Commercial · residential · post-construction · since 2018", "label--sun"),
-              E(h["sub"]), quote_url(), icon("arrow-right"), E(C.wa_link()), icon("message-circle"), trust,
-              seal("seal hero__seal"))]
+    # v9 (22/11/2026, Allen picked concept A "Squeegee"): the photo lands misted, a squeegee blade
+    # with the swoosh's orange edge wipes it clear, a frosted panel carries the words; scrolling
+    # pins the hero, slides the panel away and settles the photo into a card. main.js writes --p.
+    out = ['<section class="hero hx" aria-labelledby="hero-title"><div class="hx__pin">'
+           '<div class="hx__photo">%s</div>'
+           '<div class="hx__veil" aria-hidden="true"></div><div class="hx__blade" aria-hidden="true"><i></i></div>'
+           '<div class="hx__panel" aria-hidden="true"></div>%s'
+           '<div class="wrap hx__inner"><div class="hx__copy">%s'
+           '<h1 class="hx__title" id="hero-title"><span class="ln"><span class="w">Where</span> <span class="w">cleanliness</span></span> '
+           '<span class="ln"><span class="w">meets</span> <span class="w acc">excellence.</span></span></h1>'
+           '<p class="hx__lede">%s</p><div class="btns hx__btns"><a class="btn btn--sun btn--lg" href="%s" data-magnetic>Request a quote %s</a>'
+           '<a class="btn btn--ghost btn--lg" href="%s" target="_blank" rel="noopener">%s WhatsApp us</a></div>'
+           '<ul class="hx__trust">%s</ul></div></div>'
+           '<div class="hx__end" aria-hidden="true"><p>Assuring you <em>the best.</em></p></div>'
+           '<a class="hx__cue" href="#welcome"><i aria-hidden="true"></i>Scroll</a></div></section>'
+           % (hero_picture(), fizz("hero", 10, 5), eyebrow("Commercial · residential · post-construction · since 2018"),
+              E(h["sub"]), quote_url(), icon("arrow-right"), E(C.wa_link()), icon("message-circle"), trust)]
 
     # trusted-by: the client names run past in display type
     names = "".join("<span>%s</span><i aria-hidden=\"true\"></i>" % E(n) for n, _ in L.CLIENTS)
@@ -511,7 +602,7 @@ def home(pg):
                '<p class="statement" data-scrub>%s</p>'
                '<div class="welcome__foot" data-reveal><div class="signature"><img src="/assets/img/logo-mark.svg" width="39" height="44" alt="" loading="lazy">'
                '<span>Assuring you the best</span></div><a class="btn btn--ghost" href="/about">About Smartline %s</a></div></div></section>'
-               % (bg_photo("cc-hero", "right", "bgph--tall"), orbs("a"), LO.mark_outline_svg(560, "draw-s", "dso"),
+               % (bg_photo("cc-hero", "right", "bgph--tall"), orbs("a"), neon_mark(560),
                   eyebrow("Welcome"), head, body, icon("arrow-right")))
 
     # services — a pinned horizontal rail on desktop, a swipe deck on phones
@@ -598,7 +689,7 @@ def home(pg):
     out.append('<section class="sec sec--paper faqsec">%s%s</section>'
                % (bg_photo("svc-residential", "left", "bgph--low"), faq_block(S["H-09"]["p"]["items"], "Questions", "Questions we are asked",
                            "The things clients ask before they book. Anything else, call or WhatsApp.")))
-    out.append(cta_band(bg="duo-team-bg"))
+    out.append(cta_band(bg="glass-bg"))
     return "".join(out)
 
 
@@ -610,7 +701,7 @@ def spec_table(rows, caption):
 def about(pg):
     S = {s["id"]: s for s in pg["sections"]}
     out = [page_hero([("/", "Home"), ("/about", "About")], "About Smartline", S["A-01"]["p"]["sub"], image="about-hero",
-                     eb="Est. 2018 · Kasarani, Nairobi", bg_key="duo-team-bg")]
+                     eb="Est. 2018 · Kasarani, Nairobi", bg_key="glass-bg")]
     st = S["A-02"]["p"]
     out.append('<section class="sec sec--white story"><div class="wrap split"><div>%s<h2 class="d2" data-split>%s</h2>'
                '<p class="body-lg" data-reveal>%s</p><p class="body-lg" data-reveal>%s</p></div>'
@@ -705,7 +796,7 @@ def services(pg):
     hero = S["S-01"]["p"]
     ch = chips([g for g, _, _ in L.GROUPS], link=lambda g: "#" + GROUP_ANCHOR[g], cls="chip--glass")
     out = [page_hero([("/", "Home"), ("/services", "Services")], "Our services", hero["sub"], chips_html=ch,
-                     eb="13 services · one point of contact", image="trolley", bg_key="duo-kitchen-bg")]
+                     eb="13 services · one point of contact", image="workspace", bg_key="kitchen-bg")]
     sub = "".join('<li><a href="#%s"><small>%02d</small>%s</a></li>' % (GROUP_ANCHOR[g], i + 1, E(g)) for i, (g, _, _) in enumerate(L.GROUPS))
     out.append('<nav class="subnav" aria-label="Service groups"><div class="wrap"><ul class="subnav__list">%s</ul></div></nav>' % sub)
     out.append(premises_picker())
@@ -768,8 +859,8 @@ def service_page(pg):
     btns = ('<div class="btns"><a class="btn btn--sun" href="%s" data-magnetic>Request a quote %s</a>'
             '<a class="btn btn--glass" href="%s" target="_blank" rel="noopener">%s WhatsApp us</a></div>'
             % (quote_url(QQ_SERVICES[slug_][0]), icon("arrow-right"), E(C.wa_link(pg["nav"])), icon("message-circle")))
-    hero_bg = {"/commercial-cleaning": "office-mop", "/residential-apartment-cleaning": "duo-kitchen-bg",
-               "/post-construction-cleaning": "duo-team-bg"}[slug_]
+    hero_bg = {"/commercial-cleaning": "office-mop", "/residential-apartment-cleaning": "kitchen-bg",
+               "/post-construction-cleaning": "glass-bg"}[slug_]
     out = [page_hero([("/", "Home"), ("/services", "Services"), (slug_, pg["nav"])], pg["h1"], hp["sub"],
                      image=C.PAGE_IMAGES[slug_], service=True, btns=btns, bg_key=hero_bg)]
     intro = C.SERVICE_INTRO[slug_]
@@ -819,7 +910,7 @@ def service_page(pg):
 
 def clients(pg):
     out = [page_hero([("/", "Home"), ("/clients", "Clients")], pg["h1"], pg["sections"][0]["p"]["sub"],
-                     eb="Named with permission", image="office-mop", bg_key="duo-team-bg")]
+                     eb="Named with permission", image="office-mop", bg_key="glass-bg")]
     present = []
     for _, sector in L.CLIENTS:
         k = C.SECTOR_KEY[sector]
@@ -891,7 +982,7 @@ def contact(pg):
 
 def thank_you(pg):
     S = {s["id"]: s for s in pg["sections"]}
-    out = [page_hero(None, pg["h1"], S["T-01"]["p"]["sub"], eb="Request received", image="community", bg_key="duo-kitchen-bg")]
+    out = [page_hero(None, pg["h1"], S["T-01"]["p"]["sub"], eb="Request received", image="community", bg_key="kitchen-bg")]
     out.append('<section class="sec sec--white"><div class="wrap">%s%s</div></section>'
                % (sec_head("Next", "What happens next"), timeline(S["T-02"]["p"]["items"])))
     out.append(cta_band("Need us sooner?", "Call or WhatsApp and we will pick it up straight away.", "Urgent"))
@@ -903,7 +994,7 @@ def privacy(pg):
     toc = "".join('<li><a href="#p-%s"><small>%02d</small>%s</a></li>' % (slug(t), i + 1, E(t)) for i, (t, _) in enumerate(C.PRIVACY))
     out = [page_hero([("/", "Home"), ("/privacy", "Privacy notice")], pg["h1"],
                      "How we collect, use and protect your personal data under Kenya’s Data Protection Act, 2019.",
-                     bg_key="duo-team-bg", eb="Data Protection Act, 2019")]
+                     bg_key="glass-bg", eb="Data Protection Act, 2019")]
     out.append('<section class="sec sec--white">%s<div class="wrap doc-wrap"><nav class="doc-toc" aria-label="On this page"><p class="label">On this page</p><ol>%s</ol>'
                '<a class="btn btn--ghost btn--sm" href="mailto:%s?subject=%s">Ask about your data %s</a></nav>'
                '<div class="doc">%s<p class="doc__meta">Last updated %s</p></div></div></section>'
@@ -1035,7 +1126,7 @@ def head(pg, trail, faqs, index=True, key="page"):
             '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">'
             '<title>%s</title><meta name="description" content="%s">%s'
             '<meta name="robots" content="%s">%s'
-            '<meta name="theme-color" content="#101238"><meta name="author" content="%s">'
+            '<meta name="theme-color" content="#F2FAFF"><meta name="author" content="%s">'
             '<meta name="geo.region" content="KE-30"><meta name="geo.placename" content="Nairobi">'
             '<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="icon" href="/favicon.ico" sizes="any">'
             '<link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="manifest" href="/site.webmanifest">'
@@ -1059,7 +1150,7 @@ def head(pg, trail, faqs, index=True, key="page"):
 
 def page(pg, body, current, trail, faqs, index=True, key="page"):
     return (head(pg, trail, faqs, index, key) + '<a class="skip" href="#main">Skip to content</a>' + page_transition() + loader()
-            + header(current) + drawer() + '<main id="main">' + body + '</main>' + footer()
+            + header(current) + drawer() + '<main id="main">' + add_auras(body) + '</main>' + footer()
             + actionbar() + cookie_bar() + '</body></html>')
 
 
