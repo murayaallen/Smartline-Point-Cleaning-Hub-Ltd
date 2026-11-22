@@ -387,6 +387,9 @@ third that is striking"; "where did the loading screen with the logo and company
   light (radial gradients, no blur filter — cheap on phones) and travelling squeegee streaks along
   the swoosh curve; variants a/b/c alternate down the page. The faint v3 `.orbs` are hidden.
 - Verified: verify OK, make_pages OK, qa_browser ALL CHECKS PASSED (motion on and off, both devices).
+- Final sweep 22/11/2026 before merging to main: rebuild unchanged, qa_browser ALL CHECKS PASSED,
+  every page at 1920/1280/1024/768/360 with a full scroll-through — no overflow, no script errors
+  (the 404 page's own 404 status is the only console line, by design); make_social 46 images OK.
 
 ## Open
 - Client: sign-off on drafted copy (13 services, 20 FAQs, re-clean promise, standards,
