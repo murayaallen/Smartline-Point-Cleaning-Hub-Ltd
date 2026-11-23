@@ -535,7 +535,7 @@ def quote_form():
             '<button class="btn btn--ghost" type="button" data-back hidden>Back</button>'
             '<button class="btn btn--sun" type="submit" data-submit>Send request %s</button></div>'
             '<p class="form-msg" id="form-msg" role="alert" data-phone="%s" hidden></p>'
-            '<ul class="proofbox"><li>%sTrusted by Uwezo Microfinance Bank, St Christopher&rsquo;s International School and Jewel Complex</li>'
+            '<ul class="proofbox"><li>%sClients served include Uwezo Microfinance Bank, St Christopher&rsquo;s International School and Jewel Complex</li>'
             '<li>%s%s</li><li>%sTrained, uniformed, supervised teams</li></ul></form>'
             % (hidden_bits("/contact", "quote"), s1, s2, icon("arrow-right"), icon("send"), E(C.PHONE),
                icon("building-2"), icon("shield-check"), E(C.GUARANTEE_SHORT), icon("badge-check")))
@@ -582,9 +582,9 @@ def home(pg):
            % (hero_picture(), fizz("hero", 10, 5), eyebrow("Commercial · residential · post-construction · since 2018"),
               E(h["sub"]), quote_url(), icon("arrow-right"), E(C.wa_link()), icon("message-circle"), trust)]
 
-    # trusted-by: the client names run past in display type
+    # clients served (past and present): the names run past in one display type
     names = "".join("<span>%s</span><i aria-hidden=\"true\"></i>" % E(n) for n, _ in L.CLIENTS)
-    out.append('<section class="trusted" aria-label="Trusted by"><div class="wrap trusted__head"><p class="label">Trusted by</p>'
+    out.append('<section class="trusted" aria-label="Clients we have served"><div class="wrap trusted__head"><p class="label">Clients we have served</p>'
                '<a class="link-arrow" href="/clients">All clients %s</a></div>'
                '<div class="marquee marquee--names" data-marquee="0.5"><div class="marquee__track">'
                '<div class="marquee__group">%s</div><div class="marquee__group" aria-hidden="true">%s</div></div></div></section>'
@@ -640,7 +640,7 @@ def home(pg):
     out.append('<section class="sec sec--white why" id="why">%s%s<div class="wrap">%s<div class="rx" data-rx>'
                '<div class="rx__stage" aria-hidden="true">%s<div class="rx__cap"><span class="rx__count"><b data-rx-now>01</b> / %02d</span>'
                '<span class="rx__title" data-rx-title>%s</span></div></div><ol class="rx__list">%s</ol></div></div></section>'
-               % (orbs("c"), waves("b"), sec_head("Why Smartline", "Why clients stay with Smartline",
+               % (orbs("c"), waves("b"), sec_head("Why Smartline", "Why clients choose Smartline",
                                       "Six reasons, each one something you can hold us to."),
                   rx_imgs, len(L.WHY), E(L.WHY[0][0]), rx_items))
 
@@ -1047,7 +1047,7 @@ def map_svg():
            '<rect x="510" y="96" width="250" height="78" rx="3" fill="#FFFFFF" stroke="#E1E1EC"/>'
            '<rect x="510" y="96" width="3" height="78" fill="#F8951A"/>'
            '<text x="530" y="128" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="800" fill="#101238">Smartline</text>'
-           '<text x="530" y="154" font-family="Segoe UI, Arial, sans-serif" font-size="13" fill="#5B5D78">ICIPE Road, Sports Drive, Suite 8</text>'
+           '<text x="530" y="154" font-family="Segoe UI, Arial, sans-serif" font-size="13" fill="#5B5D78">ICIPE Road, Kasarani, Nairobi</text>'
            '<text x="24" y="584" font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="#8587A0">Schematic — not to scale</text>'
            '</svg>')
     with open(os.path.join(SITE, "assets", "img", "map.svg"), "w", encoding="utf-8") as f:

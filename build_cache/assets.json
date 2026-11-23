@@ -76,7 +76,7 @@
    125.28,
    140
   ],
-  "mark_png": "C:\\Users\\hp\\Desktop\\Smartline-Point-Cleaning-Hub-Ltd\\site\\icon-512.png"
+  "mark_png": "D:\\Projects\\Smartline Point Cleaning Hub Ltd\\site\\icon-512.png"
  },
  "seal": {
   "seal-core.svg": [
@@ -368,38 +368,38 @@
    "alt": "A bright open-plan living space, clean and ready for its owners"
   },
   "story": {
-   "src": "unsplash-9gzU1mtTzWM.jpg",
+   "src": "pexels-4008563-tight.jpg",
    "aspect": "4:5",
    "display": 480,
    "crop": [
-    2500,
-    3125
+    2804,
+    3505
    ],
    "files": [
     {
      "file": "story-480.webp",
      "w": 480,
      "h": 600,
-     "bytes": 11042
+     "bytes": 12708
     },
     {
      "file": "story-720.webp",
      "w": 720,
      "h": 900,
-     "bytes": 23520
+     "bytes": 24372
     },
     {
      "file": "story-960.webp",
      "w": 960,
      "h": 1200,
-     "bytes": 38622
+     "bytes": 37798
     }
    ],
    "ratio": [
     480,
     600
    ],
-   "alt": "A blue spray bottle of cleaner beside a roll of paper towel"
+   "alt": "Detergent sprayed onto a folded blue microfibre cloth"
   },
   "community": {
    "src": "unsplash-SaVqlZczQXs.jpg",
@@ -1751,39 +1751,39 @@
  "og": {
   "/": {
    "file": "og/home.jpg",
-   "bytes": 89516
+   "bytes": 90573
   },
   "/about": {
    "file": "og/about.jpg",
-   "bytes": 66596
+   "bytes": 67363
   },
   "/services": {
    "file": "og/services.jpg",
-   "bytes": 71245
+   "bytes": 72185
   },
   "/commercial-cleaning": {
    "file": "og/commercial-cleaning.jpg",
-   "bytes": 70658
+   "bytes": 71735
   },
   "/residential-apartment-cleaning": {
    "file": "og/residential-apartment-cleaning.jpg",
-   "bytes": 95326
+   "bytes": 96513
   },
   "/post-construction-cleaning": {
    "file": "og/post-construction-cleaning.jpg",
-   "bytes": 54512
+   "bytes": 55741
   },
   "/clients": {
    "file": "og/clients.jpg",
-   "bytes": 69679
+   "bytes": 73688
   },
   "/contact": {
    "file": "og/contact.jpg",
-   "bytes": 69700
+   "bytes": 70653
   },
   "/privacy": {
    "file": "og/privacy.jpg",
-   "bytes": 83130
+   "bytes": 84007
   }
  }
 }

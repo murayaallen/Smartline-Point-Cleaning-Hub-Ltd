@@ -366,7 +366,7 @@ def build_md():
              '  "url": "https://%s/",\n'
              '  "telephone": "%s",\n'
              '  "email": "info@%s",\n'
-             '  "address": { "@type": "PostalAddress", "streetAddress": "ICIPE Road, Sports Drive, Suite 8",\n'
+             '  "address": { "@type": "PostalAddress", "streetAddress": "ICIPE Road",\n'
              '               "addressLocality": "Kasarani, Nairobi", "postalCode": "00100",\n'
              '               "addressCountry": "KE" },\n'
              '  "geo": { "@type": "GeoCoordinates", "latitude": "%s", "longitude": "%s" },\n'

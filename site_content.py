@@ -24,7 +24,7 @@ PHONE_E164 = "+254711128736"
 WA = "254711128736"                       # wa.me format: no plus, no spaces
 EMAIL = "info@" + DOMAIN
 CAREERS_EMAIL = "operations@" + DOMAIN
-STREET = "ICIPE Road, Sports Drive, Suite 8"
+STREET = "ICIPE Road"  # client, 23/11/2026: show only ICIPE Road, Kasarani, Nairobi
 LOCALITY = "Kasarani, Nairobi"
 POSTAL = "P.O. Box 48018-00100, Nairobi"
 FOUNDED = "2018"
@@ -48,7 +48,7 @@ GA_ID = None
 #   PRICES = {"visit": "4,500", "month": "18,000", "sqm": "45"}
 PRICES = None
 
-MAP_URL = "https://www.google.com/maps/search/?api=1&query=ICIPE+Road+Sports+Drive+Kasarani+Nairobi"
+MAP_URL = "https://www.google.com/maps/search/?api=1&query=ICIPE+Road+Kasarani+Nairobi"
 WA_TEXT = "Hello Smartline, I'd like a quote for "
 
 
@@ -242,8 +242,8 @@ IMAGES = {
     # about
     "about-hero": ("unsplash-7NvBEeHDY7M.jpg", "16:9", (0.50, 0.50), 640,
                    "A bright open-plan living space, clean and ready for its owners"),
-    "story": ("unsplash-9gzU1mtTzWM.jpg", "4:5", (0.50, 0.55), 480,
-              "A blue spray bottle of cleaner beside a roll of paper towel"),
+    "story": ("pexels-4008563-tight.jpg", "4:5", (0.50, 0.50), 480,   # client: a cloth, not tissue (23/11/2026)
+              "Detergent sprayed onto a folded blue microfibre cloth"),
     "community": ("unsplash-SaVqlZczQXs.jpg", "4:5", (0.47, 0.55), 480,
                   "Eco cleaning sprays, a cloth and rubber gloves on a bath edge"),
     # service rows

@@ -239,10 +239,10 @@ async function overflow(page) {
     if (shown !== 1) fail(`?sector=banking shows ${shown} clients, expected 1`);
     await page.click('[data-filter="residential"]');
     const res = await page.$$eval(".client:not(.is-hidden)", (x) => x.length);
-    if (res !== 3) fail(`residential filter shows ${res}, expected 3`);
+    if (res !== 4) fail(`residential filter shows ${res}, expected 4`);   // + Mowlem Heights, 23/11/2026
     await page.click('[data-filter="all"]');
     const all = await page.$$eval(".client:not(.is-hidden)", (x) => x.length);
-    if (all !== 9) fail(`all filter shows ${all}, expected 9`);
+    if (all !== 10) fail(`all filter shows ${all}, expected 10`);
     const letterbox = await page.$eval(".tile", (t) => t.clientWidth - t.querySelector("img").clientWidth);
     if (letterbox > 1) fail(`gallery photo is ${letterbox}px narrower than its tile`);
     // lightbox

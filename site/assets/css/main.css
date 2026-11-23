@@ -348,7 +348,6 @@ html.js:not(.reduce-motion) .hero__title .ln { overflow: hidden; padding-bottom:
 .marquee__group span { white-space: nowrap; }
 .marquee__group i { flex: none; width: 12px; height: 12px; border-radius: 50%; background: var(--grad); margin: 0 clamp(22px, 3vw, 44px); }
 .marquee--names .marquee__group span { font: 580 clamp(26px, 3.4vw, 50px)/1.1 var(--font); font-stretch: 110%; letter-spacing: -.025em; color: var(--navy); }
-.marquee--names .marquee__group span:nth-of-type(even) { color: transparent; -webkit-text-stroke: 1.2px var(--navy); }
 html.reduce-motion .marquee__track, html:not(.js) .marquee__track { width: auto; }
 html.reduce-motion .marquee .marquee__group + .marquee__group, html:not(.js) .marquee .marquee__group + .marquee__group { display: none; }
 html.reduce-motion .marquee--names .marquee__group, html:not(.js) .marquee--names .marquee__group { flex-wrap: wrap; row-gap: 12px; padding: 0 var(--gut); }

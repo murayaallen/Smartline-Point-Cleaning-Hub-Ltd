@@ -14,7 +14,7 @@ Domain `smartlinepointcleaning.co.ke` · 8 content pages + 3 utility pages · 13
 | /commercial-cleaning | Commercial cleaning | Commercial and office cleaning in Nairobi | commercial cleaning Nairobi | 9 |
 | /residential-apartment-cleaning | Homes & apartments | Home, apartment and Airbnb cleaning in Nairobi | apartment cleaning Nairobi | 9 |
 | /post-construction-cleaning | Post-construction | Post-construction cleaning in Nairobi | post construction cleaning Nairobi | 9 |
-| /clients | Clients | Who we clean for | cleaning company Nairobi clients | 5 |
+| /clients | Clients | Clients we have served | cleaning company Nairobi clients | 5 |
 | /contact | Contact | Book your clean | book cleaning services Nairobi | 5 |
 
 Navigation: **Home · About · Services ▾ · Clients · Contact** + brass *Request a quote* button. The three service pages sit under the Services mega menu.
@@ -52,7 +52,7 @@ Page skeleton, top to bottom: **G-01 utility bar → G-02 header → page sectio
 | # | Section | What it does | Under 768px |
 |---|---|---|---|
 | H-01 | Hero | Client's own headline, the promise in one line, two actions, three trust points; the Clean Quality Guaranteed seal sits on the photo. | Headline and buttons first, photo 4:5 below, seal shrinks to 64px, float card hidden. |
-| H-02 | Proof strip | Four facts, then a “Trusted by” row of client names — published with permission (17/11/2026). With no testimonials on this site, the named clients are the proof, and they are harder to fake than a quote. | Facts 2 × 2; names scroll sideways. |
+| H-02 | Proof strip | Four facts, then a “Clients we have served” row of client names — published with permission (17/11/2026). With no testimonials on this site, the named clients are the proof, and they are harder to fake than a quote. | Facts 2 × 2; names scroll sideways. |
 | H-03 | Welcome | The client's welcome statement, edited for the web, set large beside a short heading. | Heading above, body below. |
 | H-04 | Services | Four group cards listing all 13 services, closed by the schedule options (one-time to annual) on one line. | Cards stacked; each shows three services and “+ n more”. |
 | H-05 | Why Smartline | The client's six reasons, each with a one-line proof, beside a photograph of cleaners at work. While that photograph is stock the caption stays generic — “Trained, supervised teams” — and never claims to be Smartline staff. | Photo on top, reasons in one column. |
@@ -168,9 +168,9 @@ Page skeleton, top to bottom: **G-01 utility bar → G-02 header → page sectio
 
 ### Clients — `/clients`
 
-- **Title:** Our Clients & Work | Smartline Point Cleaning Hub *(49 chars)*
-- **Meta description:** Banks, schools, churches, apartment blocks, short-stay hosts and lounges across Nairobi trust Smartline with their cleaning. See the work. *(138 chars)*
-- **H1:** Who we clean for  ·  **Keyword:** cleaning company Nairobi clients  ·  **Schema:** CollectionPage, BreadcrumbList
+- **Title:** Clients We Have Served | Smartline Point Cleaning Hub *(53 chars)*
+- **Meta description:** Banks, schools, churches, apartment blocks, short-stay hosts and lounges across Nairobi that Smartline has cleaned for. See who we have served. *(143 chars)*
+- **H1:** Clients we have served  ·  **Keyword:** cleaning company Nairobi clients  ·  **Schema:** CollectionPage, BreadcrumbList
 
 | # | Section | What it does | Under 768px |
 |---|---|---|---|

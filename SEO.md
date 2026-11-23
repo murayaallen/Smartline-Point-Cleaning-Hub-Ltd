@@ -38,7 +38,7 @@ No volume figures here. Kenyan volumes in public tools are unreliable, and we wi
 | `/commercial-cleaning` | Commercial & Office Cleaning in Nairobi \| Smartline | 51 | 151 |
 | `/residential-apartment-cleaning` | Home, Apartment & Airbnb Cleaning in Nairobi \| Smartline | 56 | 140 |
 | `/post-construction-cleaning` | Post-Construction Cleaning in Nairobi \| Smartline | 49 | 145 |
-| `/clients` | Our Clients & Work \| Smartline Point Cleaning Hub | 49 | 138 |
+| `/clients` | Clients We Have Served \| Smartline Point Cleaning Hub | 53 | 143 |
 | `/contact` | Cleaning Services Quote, Nairobi \| Smartline | 44 | 124 |
 
 ### Service terms — the 13 rows
@@ -114,7 +114,7 @@ Hand-written JSON-LD, validated in the Rich Results Test before launch. One `Loc
   "url": "https://smartlinepointcleaning.co.ke/",
   "telephone": "+254711128736",
   "email": "info@smartlinepointcleaning.co.ke",
-  "address": { "@type": "PostalAddress", "streetAddress": "ICIPE Road, Sports Drive, Suite 8",
+  "address": { "@type": "PostalAddress", "streetAddress": "ICIPE Road",
                "addressLocality": "Kasarani, Nairobi", "postalCode": "00100",
                "addressCountry": "KE" },
   "geo": { "@type": "GeoCoordinates", "latitude": "-1.2195", "longitude": "36.8968" },

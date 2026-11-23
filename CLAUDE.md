@@ -3,7 +3,8 @@
 ## Client
 Smartline Point Cleaning Hub Ltd — commercial, residential, post-construction
 cleaning and landscaping. Established 2018.
-ICIPE Road, Sports Drive, Suite 8, Kasarani · P.O. Box 48018-00100, Nairobi
+Location shown everywhere: **ICIPE Road, Kasarani, Nairobi** (client, 23/11/2026 — no Sports Drive /
+Suite 8) · P.O. Box 48018-00100, Nairobi
 +254 711 128736 · their printed profile shows info@smartlineltd.co.ke — superseded: the site and
 mailboxes use **@smartlinepointcleaning.co.ke** (see Domain below)
 Source material: `smart.pdf` (their current 5-page company profile).
@@ -175,9 +176,12 @@ returns empty. 45 files in `media/all`: **29 placed, 9 gallery tiles, 7 dropped.
 - **No testimonials anywhere on the site.** Both testimonial sections removed (Home and
   Clients). Do not propose them again. The **named clients carry the proof instead** —
   stronger than a quote and impossible to fake.
-- **Permission granted to name clients.** All nine publish: Jewel Complex, Uwezo Microfinance
+- **Permission granted to name clients.** All ten publish (Mowlem Heights added 23/11/2026): Jewel Complex, Uwezo Microfinance
   Bank, Richland Pointe, ACK St Paul's Mukuyuini, St Christopher's International School,
-  Canon Kimani's House Airbnbs, Pataya Properties, Seven Point, Steph Underground Lounge.
+  Canon Kimani's House Airbnbs, Pataya Properties, Seven Point, Steph Underground Lounge, Mowlem Heights.
+- **Clients are presented as SERVED, past and present** (client, 23/11/2026: some jobs were earlier).
+  Wording: “Clients we have served”, “Clients served include …”, “Why clients choose Smartline”.
+  Never “trusted by”, “current clients” or “clients who stay”.
   They appear in the Home proof strip, the Clients page and beside the contact form.
 - Home 10 sections, Clients 5. Client logo files are an upgrade, not a blocker.
 
@@ -390,6 +394,24 @@ third that is striking"; "where did the loading screen with the logo and company
 - Final sweep 22/11/2026 before merging to main: rebuild unchanged, qa_browser ALL CHECKS PASSED,
   every page at 1920/1280/1024/768/360 with a full scroll-through — no overflow, no script errors
   (the 404 page's own 404 status is the only console line, by design); make_social 46 images OK.
+
+## Client suggestions round (23/11/2026)
+- **About "Our story" photo:** the paper-towel + spray shot (`unsplash-9gzU1mtTzWM`) is replaced by
+  detergent sprayed onto a blue microfibre cloth — client: "a cloth instead of tissue". Pexels 4008563
+  (Pexels License, free), original kept as `media/all/pexels-4008563.jpg`; the site uses
+  `pexels-4008563-tight.jpg` = top 63.8 % of the frame, x from 15 %, 4:5 — cut above a stickered laptop.
+  Takes the bright grade via `BRIGHT_SOURCES` in build_assets.py.
+- **Clients are "served", not current** — wording rules recorded under Client decisions above.
+- **Mowlem Heights** added (sector Residential — assumed from the name; confirm with the client).
+- **Location** is ICIPE Road, Kasarani, Nairobi everywhere (footer, contact, about, map label, schema
+  streetAddress "ICIPE Road"). Postal box unchanged. The sent quotation PDF is left as issued.
+- **Client-name marquee is one style:** every name solid navy Mona Sans 580; the alternate outlined
+  names are gone. Do not bring back mixed outline/solid in that strip.
+- `make_social.py` falls back to the largest built WebP when a `media/all` original is missing
+  (fresh clones), like build_assets.py; the clients post spaces rows to fit ten names.
+- This machine's `build_cache/mona-*.ttf` were pre-v8 (heavy) — delete them if share cards ever come
+  out bold; build_assets regenerates the slim instances.
+- Verified: verify OK, make_pages OK, qa_browser ALL CHECKS PASSED, make_social 46 images, upload zip OK.
 
 ## Open
 - Client: sign-off on drafted copy (13 services, 20 FAQs, re-clean promise, standards,

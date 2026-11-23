@@ -528,7 +528,7 @@ def chrome_bottom():
                        "f \u00b7 ig \u00b7 in \u00b7 tt  (handles to confirm)"]),
         ("SERVICES", [g for g, _, _ in L.GROUPS] + ["All 13 services \u2192"]),
         ("COMPANY", ["About", "Clients", "Contact", "Company profile (PDF)", "Privacy notice"]),
-        ("CONTACT", [L.PHONE, L.EMAIL, "ICIPE Road, Sports Drive, Suite 8, Kasarani", "P.O. Box 48018-00100"]),
+        ("CONTACT", [L.PHONE, L.EMAIL, "ICIPE Road, Kasarani, Nairobi", "P.O. Box 48018-00100"]),
     ]
     fc = "".join('<div><h4>%s</h4><ul>%s</ul></div>' % (E(h), "".join("<li>%s</li>" % E(x) for x in items))
                  for h, items in cols)

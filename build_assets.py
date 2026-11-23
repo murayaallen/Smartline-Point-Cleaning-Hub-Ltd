@@ -382,6 +382,10 @@ def _crop(im, aspect, focal):
     return im.crop((x0, y0, x0 + cw, y0 + ch))
 
 
+# sourced after v7 from somewhere other than Unsplash: they take the bright grade too
+BRIGHT_SOURCES = {"pexels-4008563-tight.jpg"}
+
+
 def _grade(im, background=False, bright=False):
     """One grade for the whole set so mixed sources read as one shoot:
     a touch warmer, saturation -10%, contrast +3%.
@@ -437,7 +441,7 @@ def _export(key, src, aspect, focal, display, quality=80, background=False, extr
     im.load()
     cropped = _crop(im, aspect, focal)
     crop = (_duotone(cropped) if key.startswith("duo-")
-            else _grade(cropped, background, bright=src.startswith("unsplash-")))
+            else _grade(cropped, background, bright=src.startswith("unsplash-") or src in BRIGHT_SOURCES))
     cw, ch = crop.size
     if background:
         wants = [960, 1440, 1920]

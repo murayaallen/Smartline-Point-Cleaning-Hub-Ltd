@@ -359,14 +359,26 @@ def seal(size):
     return core
 
 
+def _largest_webp(key):
+    files = sorted((f for f in os.listdir(IMG) if re.match(re.escape(key) + r"-\d+\.webp$", f)),
+                   key=lambda f: int(re.search(r"-(\d+)\.webp$", f).group(1)))
+    return (int(re.search(r"-(\d+)\.webp$", files[-1]).group(1)), os.path.join(IMG, files[-1])) if files else (0, None)
+
+
 def photo(ref):
-    """Full-resolution original when we have it, else the largest WebP the site build made."""
+    """Full-resolution original when we have it, else the largest WebP the site build made.
+    media/all is gitignored, so on a fresh clone a file reference falls back to the largest WebP
+    built from that same source (the same rule build_assets.py follows)."""
     if ref.startswith("img:"):
-        key = ref[4:]
-        files = sorted((f for f in os.listdir(IMG) if re.match(re.escape(key) + r"-\d+\.webp$", f)),
-                       key=lambda f: int(re.search(r"-(\d+)\.webp$", f).group(1)))
-        return Image.open(os.path.join(IMG, files[-1])).convert("RGB")
-    return Image.open(os.path.join(SRC, ref)).convert("RGB")
+        return Image.open(_largest_webp(ref[4:])[1]).convert("RGB")
+    path = os.path.join(SRC, ref)
+    if os.path.exists(path):
+        return Image.open(path).convert("RGB")
+    built = [_largest_webp(k) for k, v in C.IMAGES.items() if v[0] == ref]
+    built = [b for b in built if b[1]]
+    if not built:
+        raise SystemExit("social: media/all/%s is missing and no built WebP comes from it" % ref)
+    return Image.open(max(built)[1]).convert("RGB")
 
 
 def service_group(name):
@@ -508,7 +520,7 @@ def post_why():
     fizz(a, 5, 6, (0, 100, 1080, 300), 3)
     header(a, tag="Why Smartline")
     a.label(60, 150, "Six reasons")
-    a.text((60, 186), "Why clients stay", "display", 58, NAVY)
+    a.text((60, 186), "Why clients choose", "display", 58, NAVY)
     a.gtext((60, 246), "with Smartline.", "display", 58, DEEP)
     cw, ch, gx, gy = 470, 196, 20, 18
     for i, (t, dsc) in enumerate(L.WHY):
@@ -582,9 +594,10 @@ def post_clients():
     fizz(a, 13, 6, (620, 100, 1080, 420), 3)
     header(a, tag="Named with permission")
     a.label(60, 150, "Clients served")
-    a.text((60, 186), "Spaces we look", "display", 56, NAVY)
-    a.gtext((60, 244), "after in Nairobi.", "display", 56, DEEP)
+    a.text((60, 186), "Clients we have", "display", 56, NAVY)
+    a.gtext((60, 244), "served in Nairobi.", "display", 56, DEEP)
     y = 350
+    step = min(68, 620 // len(L.CLIENTS))     # ten names still clear the contact band at 1000
     for i, (n, sector) in enumerate(L.CLIENTS):
         a.rrect((60, y, 1020, y + 1.4), 0, fill=LINE)
         a.text((60, y + 34), "%02d" % (i + 1), "label", 15, AMBER_INK, anchor="lm", track=.1)
@@ -593,7 +606,7 @@ def post_clients():
         sw = a.measure(sector, "text", 15) + 28
         a.rrect((1020 - sw, y + 19, 1020, y + 49), 15, fill=SKY100)
         a.text((1020 - sw / 2, y + 34), sector, "text", 15, AQUA_INK, anchor="mm")
-        y += 68
+        y += step
     contact_band(a, 1000, 80)
     return a
 
@@ -658,7 +671,7 @@ def post_contact():
     a.text((60, 230), "Book your", "display", 96, NAVY)
     a.gtext((60, 330), "clean today.", "display", 96, DEEP)
     a.para(60, 470, "Call, WhatsApp or send the form on our website. We reply within one working day.", "text", 26, TEXT2, 820, 1.4)
-    rows = (("phone", "Call or WhatsApp", PHONE), ("mail", "Email", C.EMAIL), ("map-pin", "Office", "ICIPE Road, Sports Drive, Suite 8, Kasarani"),
+    rows = (("phone", "Call or WhatsApp", PHONE), ("mail", "Email", C.EMAIL), ("map-pin", "Office", "ICIPE Road, Kasarani, Nairobi"),
             ("send", "Website", SITE))
     y = 600
     for ic, t, v in rows:
@@ -970,7 +983,7 @@ def main():
         "Every Smartline cleaner is trained before placement: communication, equipment use, chemical handling, grooming and PPE, "
         "teamwork and our code of conduct — then refreshed on the job by a named supervisor.", TAGS_CORE)
     put(post_clients(), os.path.join(sq, "07-clients-served.jpg"), "Clients served",
-        "Proud to look after banks, schools, churches, apartment blocks, Airbnbs and hospitality venues across Nairobi — "
+        "Proud to have served banks, schools, churches, apartment blocks, Airbnbs and hospitality venues across Nairobi — "
         "named here with their permission. Thank you for trusting us with your spaces. 🙏", TAGS_CORE)
     put(post_schedules(), os.path.join(sq, "08-schedules.jpg"), "Once, or on a schedule",
         "One clean, or a programme: one-time, daily or weekly contracts, quarterly, semi-annual, annual or a comprehensive "

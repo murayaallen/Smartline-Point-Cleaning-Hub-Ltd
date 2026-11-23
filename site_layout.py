@@ -101,7 +101,7 @@ SERVICE_COPY = {  # DRAFT for client approval — one line, three inclusions, wh
         ["Lawn mowing and edging", "Hedge and shrub trimming", "Compound cleared, waste removed"], "Homes, estates, institutions"),
 }
 
-CLIENTS = [  # from the company profile; publishing depends on client permission
+CLIENTS = [  # clients SERVED, past and present (client, 23/11/2026) — named with permission
     ("Jewel Complex", "Commercial complex"),
     ("Uwezo Microfinance Bank", "Banking"),
     ("Richland Pointe Apartments", "Residential"),
@@ -110,6 +110,7 @@ CLIENTS = [  # from the company profile; publishing depends on client permission
     ("Canon Kimani's House Airbnbs", "Short-stay"),
     ("Pataya Properties Apartments", "Residential"),
     ("Seven Point Apartments", "Residential"),
+    ("Mowlem Heights", "Residential"),  # added at the client's request, 23/11/2026
     ("Steph Underground Lounge", "Hospitality"),
 ]
 
@@ -244,7 +245,7 @@ PAGES = [
          "p": {"items": [("2018", "Trading since"), ("9+", "Sites served"), ("13", "Services"),
                          ("Daily \u2192 annual", "Schedules")],
                "trusted": [n for n, _ in CLIENTS[:6]]},
-         "what": "Four facts, then a “Trusted by” row of client names — published with permission (17/11/2026). With no testimonials on this site, the named clients are the proof, and they are harder to fake than a quote.",
+         "what": "Four facts, then a “Clients we have served” row of client names — published with permission (17/11/2026). With no testimonials on this site, the named clients are the proof, and they are harder to fake than a quote.",
          "mobile": "Facts 2 \u00d7 2; names scroll sideways.", "needs": []},
         {"id": "H-03", "name": "Welcome", "type": "two_col",
          "p": {"label": "WELCOME", "heading": "A single point of contact for every clean.",
@@ -258,7 +259,7 @@ PAGES = [
          "what": "Four group cards listing all 13 services, closed by the schedule options (one-time to annual) on one line.",
          "mobile": "Cards stacked; each shows three services and \u201c+ n more\u201d.", "needs": []},
         {"id": "H-05", "name": "Why Smartline", "type": "icon_grid",
-         "p": {"heading": "Why clients stay with Smartline", "items": WHY, "image": True},
+         "p": {"heading": "Why clients choose Smartline", "items": WHY, "image": True},
          "what": "The client's six reasons, each with a one-line proof, beside a photograph of cleaners at work. "
                  "While that photograph is stock the caption stays generic \u2014 \u201cTrained, supervised teams\u201d \u2014 and never "
                  "claims to be Smartline staff.",
@@ -366,7 +367,7 @@ PAGES = [
         {"id": "A-09", "name": "Company details", "type": "facts",
          "p": {"heading": "Company details",
                "rows": [("Registered name", "Smartline Point Cleaning Hub Ltd"), ("Established", "2018"),
-                        ("Office", "ICIPE Road, Sports Drive, Suite 8, Kasarani"),
+                        ("Office", "ICIPE Road, Kasarani, Nairobi"),
                         ("Postal", "P.O. Box 48018-00100, Nairobi"), ("Phone", PHONE), ("Email", EMAIL)],
                "download": "Download the company profile (PDF)"},
          "what": "The facts a procurement officer copies into a supplier form, plus the profile PDF.",
@@ -498,14 +499,14 @@ PAGES = [
         schema="Service, FAQPage, BreadcrumbList"),
 
     # ============================================================== CLIENTS
-    {"slug": "/clients", "nav": "Clients", "h1": "Who we clean for",
+    {"slug": "/clients", "nav": "Clients", "h1": "Clients we have served",
      "keyword": "cleaning company Nairobi clients",
-     "title": "Our Clients & Work | Smartline Point Cleaning Hub",
-     "desc": "Banks, schools, churches, apartment blocks, short-stay hosts and lounges across Nairobi trust Smartline with their cleaning. See the work.",
+     "title": "Clients We Have Served | Smartline Point Cleaning Hub",
+     "desc": "Banks, schools, churches, apartment blocks, short-stay hosts and lounges across Nairobi that Smartline has cleaned for. See who we have served.",
      "schema": "CollectionPage, BreadcrumbList",
      "sections": [
         {"id": "C-01", "name": "Page hero", "type": "page_hero",
-         "p": {"crumb": "Home / Clients", "h1": "Who we clean for",
+         "p": {"crumb": "Home / Clients", "h1": "Clients we have served",
                "sub": "Banks, schools, churches, apartments, short-stay and hospitality.", "image": False},
          "what": "Compact hero.", "mobile": "Unchanged.", "needs": []},
         {"id": "C-02", "name": "Client list", "type": "logos",
@@ -543,9 +544,9 @@ PAGES = [
         {"id": "K-02", "name": "Quote form and contact card", "type": "form",
          "p": {"heading": "Request a quote", "steps": QUOTE_STEPS,
                "aside": ["Call  " + PHONE, "WhatsApp  " + PHONE, "Email  " + EMAIL,
-                         "ICIPE Road, Sports Drive, Suite 8, Kasarani",
+                         "ICIPE Road, Kasarani, Nairobi",
                          "P.O. Box 48018-00100, Nairobi", "Hours: to confirm"],
-               "proof": ["Trusted by Uwezo Microfinance Bank, St Christopher’s International School and Jewel Complex",
+               "proof": ["Clients served include Uwezo Microfinance Bank, St Christopher’s International School and Jewel Complex",
                          "Clean Quality Guaranteed \u00b7 24-hour re-clean",
                          "Trained, vetted, directly employed"]},
          "what": "Two-step form \u2014 the job, then you \u2014 beside the contact card, with named clients and the guarantee "
@@ -554,7 +555,7 @@ PAGES = [
          "mobile": "Call and WhatsApp buttons first, then the form, then the address.", "needs": []},
         {"id": "K-03", "name": "Map", "type": "map",
          "p": {"heading": "Find us",
-               "body": "ICIPE Road, Sports Drive, Suite 8, Kasarani. Static map image linking to Google Maps — no third-party iframe, so the CSP stays tight and the page stays fast."},
+               "body": "ICIPE Road, Kasarani, Nairobi. Static map image linking to Google Maps — no third-party iframe, so the CSP stays tight and the page stays fast."},
          "what": "Static map with an Open in Google Maps link.",
          "mobile": "Full-width map, 4:3.", "needs": []},
         {"id": "K-04", "name": "Areas we serve", "type": "chips",
