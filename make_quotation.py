@@ -1,166 +1,26 @@
 # -*- coding: utf-8 -*-
-"""Smartline Point Cleaning Hub Ltd - website quotation.
-Single source of truth for figures + verify() on import."""
+"""Smartline Point Cleaning Hub Ltd - website quotation (issued 16/11/2026).
+Figures live in quote_figures.py (verify() on import) and the drawing kit in amm_doc.py,
+shared with the final invoice (make_invoice.py). The quotation renders exactly as issued."""
 import os
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.colors import HexColor, Color
-from reportlab.pdfbase import pdfmetrics
-from reportlab.pdfbase.ttfonts import TTFont
-from reportlab.platypus import Paragraph
-from reportlab.lib.styles import ParagraphStyle
-from reportlab.lib.enums import TA_LEFT
 
-# ---------------------------------------------------------------- figures
-BUILD      = 35000          # website: full build + Google setup + profile
-DOMAIN     = 2000           # .co.ke, 1 year
-HOSTING    = 3000           # server space + business email, 1 year
-DEPOSIT_PC = 0.40
+from quote_figures import (BUILD, DOMAIN, HOSTING, DEPOSIT_PC, BUILD_DEPOSIT, TOTAL, DUE_NOW, DUE_LIVE,
+                           RENEWAL, QUOTE_NO, ksh, verify)
+from amm_doc import (NAVY, DEEP, MID, SKY, INDIGO, INK, BODY, MUTE, LINE, SOFT, WHITE, W, H, M, CW,
+                     para, draw_para, grad_rule, corner_facets, card, eyebrow_ls, logo_mark)
+import amm_doc
 
-BUILD_DEPOSIT = int(round(BUILD * DEPOSIT_PC))        # 14,000
-TOTAL         = BUILD + DOMAIN + HOSTING              # 40,000
-DUE_NOW       = BUILD_DEPOSIT + DOMAIN + HOSTING      # 19,000
-DUE_LIVE      = BUILD - BUILD_DEPOSIT                 # 21,000
-RENEWAL       = 3000                                  # flat 3,000 / yr from yr 2 (domain + hosting)
-
-
-def verify():
-    assert BUILD_DEPOSIT == 14000, BUILD_DEPOSIT
-    assert TOTAL == 40000, TOTAL
-    assert DUE_NOW == 19000, DUE_NOW
-    assert DUE_LIVE == 21000, DUE_LIVE
-    assert DUE_NOW + DUE_LIVE == TOTAL
-    assert BUILD_DEPOSIT + DUE_LIVE == BUILD
-    assert RENEWAL == 3000
-    return True
-
-
-verify()
-
-
-def ksh(n):
-    return "{:,}".format(n)
-
-
-QUOTE_NO = "AMM-Q-2026-187"
-DATE     = "16/11/2026"
-VALID    = "16/12/2026"
-
-# ---------------------------------------------------------------- brand
-NAVY = HexColor("#14213D"); DEEP = HexColor("#0B1529"); MID = HexColor("#1D3A6B")
-SKY = HexColor("#0EA5E9"); INDIGO = HexColor("#6366F1")
-INK = HexColor("#14161F"); BODY = HexColor("#4A4F60"); MUTE = HexColor("#8A8F9E")
-LINE = HexColor("#E2E4EA"); SOFT = HexColor("#F6F7F9"); WHITE = HexColor("#FFFFFF")
-
-F = "C:/Windows/Fonts/"
-pdfmetrics.registerFont(TTFont("S", F + "segoeui.ttf"))
-pdfmetrics.registerFont(TTFont("S-SB", F + "seguisb.ttf"))
-pdfmetrics.registerFont(TTFont("S-B", F + "segoeuib.ttf"))
-pdfmetrics.registerFont(TTFont("S-L", F + "segoeuil.ttf"))
-pdfmetrics.registerFontFamily("S", normal="S", bold="S-SB", italic="S", boldItalic="S-SB")
-
-W, H = A4
-M  = 46
-CW = W - 2 * M
+DATE  = "16/11/2026"
+VALID = "16/12/2026"
 
 OUT = r"d:/Projects/Smartline Point Cleaning Hub Ltd/Smartline Point Cleaning Hub - Website Quotation.pdf"
 
 
-def para(txt, font="S", size=9, leading=13, color=BODY, align=TA_LEFT):
-    return Paragraph(txt, ParagraphStyle("p", fontName=font, fontSize=size,
-                                         leading=leading, textColor=color, alignment=align))
-
-
-def draw_para(c, txt, x, y, w, **kw):
-    p = para(txt, **kw)
-    _, h = p.wrap(w, 1000)
-    p.drawOn(c, x, y - h)
-    return y - h
-
-
-def grad_rule(c, x, y, w, h):
-    c.saveState()
-    p = c.beginPath()
-    p.roundRect(x, y, w, h, h / 2)
-    c.clipPath(p, stroke=0)
-    c.linearGradient(x, y, x + w, y, [NAVY, MID, SKY], [0, .42, 1], extend=True)
-    c.restoreState()
-
-
-def corner_facets(c):
-    c.saveState()
-
-    def plane(pts, col, alpha):
-        c.setFillColor(Color(col.red, col.green, col.blue, alpha=alpha))
-        p = c.beginPath()
-        p.moveTo(*pts[0])
-        for q in pts[1:]:
-            p.lineTo(*q)
-        p.close()
-        c.drawPath(p, stroke=0, fill=1)
-
-    plane([(W, H), (W, H - 128), (W - 128, H)], MID, .10)
-    plane([(W, H), (W, H - 74), (W - 74, H)], INDIGO, .14)
-    plane([(W - 54, H - 96), (W, H - 96), (W, H - 150)], SKY, .10)
-    c.setFillColor(Color(SKY.red, SKY.green, SKY.blue, alpha=.55))
-    c.circle(W - 48, H - 52, 4.4, stroke=0, fill=1)
-    c.restoreState()
-
-
-def card(c, x, y, w, h, fill=WHITE, border=LINE, r=7, lw=.6, shadow=False):
-    if shadow:
-        c.setFillColor(Color(0.08, 0.11, 0.2, alpha=.055))
-        c.roundRect(x + 1.6, y - 2.0, w, h, r, stroke=0, fill=1)
-    c.setFillColor(fill)
-    c.setStrokeColor(border)
-    c.setLineWidth(lw)
-    c.roundRect(x, y, w, h, r, stroke=1 if border else 0, fill=1)
-
-
-def eyebrow_ls(c, txt, x, y, color=MUTE, size=7, ls=1.6, font="S-SB"):
-    c.setFont(font, size)
-    c.setFillColor(color)
-    cx = x
-    for ch in txt:
-        c.drawString(cx, y, ch)
-        cx += pdfmetrics.stringWidth(ch, font, size) + ls
-    return cx
-
-
-def logo_mark(c, x, y, s):
-    c.saveState()
-    p = c.beginPath()
-    p.roundRect(x, y, s, s, s * 0.235)
-    c.clipPath(p, stroke=0)
-    c.linearGradient(x, y + s, x + s, y, [MID, NAVY, DEEP], [0, .48, 1], extend=True)
-    c.setFillColor(Color(1, 1, 1, alpha=.13))
-    q = c.beginPath()
-    q.moveTo(x, y + s); q.lineTo(x + s, y + s); q.lineTo(x, y); q.close()
-    c.drawPath(q, stroke=0, fill=1)
-    c.setFillColor(WHITE)
-    u = s / 100.0
-    m = c.beginPath()
-    pts = [(24, 26), (24, 74), (36, 74), (50, 50), (64, 74), (76, 74), (76, 26), (65, 26),
-           (65, 56), (54, 37), (46, 37), (35, 56), (35, 26)]
-    m.moveTo(x + pts[0][0] * u, y + pts[0][1] * u)
-    for px, py in pts[1:]:
-        m.lineTo(x + px * u, y + py * u)
-    m.close()
-    c.drawPath(m, stroke=0, fill=1)
-    c.restoreState()
-    c.setFillColor(SKY)
-    c.circle(x + s * 0.80, y + s * 0.80, s * 0.062, stroke=0, fill=1)
-
-
 def footer(c, page):
-    y = 40
-    c.setStrokeColor(LINE); c.setLineWidth(.5); c.line(M, y + 16, W - M, y + 16)
-    c.setFillColor(SKY); c.circle(M + 2, y + 5.5, 1.7, stroke=0, fill=1)
-    c.setFont("S", 7.6); c.setFillColor(MUTE)
-    c.drawString(M + 10, y + 3,
-                 "Allen Muraya Maina  \u00b7  +254 792 507 750  \u00b7  murayamakingedits@gmail.com")
-    c.setFont("S-SB", 7.6); c.setFillColor(NAVY)
-    c.drawRightString(W - M, y + 3, "Quotation %s   |   Page %d of 2" % (QUOTE_NO, page))
+    amm_doc.footer(c, "Quotation %s" % QUOTE_NO, page, 2)
 
 
 def payment_schedule(c, sy):

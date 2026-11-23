@@ -53,6 +53,15 @@ do not add anything more sensitive than that (bank statements, IDs, registers) t
   titles > 60 chars, descriptions outside 110–160, contrast below AA, ≠ 8 pages,
   ≠ 13 services, or fumigation anywhere on the site. Edit the data, never LAYOUT.md.
 - `brandkit.py` — shared ReportLab house style (palette, fonts, logo mark, masthead, footer).
+- **Final invoice** `make_invoice.py` → `Smartline Point Cleaning Hub - Final Invoice AMM-I-2026-187.pdf`
+  (23/11/2026, 3 pages): balance KES 21,000 due on receipt (contract 40,000 less deposit 19,000 received),
+  M-Pesa 0792 507 750 ref SMARTLINE. p1 account + payment, p2 the nine delivered areas in detail, p3 quality
+  checks, *Included — to follow* (company profile redesign, Google Business Profile, Analytics) and next
+  steps (indexing over the coming weeks, support, ownership, KES 3,000 renewal from November 2027).
+  Figures from **`quote_figures.py`** (single source, `verify()` on import — the quotation reads it too);
+  drawing kit **`amm_doc.py`** (moved out of make_quotation.py; the quotation re-renders pixel-identical).
+  `check()` re-reads the PDF: every figure present, old address absent, smartlineltd.co.ke only in the
+  profile note, no text in a non-embedded font. The deposit is shown as received — confirm before sending.
 - `make_choices.py` / `Smartline Point Cleaning Hub - Domain & Choices.pdf` — one-page
   tick-sheet sent to the client: 6 available domain names (recommendation flagged) plus
   client-naming, pricing-display and WhatsApp-number decisions. Ref AMM-D-2026-187.
