@@ -260,31 +260,31 @@ async function overflow(page) {
     log("ok  clients: deep-link filter, filter buttons, lightbox");
     await page.close();
   }
-  // contact: the live Google map is lazy (no Google frame at first paint), loads at #find-us, and fits its frame
-  for (const dev of ["desktop", "mobile"]) {
+  // the live Google map (contact page, and the foot of the home page): lazy, loads at #find-us, fits its frame
+  for (const where of ["/contact", "/"]) for (const dev of ["desktop", "mobile"]) {
     const page = await newPage(browser, dev, false);
-    await page.goto(BASE + "/contact", { waitUntil: "load" });
+    await page.goto(BASE + where, { waitUntil: "load" });
     // native lazy loading: Chrome starts the frame once it is within ~1250-2500px of the viewport,
     // so on a tall desktop it may already be loading at first paint. Check the attribute, not the timing.
     const lazy = await page.$eval(".mapcard__embed iframe", (f) => f.getAttribute("loading"));
-    if (lazy !== "lazy") fail(`map [${dev}]: iframe is not loading="lazy"`);
+    if (lazy !== "lazy") fail(`map ${where} [${dev}]: iframe is not loading="lazy"`);
     await page.evaluate(() => document.getElementById("find-us").scrollIntoView({ block: "center", behavior: "instant" }));
     let loaded = false;
     for (let i = 0; i < 40 && !loaded; i++) {
       await sleep(250);
       loaded = page.frames().some((f) => f.url().startsWith("https://www.google.com/maps/embed"));
     }
-    if (!loaded) fail(`map [${dev}]: Google frame never loaded at #find-us`);
+    if (!loaded) fail(`map ${where} [${dev}]: Google frame never loaded at #find-us`);
     await sleep(2500);
     const box = await page.$eval(".mapcard__embed iframe", (f) => {
       const r = f.getBoundingClientRect(), p = f.parentElement.getBoundingClientRect();
       return { w: Math.round(r.width), h: Math.round(r.height), pw: Math.round(p.width), ph: Math.round(p.height), title: f.title };
     });
-    if (box.w !== box.pw || box.h !== box.ph || box.h < 250) fail(`map [${dev}]: frame ${box.w}x${box.h} in ${box.pw}x${box.ph}`);
-    if (!/ICIPE Road/.test(box.title)) fail(`map [${dev}]: frame title "${box.title}"`);
-    await page.screenshot({ path: path.join(OUT, `ix-map-${dev}.png`) });
-    page._problems.forEach((x) => fail(`map [${dev}] ` + x));
-    log(`ok  map [${dev}]: lazy, loads at #find-us, ${box.w}x${box.h}`);
+    if (box.w !== box.pw || box.h !== box.ph || box.h < 250) fail(`map ${where} [${dev}]: frame ${box.w}x${box.h} in ${box.pw}x${box.ph}`);
+    if (!/ICIPE Road/.test(box.title)) fail(`map ${where} [${dev}]: frame title "${box.title}"`);
+    await page.screenshot({ path: path.join(OUT, `ix-map${where === "/" ? "-home" : ""}-${dev}.png`) });
+    page._problems.forEach((x) => fail(`map ${where} [${dev}] ` + x));
+    log(`ok  map ${where} [${dev}]: lazy, loads at #find-us, ${box.w}x${box.h}`);
     await page.close();
   }
   // motion ON: the loader must clear itself, no errors with animations running

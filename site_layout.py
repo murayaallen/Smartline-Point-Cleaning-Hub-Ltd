@@ -298,6 +298,11 @@ PAGES = [
         {"id": "H-10", "name": "Closing CTA", "type": "cta",
          "p": {"heading": "Book your clean today", "sub": PHONE},
          "what": "Shared CTA band (G-07).", "mobile": "Stacked.", "needs": []},
+        {"id": "H-11", "name": "Find us", "type": "map",
+         "p": {"heading": "Find us",
+               "body": "ICIPE Road, Kasarani, Nairobi. The same live Google map as the contact page (lazy), with Get directions and Open in Google Maps."},
+         "what": "Last section before the footer (Allen, 23/11/2026): where the office is, one tap from directions.",
+         "mobile": "Map first (square), then the address and buttons.", "needs": []},
      ]},
 
     # ============================================================== ABOUT

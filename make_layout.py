@@ -419,7 +419,7 @@ def r_facts(p):
 
 def r_map(p):
     return h2(p["heading"]) + '<div class="split">%s<p class="body lg">%s</p></div>' % (
-        img("Static map \u00b7 Kasarani", "map"), E(p["body"]))
+        img("Google map \u00b7 Kasarani", "map"), E(p["body"]))
 
 
 def r_subnav(p):

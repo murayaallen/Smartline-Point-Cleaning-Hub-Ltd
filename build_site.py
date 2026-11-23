@@ -690,6 +690,7 @@ def home(pg):
                % (bg_photo("svc-residential", "left", "bgph--low"), faq_block(S["H-09"]["p"]["items"], "Questions", "Questions we are asked",
                            "The things clients ask before they book. Anything else, call or WhatsApp.")))
     out.append(cta_band(bg="glass-bg"))
+    out.append(find_us())        # H-11: the office on a live map, last before the footer
     return "".join(out)
 
 
@@ -948,6 +949,26 @@ def clients(pg):
     return "".join(out)
 
 
+def find_us():
+    """Find us: a live Google map (lazy — nothing loads from Google until the visitor nears it).
+    On /contact and at the foot of the home page (Allen, 23/11/2026)."""
+    return ('<section class="sec sec--white" id="find-us"><div class="wrap mapcard">'
+               '<div class="mapcard__map" data-reveal="wipe"><div class="mapcard__bar">'
+               '<span class="mapcard__dot" aria-hidden="true"></span>'
+               '<span class="mapcard__who"><b>%s</b><small>%s, %s</small></span>'
+               '<a class="mapcard__go" href="%s" target="_blank" rel="noopener"><span class="mapcard__go-t">Directions</span> %s</a></div>'
+               '<div class="mapcard__embed"><iframe src="%s" title="Google map: %s on %s, %s" loading="lazy" '
+               'referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div></div>'
+               '<div>%s<h2 class="d2" data-split>Find us</h2><p class="body-lg" data-reveal>%s, %s &mdash; just off Thika Road. '
+               'Call or WhatsApp before you visit and we will guide you in.</p>'
+               '<div class="btns" data-reveal><a class="btn btn--sun" href="%s" target="_blank" rel="noopener">Get directions %s</a>'
+               '<a class="btn btn--ghost" href="%s" target="_blank" rel="noopener">Open in Google Maps %s</a></div></div></div></section>'
+               % (E(C.BRAND), E(C.STREET), E(C.LOCALITY), E(C.MAP_DIRECTIONS), icon("arrow-up-right"),
+                  E(C.MAP_EMBED), E(C.BRAND), E(C.STREET), E(C.LOCALITY),
+                  eyebrow("Office"), E(C.STREET), E(C.LOCALITY), E(C.MAP_DIRECTIONS), icon("arrow-up-right"),
+                  E(C.MAP_URL), icon("arrow-up-right")))
+
+
 def contact(pg):
     S = {s["id"]: s for s in pg["sections"]}
     out = [page_hero([("/", "Home"), ("/contact", "Contact")], pg["h1"], S["K-01"]["p"]["sub"],
@@ -966,22 +987,7 @@ def contact(pg):
                E(C.wa_link()), icon("message-circle"), E(C.PHONE), C.EMAIL, icon("mail"), C.EMAIL,
                icon("map-pin"), E(C.STREET), E(C.LOCALITY), icon("file-text"), E(C.POSTAL), icon("clock")))
     out.append('<section class="sec sec--paper"><div class="wrap form-wrap"><div data-reveal>%s</div>%s</div></section>' % (quote_form(), card))
-    # Find us: a live Google map (lazy — nothing loads from Google until the visitor scrolls near it)
-    out.append('<section class="sec sec--white" id="find-us"><div class="wrap mapcard">'
-               '<div class="mapcard__map" data-reveal="wipe"><div class="mapcard__bar">'
-               '<span class="mapcard__dot" aria-hidden="true"></span>'
-               '<span class="mapcard__who"><b>%s</b><small>%s, %s</small></span>'
-               '<a class="mapcard__go" href="%s" target="_blank" rel="noopener"><span class="mapcard__go-t">Directions</span> %s</a></div>'
-               '<div class="mapcard__embed"><iframe src="%s" title="Google map: %s on %s, %s" loading="lazy" '
-               'referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div></div>'
-               '<div>%s<h2 class="d2" data-split>Find us</h2><p class="body-lg" data-reveal>%s, %s &mdash; just off Thika Road. '
-               'Call or WhatsApp before you visit and we will guide you in.</p>'
-               '<div class="btns" data-reveal><a class="btn btn--sun" href="%s" target="_blank" rel="noopener">Get directions %s</a>'
-               '<a class="btn btn--ghost" href="%s" target="_blank" rel="noopener">Open in Google Maps %s</a></div></div></div></section>'
-               % (E(C.BRAND), E(C.STREET), E(C.LOCALITY), E(C.MAP_DIRECTIONS), icon("arrow-up-right"),
-                  E(C.MAP_EMBED), E(C.BRAND), E(C.STREET), E(C.LOCALITY),
-                  eyebrow("Office"), E(C.STREET), E(C.LOCALITY), E(C.MAP_DIRECTIONS), icon("arrow-up-right"),
-                  E(C.MAP_URL), icon("arrow-up-right")))
+    out.append(find_us())
     out.append('<section class="sec sec--paper"><div class="wrap two-head"><div>%s</div><div>%s</div></div></section>'
                % (sec_head("Coverage", "Areas we serve",
                            "Based in Kasarani, working across Nairobi and Kiambu. Outside these areas? Ask &mdash; for contract work we often can."),

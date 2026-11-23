@@ -421,6 +421,9 @@ third that is striking"; "where did the loading screen with the logo and company
   `frame-src https://www.google.com` (only that). Privacy notice discloses Google Maps. The contact-card
   office line and the footer address link to the map. The schematic `map.svg` is retired. QA ignores
   Google's own map traffic and checks the frame is lazy, loads at #find-us and fills its box.
+- **The same map closes the home page** (Allen: "add it to the bottom of the home page as well"):
+  `find_us()` in build_site.py is shared; home = … → CTA band → **Find us (H-11)** → footer. QA checks the
+  map on both / and /contact, desktop and phone.
 
 ## Open
 - Client: sign-off on drafted copy (13 services, 20 FAQs, re-clean promise, standards,

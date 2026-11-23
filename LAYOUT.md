@@ -8,7 +8,7 @@ Domain `smartlinepointcleaning.co.ke` · 8 content pages + 3 utility pages · 13
 
 | URL | Nav | H1 | Primary keyword | Sections |
 |---|---|---|---|---|
-| / | Home | Where cleanliness meets excellence. | cleaning services Nairobi | 10 |
+| / | Home | Where cleanliness meets excellence. | cleaning services Nairobi | 11 |
 | /about | About | About Smartline | professional cleaning company Nairobi | 10 |
 | /services | Services | Our services | cleaning services Nairobi commercial residential | 10 |
 | /commercial-cleaning | Commercial cleaning | Commercial and office cleaning in Nairobi | commercial cleaning Nairobi | 9 |
@@ -61,6 +61,7 @@ Page skeleton, top to bottom: **G-01 utility bar → G-02 header → page sectio
 | H-08 | Clean Quality Guaranteed | The seal, written out as a promise with a time limit on it. Both large Nairobi competitors publish a 24-hour re-clean guarantee — this is parity, and it answers the trust question that stops people booking. | Seal above, promise, then the three points. |
 | H-09 | FAQ | Five questions, marked up as FAQPage for search. | Accordion. |
 | H-10 | Closing CTA | Shared CTA band (G-07). | Stacked. |
+| H-11 | Find us | Last section before the footer (Allen, 23/11/2026): where the office is, one tap from directions. | Map first (square), then the address and buttons. |
 
 **Blocked by client input:** Sign-off on the one-line proofs under each reason (they are draft commitments, incl. the re-clean promise) (H-05, H-08); Client answers to the FAQ questions (H-09)
 
@@ -385,6 +386,7 @@ Every section is one of these 24 components — build each once, reuse everywher
 | guarantee | 1 | H-08 |
 | faq | 5 | H-09, CC-07, RA-07, PC-07, K-05 |
 | cta | 4 | H-10, A-10, S-10, C-05 |
+| map | 2 | H-11, K-03 |
 | page_hero | 4 | A-01, S-01, C-01, K-01 |
 | split_media | 2 | A-02, A-07 |
 | facts | 2 | A-06, A-09 |
@@ -398,7 +400,6 @@ Every section is one of these 24 components — build each once, reuse everywher
 | logos | 1 | C-02 |
 | gallery | 1 | C-04 |
 | form | 1 | K-02 |
-| map | 1 | K-03 |
 
 ## 6. What we still need from the client
 
