@@ -73,6 +73,9 @@ page loading screen, preview form note). Lesson: Pages did **not** switch on whe
 Quote **accepted** (16/11/2026). **Website v2 BUILT and verified (20/11/2026)** — `site/`.
 **Launch-ready (23/11/2026):** upload zip `dist/smartlinepointcleaning.co.ke-upload.zip` (rebuild with
 `make_upload.py`), deploy per `RUNBOOK.md` §3, Google/Bing per §4. Client sign-offs in `CLIENT-REVIEW.md` do not block launch.
+**Allen, 23/11/2026: "we will proceed as is"** — launch with what we have. The map stays on the ICIPE Road
+geocode, no hours/geo/sameAs in the schema, no testimonials; the client's pin, hours, profile photos (REAL-07)
+and social links are post-launch upgrades, not blockers. Do not hold the upload for them.
 
 ## Domain — SETTLED
 - **Client chose `smartlinepointcleaning.co.ke`** (16/11/2026). Register this.
