@@ -71,7 +71,8 @@ page loading screen, preview form note). Lesson: Pages did **not** switch on whe
 
 ## Status
 Quote **accepted** (16/11/2026). **Website v2 BUILT and verified (20/11/2026)** — `site/`.
-Next: client sign-offs in `CLIENT-REVIEW.md`, then deploy per `RUNBOOK.md`.
+**Launch-ready (23/11/2026):** upload zip `dist/smartlinepointcleaning.co.ke-upload.zip` (rebuild with
+`make_upload.py`), deploy per `RUNBOOK.md` §3, Google/Bing per §4. Client sign-offs in `CLIENT-REVIEW.md` do not block launch.
 
 ## Domain — SETTLED
 - **Client chose `smartlinepointcleaning.co.ke`** (16/11/2026). Register this.
@@ -424,6 +425,39 @@ third that is striking"; "where did the loading screen with the logo and company
 - **The same map closes the home page** (Allen: "add it to the bottom of the home page as well"):
   `find_us()` in build_site.py is shared; home = … → CTA band → **Find us (H-11)** → footer. QA checks the
   map on both / and /contact, desktop and phone.
+
+## Launch pass — SEO, indexing, performance (23/11/2026) — READY TO UPLOAD
+- **Sitemap** has honest `<lastmod>` dates: `build_site.lastmod_stamps()` hashes each indexable page
+  (asset `?v=` ignored) into `build_cache/lastmod.json` (committed) and moves a date only when that page
+  changed. No changefreq/priority (Google ignores them). `verify_seo()` fails the build if a sitemap URL
+  is not the page's canonical, is noindex, or an indexable page is missing; thank-you/404 must be noindex.
+- **Schema:** LocalBusiness gains `hasMap` + `contactPoint`; the meaningless `priceRange: "KES"` is gone;
+  WebSite has `alternateName` (Smartline, Smartline Point Cleaning) for Google's site name. Still no geo,
+  openingHours or sameAs until the client gives the pin, hours and profile URLs.
+- **Clients title** regained its keyword: "Clients We Have Served in Nairobi | Smartline".
+- **Verification switches** `site_content.GSC_VERIFY` / `BING_VERIFY` (None = no tag). Preferred route is a
+  Search Console Domain property by DNS TXT — no tag needed.
+- **IndexNow:** key `INDEXNOW_KEY` → `site/<key>.txt` (in the upload, not in the Pages preview);
+  `python tools/indexnow.py [--send]` pings Bing/Yandex after an upload. Google does not use IndexNow.
+- **RUNBOOK §3–4 rewritten** for go-live: search-engine live checks, Search Console (Domain/DNS TXT,
+  sitemap, URL inspection), Google Business Profile (categories, service areas = site list, ready
+  750-char description, video verification, REAL-07, reviews, sameAs), Bing import + IndexNow, check-ins.
+  FAQ rich results are limited to gov/health sites since 2023 — FAQPage stays as valid markup only.
+- **Performance fixes found in this pass** (do not undo):
+  - Hero blade animated `left` → CLS 1 on desktop. Now `transform: translateX(100cqw)` (`.hx__pin` is a
+    size container). Never animate left/top/width for motion.
+  - Services rail switched its `.orbs` to `position: fixed` when pinning → full-viewport layout shift
+    (CLS 1, showed once responses were compressed). Orbs now live inside `.rail__pin`.
+  - Off-screen decoration burned phone CPU (18 SVG streaks animate stroke-dashoffset on the main
+    thread + ~70 loops). `main.js` sets `.deco-off` on sections > 300px off screen and CSS pauses their
+    animations; the page-change loading bar only runs while the loading screen shows.
+  - Phone sheet transition no longer fades text (rise only) — Lighthouse read the dimmed state as a
+    contrast failure.
+  - `serve_local.py` now gzips text like the live `mod_deflate`, and has a 64-socket queue.
+- **Verified 23/11/2026:** verify OK (incl. verify_seo), qa_browser ALL CHECKS PASSED, width sweep
+  1920/1280/1024/768/360 × 11 pages clean (no unclipped overflow, no script errors), CLS 0.000 on all
+  9 pages while scrolling (desktop + phone). Lighthouse (local, compressed): phone perf 96–97, desktop
+  97–100; accessibility, best practices and SEO 100 on all ten runs.
 
 ## Open
 - Client: sign-off on drafted copy (13 services, 20 FAQs, re-clean promise, standards,

@@ -169,7 +169,7 @@ Page skeleton, top to bottom: **G-01 utility bar → G-02 header → page sectio
 
 ### Clients — `/clients`
 
-- **Title:** Clients We Have Served | Smartline Point Cleaning Hub *(53 chars)*
+- **Title:** Clients We Have Served in Nairobi | Smartline *(45 chars)*
 - **Meta description:** Banks, schools, churches, apartment blocks, short-stay hosts and lounges across Nairobi that Smartline has cleaned for. See who we have served. *(143 chars)*
 - **H1:** Clients we have served  ·  **Keyword:** cleaning company Nairobi clients  ·  **Schema:** CollectionPage, BreadcrumbList
 

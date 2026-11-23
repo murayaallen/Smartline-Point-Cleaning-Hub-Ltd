@@ -43,6 +43,15 @@ LOGO_CONCEPT = "original"       # the client's own logo, lifted from smart.pdf (
 # consent bar and the deferred loader switch on together.
 GA_ID = None
 
+# Search engines. Preferred: a Search Console *Domain* property verified by a DNS TXT record (no tag
+# needed, covers http/https/www). These switches are the fallback HTML-tag route: paste only the
+# content="..." value, rebuild, upload. None = no tag on the page.
+GSC_VERIFY = None      # Google Search Console, HTML tag method
+BING_VERIFY = None     # Bing Webmaster Tools msvalidate.01 (or simply import the site from Search Console)
+# IndexNow (Bing, Yandex, Seznam, Naver): build_site publishes /<key>.txt; after an upload,
+# `python tools/indexnow.py --send` tells them which pages changed. The key is public by design.
+INDEXNOW_KEY = "4f82024d62e22d6a7fcff95721ad0647"
+
 # Guide prices (S-07). None = the section explains how pricing works without
 # figures. Give it numbers and the same cards show "From KES ..." instead.
 #   PRICES = {"visit": "4,500", "month": "18,000", "sqm": "45"}

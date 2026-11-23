@@ -8,6 +8,7 @@ committed `site/` folder as a zip.
 
 ```bash
 python build_assets.py           # font, grain, shapes, QR, icons, logo, seal, images, share cards (needs: pip install segno)
+# build_site.py also writes sitemap.xml (lastmod per page from build_cache/lastmod.json), robots.txt and the IndexNow key file
 python build_assets.py --force   # re-encode every image, e.g. after changing a crop or the grade
 python build_site.py             # 11 pages + .htaccess, PHP handler, sitemap, robots, manifest — verify() runs last
 python make_upload.py            # dist/smartlinepointcleaning.co.ke-upload.zip, re-opened and checked
@@ -110,22 +111,85 @@ Local check: `python make_pages.py`, serve `dist/pages` under `/Smartline-Point-
 | `/speculation-rules.json` | 200, `application/speculationrules+json` (every other `.json` stays 403) |
 | securityheaders.com | A or A+ |
 | /contact map | The Google map loads at *Find us* (CSP `frame-src https://www.google.com`); no CSP error in the console |
-| Rich Results Test, home + one service page | LocalBusiness, Breadcrumb, FAQ detected, no errors |
-| PageSpeed Insights, phone | 90+ performance, 100 the rest |
+| `/sitemap.xml` | 200, XML, 9 URLs, each with a `<lastmod>`; every URL opens with status 200 |
+| `/robots.txt` | 200, `Allow: /`, `Disallow: /form/`, the `Sitemap:` line |
+| `/4f82024d62e22d6a7fcff95721ad0647.txt` | 200, plain text, the key itself (IndexNow) |
+| View source, any page | `<link rel="canonical">` = that page's apex URL; `index, follow` (thank-you and 404: `noindex`) |
+| Rich Results Test, home + one service page | *Local business* and *Breadcrumbs* valid, no errors. FAQ will **not** show as a rich result: Google limits FAQ results to government and health sites since 2023, so FAQPage is valid markup only |
+| validator.schema.org, home | the whole graph (LocalBusiness, WebSite, WebPage, FAQPage) with no errors |
+| PageSpeed Insights, phone | 90+ performance, 100 the rest (local, compressed, 23/11/2026: phone 96–97, desktop 97–100, CLS 0) |
 | A real phone | menu, form, WhatsApp button, tap-to-call |
 
-## 4. Google, after launch
+## 4. Google and Bing, after launch (current practice, 23/11/2026)
 
-1. **Search Console** — add a *Domain* property, verify by DNS TXT, submit
-   `https://smartlinepointcleaning.co.ke/sitemap.xml`, request indexing for `/`,
-   `/services` and the three service pages.
-2. **Google Business Profile** — primary category *Commercial cleaning service*;
-   add *House cleaning service*, *Janitorial service*, *Carpet cleaning service*,
-   *Landscaper*. Name, address and phone **exactly** as in the site footer.
-   Website = the apex URL. Needs **REAL-07**: 10+ real photographs (Google strips stock).
-   Ask happy clients for reviews there — the site carries no testimonials by decision.
-3. **Analytics** (optional) — create a GA4 property, set `GA_ID`, rebuild, upload.
-4. Bing Webmaster Tools — import from Search Console in one click.
+Do these only after every live check in §3 passes. Accounts belong to the **client**
+(sign in with a Google account they control, ideally `info@`); add Allen as a user.
+
+**Business details — use exactly this everywhere (NAP consistency matters for local ranking):**
+Smartline Point Cleaning Hub Ltd · ICIPE Road, Kasarani, Nairobi · +254 711 128736 ·
+https://smartlinepointcleaning.co.ke · info@smartlinepointcleaning.co.ke
+
+### 4.1 Google Search Console — day one
+1. search.google.com/search-console → **Add property → Domain** → `smartlinepointcleaning.co.ke`.
+   Google gives a TXT record (`google-site-verification=…`). Add it in DirectAdmin → DNS
+   Management (host `@`), wait for it to resolve, press Verify. **Leave the TXT record in place
+   for good** — removing it un-verifies the property. A Domain property covers http, https and www.
+   - Fallback if DNS cannot be edited: add a *URL prefix* property, choose *HTML tag*, paste the
+     `content` value into `site_content.GSC_VERIFY`, run `build_site.py`, upload `index.html`, Verify.
+2. **Sitemaps** → submit `sitemap.xml`. Expect *Success* and 9 discovered pages.
+3. **URL Inspection** → each of `/`, `/services`, `/commercial-cleaning`,
+   `/residential-apartment-cleaning`, `/post-construction-cleaning`, `/about`, `/clients`, `/contact`
+   → *Test live URL* (must say "URL is available to Google") → *Request indexing*.
+   There is a daily quota (about 10); do the rest the next day.
+4. **Settings → Users and permissions** — client as Owner, Allen as Full user.
+
+### 4.2 Google Business Profile — the biggest lever for "cleaning company near me"
+1. business.google.com → add the business, name exactly as above.
+2. **Category:** primary *Commercial cleaning service*; additional *House cleaning service*,
+   *Janitorial service*, *Carpet cleaning service*, *Upholstery cleaning service*, *Landscaper*.
+   No fumigation/pest-control category (not licensed).
+3. **Location:** show the office (ICIPE Road, Kasarani) **and** add service areas: Nairobi, Kasarani,
+   Roysambu, Ruiru, Thika Road, Nairobi CBD, Westlands, Kiambu — the same list as the site's
+   "Areas we serve" (max 20). Drop the pin on the real office — then send the
+   pin's coordinates so `site_content.MAP_QUERY` and the schema can use the exact spot.
+4. **Hours** (still to confirm with the client), **phone**, **website** = the apex URL,
+   **WhatsApp** chat button with the same number.
+5. **Services:** add all 13 from the site (names as on `/services`). **Description** (750 chars max):
+   > Smartline Point Cleaning Hub Ltd is a Nairobi cleaning company, established in 2018 and based on
+   > ICIPE Road, Kasarani. We clean offices, banks, schools, churches, homes, apartments and Airbnbs,
+   > and handle post-construction, deep and one-time cleans, carpet and sofa cleaning, washrooms and
+   > landscaping. Our cleaners are trained, uniformed and supervised; every job is scoped in writing,
+   > and if anything is missed we come back within 24 hours to re-clean it. Daily, weekly, monthly or
+   > one-off schedules across Nairobi and Kiambu. Call or WhatsApp +254 711 128736 for a free site
+   > visit and a written quote.
+6. **Verification:** Google usually asks for a short video (signage, office, equipment, proof of
+   management). Plan it with the client.
+7. **Photos:** REAL-07 — 10+ real photographs (team at work, equipment, finished jobs, office
+   exterior). Stock photos get removed. Add a few new ones each month.
+8. **Reviews:** after a job, send clients the profile's *Ask for reviews* link. Reply to every
+   review. (The website deliberately carries no testimonials — reviews live on Google.)
+9. When the profile is live, put its URL (and any social pages) into the schema `sameAs`
+   (`build_site.business_node`), rebuild, upload.
+
+### 4.3 Bing (also feeds ChatGPT search, Copilot and DuckDuckGo)
+1. bing.com/webmasters → **Import from Google Search Console** (one click, no extra verification;
+   fallback: `site_content.BING_VERIFY`).
+2. `python tools/indexnow.py` (dry run) then `python tools/indexnow.py --send`. Re-run with `--send`
+   after any later upload that changes pages; the sitemap `<lastmod>` dates move only for pages
+   whose content changed.
+
+### 4.4 Check-ins
+- **Day 3–7:** Search Console → *Pages*: 9 indexed. *Not indexed* should list only `/thank-you`
+  (noindex, by design) and redirect variants (http, www, `.html`) — those are correct.
+  Search `site:smartlinepointcleaning.co.ke` on Google.
+- **Week 4:** Search Console → *Performance* (queries, impressions), *Core Web Vitals* (appears once
+  there is enough traffic), *HTTPS* (all pages HTTPS). Business Profile → *Performance* (calls,
+  direction requests, website clicks).
+- **Analytics** (optional): create a GA4 property, set `site_content.GA_ID`, rebuild, upload — the
+  cookie notice and consent gate switch on with it.
+- **The GitHub preview** (`murayaallen.github.io/…`) stays `noindex` with canonicals pointing at the
+  real domain, so it never competes in search. It can be switched off after launch
+  (repo Settings → Pages → Unpublish) once the client no longer needs the link.
 
 ## 5. Keeping it alive
 

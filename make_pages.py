@@ -120,7 +120,7 @@ def build():
         dirs[:] = sorted(d for d in dirs if (d if rel_dir == "." else rel_dir + "/" + d) not in SKIP_DIRS)
         for n in sorted(names):
             rel = n if rel_dir == "." else rel_dir + "/" + n
-            if rel in SKIP_FILES or n == ".htaccess":
+            if rel in SKIP_FILES or n == ".htaccess" or n == C.INDEXNOW_KEY + ".txt":
                 continue
             src, dst = os.path.join(base, n), os.path.join(OUT, rel)
             os.makedirs(os.path.dirname(dst), exist_ok=True)

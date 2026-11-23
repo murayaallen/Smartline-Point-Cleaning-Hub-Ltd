@@ -367,6 +367,17 @@
     counters.forEach(function (c) { cio.observe(c); });
   }
 
+  /* ------------------------------------------------------------- decoration sleeps off screen
+     Auras, bubbles, glows, streaks and shapes loop forever; off screen they only burn a phone's CPU
+     (the SVG streaks animate stroke-dashoffset, which cannot run on the compositor). A section's
+     decoration plays only while the section is within 300px of the viewport. */
+  if (!reduce && "IntersectionObserver" in w) {
+    var dio = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { e.target.classList.toggle("deco-off", !e.isIntersecting); });
+    }, { rootMargin: "300px 0px" });
+    $$("main > section, .ftr").forEach(function (sec) { dio.observe(sec); });
+  }
+
   /* ------------------------------------------------------------- marquees: drift, pushed by scroll speed */
   if (!reduce) {
     $$("[data-marquee]").forEach(function (m) {

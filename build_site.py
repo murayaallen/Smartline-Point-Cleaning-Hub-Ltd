@@ -619,7 +619,7 @@ def home(pg):
     cards.append('<article class="rcard rcard--end"><div class="rcard__body"><p class="label label--sun">Schedules</p>'
                  '<h3 class="d3">Once, or on a schedule</h3><div class="chips">%s</div>'
                  '<a class="btn btn--sun" href="/services">See all 13 services %s</a></div></article>' % (sched, icon("arrow-right")))
-    out.append('<section class="rail" id="services" aria-labelledby="h-services">' + orbs("b") + waves("t") + '<div class="rail__pin"><div class="wrap rail__head">'
+    out.append('<section class="rail" id="services" aria-labelledby="h-services">' + waves("t") + '<div class="rail__pin">' + orbs("b") + '<div class="wrap rail__head">'
                '<div>%s<h2 class="d2" id="h-services" data-split>What we clean</h2></div>'
                '<p class="lede" data-reveal>Thirteen services across offices, institutions, homes and new builds &mdash; one point of contact for all of them.</p>'
                '<div class="rail__meter" aria-hidden="true"><span class="rail__count">01</span><span class="rail__bar"><span></span></span><span>05</span></div></div>'
@@ -1049,7 +1049,9 @@ def business_node():
         "@type": "LocalBusiness", "@id": BIZ, "name": C.BRAND, "alternateName": C.SHORT, "url": C.ORIGIN + "/",
         "logo": {"@type": "ImageObject", "url": C.ORIGIN + "/icon-512.png", "width": 512, "height": 512},
         "image": C.ORIGIN + "/assets/img/og/home.jpg", "telephone": C.PHONE_E164, "email": C.EMAIL,
-        "slogan": "Assuring you the best", "foundingDate": C.FOUNDED, "priceRange": "KES",
+        "slogan": "Assuring you the best", "foundingDate": C.FOUNDED, "hasMap": C.MAP_URL,
+        "contactPoint": {"@type": "ContactPoint", "contactType": "customer service", "telephone": C.PHONE_E164,
+                         "email": C.EMAIL, "areaServed": "KE", "availableLanguage": "English"},
         "description": "Commercial, residential and post-construction cleaning and landscaping in Nairobi and Kiambu.",
         "address": {"@type": "PostalAddress", "streetAddress": C.STREET, "addressLocality": "Kasarani",
                     "addressRegion": "Nairobi", "postalCode": "00100", "addressCountry": "KE"},
@@ -1071,7 +1073,8 @@ def jsonld(pg, trail, faqs):
     if pg["slug"] in ("/", "/contact", "/about"):
         graph.append(business_node())
     if pg["slug"] == "/":
-        graph.append({"@type": "WebSite", "@id": SITE_ID, "url": C.ORIGIN + "/", "name": C.BRAND, "inLanguage": "en-GB",
+        graph.append({"@type": "WebSite", "@id": SITE_ID, "url": C.ORIGIN + "/", "name": C.BRAND,
+                      "alternateName": [C.SHORT, "Smartline Point Cleaning"], "inLanguage": "en-GB",
                       "publisher": {"@id": BIZ}})
     page = {"@type": page_type(pg["slug"]), "@id": url + "#webpage", "url": url, "name": pg["title"],
             "description": pg["desc"], "inLanguage": "en-GB", "isPartOf": {"@id": SITE_ID}, "about": {"@id": BIZ},
@@ -1092,6 +1095,14 @@ def jsonld(pg, trail, faqs):
     return json.dumps({"@context": "https://schema.org", "@graph": graph}, ensure_ascii=False, separators=(",", ":"))
 
 
+def verification_tags(slug_):
+    """Search Console / Bing HTML-tag verification, home page only, only when switched on."""
+    if slug_ != "/":
+        return ""
+    return "".join('<meta name="%s" content="%s">' % (n, E(v))
+                   for n, v in (("google-site-verification", C.GSC_VERIFY), ("msvalidate.01", C.BING_VERIFY)) if v)
+
+
 def head(pg, trail, faqs, index=True, key="page"):
     slug_ = pg["slug"]
     url = C.ORIGIN + ("/" if slug_ == "/" else slug_)
@@ -1109,7 +1120,7 @@ def head(pg, trail, faqs, index=True, key="page"):
     return ('<!doctype html><html lang="en-GB"%s><head><meta charset="utf-8">'
             '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">'
             '<title>%s</title><meta name="description" content="%s">%s'
-            '<meta name="robots" content="%s">%s'
+            '<meta name="robots" content="%s">%s%s'
             '<meta name="theme-color" content="#F2FAFF"><meta name="author" content="%s">'
             '<meta name="geo.region" content="KE-30"><meta name="geo.placename" content="Nairobi">'
             '<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="icon" href="/favicon.ico" sizes="any">'
@@ -1127,7 +1138,7 @@ def head(pg, trail, faqs, index=True, key="page"):
             '<script type="application/ld+json">%s</script></head><body data-page="%s" data-fx="/assets/js/fx.min.js?v=%s">'
             % (ga, E(pg["title"]), E(pg["desc"]), ('<meta name="keywords" content="%s">' % E(keywords)) if keywords else "",
                "index, follow, max-image-preview:large" if index else "noindex, follow",
-               "" if slug_ == "/404" else '<link rel="canonical" href="%s">' % url, E(C.BRAND), preload,
+               "" if slug_ == "/404" else '<link rel="canonical" href="%s">' % url, verification_tags(slug_), E(C.BRAND), preload,
                V_CSS, V_BOOT, V_JS, E(C.BRAND), E(pg["title"]), E(pg["desc"]), url, C.ORIGIN, og["file"],
                E(pg["h1"]), E(pg["title"]), E(pg["desc"]), C.ORIGIN, og["file"], jsonld(pg, trail, faqs), key, V_FX))
 
@@ -1429,12 +1440,12 @@ def build():
         write(fn, text)
 
     indexable = [p for p in L.PAGES] + [p for p in L.UTILITY_PAGES if p["slug"] == "/privacy"]
-    urls = "".join('<url><loc>%s</loc><lastmod>%s</lastmod><changefreq>monthly</changefreq><priority>%s</priority></url>'
-                   % (C.ORIGIN + ("/" if p["slug"] == "/" else p["slug"]), "2026-11-20",
-                      "1.0" if p["slug"] == "/" else ("0.9" if p["slug"] in QQ_SERVICES or p["slug"] == "/services" else
-                                                      ("0.3" if p["slug"] == "/privacy" else "0.7")))
+    stamps = lastmod_stamps({file_for(p["slug"]): pages[file_for(p["slug"])] for p in indexable})
+    urls = "".join('\n<url><loc>%s</loc><lastmod>%s</lastmod></url>'
+                   % (C.ORIGIN + ("/" if p["slug"] == "/" else p["slug"]), stamps[file_for(p["slug"])])
                    for p in indexable)
-    write("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">%s</urlset>\n' % urls)
+    write("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">%s\n</urlset>\n' % urls)
+    write("%s.txt" % C.INDEXNOW_KEY, C.INDEXNOW_KEY)     # IndexNow key file (tools/indexnow.py)
     write("robots.txt", "User-agent: *\nAllow: /\nDisallow: /form/\n\nSitemap: %s/sitemap.xml\n" % C.ORIGIN)
     write("site.webmanifest", json.dumps({
         "name": C.BRAND, "short_name": C.SHORT, "start_url": "/", "display": "browser",
@@ -1452,6 +1463,80 @@ def build():
                           {"not": {"selector_matches": "[target=_blank], [download]"}}]},
         "eagerness": "moderate"}]}, indent=1) + "\n")
     return pages
+
+
+LASTMOD = os.path.join(ROOT, "build_cache", "lastmod.json")
+
+
+def lastmod_stamps(indexable):
+    """Sitemap <lastmod> that tells the truth: a page's date moves only when its content changes
+    (asset ?v= hashes ignored), so Google keeps trusting it. Dates are Nairobi time (UTC+3)."""
+    from datetime import datetime, timedelta, timezone
+    today = datetime.now(timezone(timedelta(hours=3))).strftime("%Y-%m-%d")
+    try:
+        with open(LASTMOD, encoding="utf-8") as f:
+            seen = json.load(f)
+    except (OSError, ValueError):
+        seen = {}
+    out, changed = {}, False
+    for fn, text in sorted(indexable.items()):
+        sha = hashlib.sha256(re.sub(r"\?v=[0-9a-f]+", "", text).encode("utf-8")).hexdigest()[:16]
+        rec = seen.get(fn)
+        if not rec or rec["sha"] != sha:
+            rec, changed = {"sha": sha, "date": today}, True
+            seen[fn] = rec
+        out[fn] = rec["date"]
+    if changed:
+        with open(LASTMOD, "w", encoding="utf-8", newline="\n") as f:
+            json.dump(seen, f, indent=1, sort_keys=True)
+            f.write("\n")
+    return out
+
+
+def verify_seo(pages):
+    """Launch checks for search engines: sitemap, robots, canonicals, verification tags, IndexNow key."""
+    errs = []
+    sm = open(os.path.join(SITE, "sitemap.xml"), encoding="utf-8").read()
+    locs = re.findall(r"<loc>([^<]+)</loc>", sm)
+    mods = re.findall(r"<lastmod>([^<]+)</lastmod>", sm)
+    if len(locs) != len(mods) or not all(re.fullmatch(r"\d{4}-\d{2}-\d{2}", m) for m in mods):
+        errs.append("sitemap: every <url> needs a W3C <lastmod> date")
+    if "changefreq" in sm or "priority" in sm:
+        errs.append("sitemap: changefreq/priority are ignored by Google — leave them out")
+    in_map = set()
+    for loc in locs:
+        if not loc.startswith(C.ORIGIN + "/"):
+            errs.append("sitemap: %s is not on %s" % (loc, C.ORIGIN))
+            continue
+        fn = file_for(loc[len(C.ORIGIN):] or "/")
+        in_map.add(fn)
+        text = pages.get(fn)
+        if text is None:
+            errs.append("sitemap: %s has no page" % loc)
+            continue
+        if '<link rel="canonical" href="%s">' % loc not in text:
+            errs.append("sitemap: %s is not the canonical of %s" % (loc, fn))
+        if re.search(r'<meta name="robots" content="[^"]*noindex', text):
+            errs.append("sitemap: %s is noindex but listed" % loc)
+    for fn, text in pages.items():
+        if fn not in in_map and fn not in ("404.html", "thank-you.html"):
+            errs.append("sitemap: %s is indexable but missing from the sitemap" % fn)
+        if fn in ("404.html", "thank-you.html") and "noindex" not in text:
+            errs.append("%s must be noindex" % fn)
+    rb = open(os.path.join(SITE, "robots.txt"), encoding="utf-8").read()
+    if "Sitemap: %s/sitemap.xml" % C.ORIGIN not in rb or re.search(r"(?m)^Disallow: /\s*$", rb):
+        errs.append("robots.txt: needs the sitemap line and must not block the site")
+    for flag, name in ((C.GSC_VERIFY, "google-site-verification"), (C.BING_VERIFY, "msvalidate.01")):
+        tag = '<meta name="%s"' % name
+        if flag and pages["index.html"].count(tag) != 1:
+            errs.append("home page should carry one %s tag" % name)
+        if not flag and any(tag in t for t in pages.values()):
+            errs.append("%s tag present but its switch is off" % name)
+    key = C.INDEXNOW_KEY
+    kf = os.path.join(SITE, key + ".txt")
+    if not re.fullmatch(r"[0-9a-f]{32}", key) or not os.path.isfile(kf) or open(kf, encoding="utf-8").read() != key:
+        errs.append("IndexNow key file missing or wrong")
+    return errs
 
 
 # ================================================================== verify
@@ -1648,6 +1733,7 @@ def verify(pages):
     for f in MAN["images"]["hero-wide"]["files"]:
         if f["w"] <= 1920 and f["bytes"] > 300 * 1024:
             errs.append("desktop hero %s is %d KB > 300 KB" % (f["file"], f["bytes"] // 1024))
+    errs += verify_seo(pages)
     errs = sorted(set(errs))
     if errs:
         raise SystemExit("site verify() FAILED (%d):\n  - " % len(errs) + "\n  - ".join(errs[:80]))

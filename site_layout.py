@@ -506,7 +506,7 @@ PAGES = [
     # ============================================================== CLIENTS
     {"slug": "/clients", "nav": "Clients", "h1": "Clients we have served",
      "keyword": "cleaning company Nairobi clients",
-     "title": "Clients We Have Served | Smartline Point Cleaning Hub",
+     "title": "Clients We Have Served in Nairobi | Smartline",
      "desc": "Banks, schools, churches, apartment blocks, short-stay hosts and lounges across Nairobi that Smartline has cleaned for. See who we have served.",
      "schema": "CollectionPage, BreadcrumbList",
      "sections": [

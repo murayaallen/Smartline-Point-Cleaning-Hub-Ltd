@@ -25,6 +25,7 @@ REQUIRED = [
     "index.html", "about.html", "services.html", "commercial-cleaning.html",
     "residential-apartment-cleaning.html", "post-construction-cleaning.html", "clients.html",
     "contact.html", "thank-you.html", "privacy.html", "404.html",
+    C.INDEXNOW_KEY + ".txt",
     "assets/css/main.css", "assets/js/main.min.js", "assets/js/wipe.min.js", "assets/js/fx.min.js", "assets/js/boot.js", "assets/img/icons.svg",
 ]
 NEVER = (".py", ".pyc", ".md", ".map", ".DS_Store", "Thumbs.db")

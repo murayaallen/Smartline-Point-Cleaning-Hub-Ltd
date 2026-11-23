@@ -79,7 +79,29 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             return
         q = self.path[len(self.path.split("?")[0]):]
         self.path = target + q
+        if self._gzip(target):
+            return
         return super().do_GET()
+
+    GZIP_TYPES = (".html", ".css", ".js", ".svg", ".json", ".xml", ".txt", ".webmanifest")
+
+    def _gzip(self, target):
+        """Compress text the way the live mod_deflate rule does, so local Lighthouse runs see
+        realistic transfer sizes (uncompressed CSS/HTML held the simulated phone LCP back)."""
+        import gzip
+        if not target.endswith(self.GZIP_TYPES) or "gzip" not in self.headers.get("Accept-Encoding", ""):
+            return False
+        full = os.path.join(ROOT, target.lstrip("/"))
+        with open(full, "rb") as f:
+            data = gzip.compress(f.read(), compresslevel=6)
+        self.send_response(200)
+        self.send_header("Content-Type", self.guess_type(full))
+        self.send_header("Content-Encoding", "gzip")
+        self.send_header("Vary", "Accept-Encoding")
+        self.send_header("Content-Length", str(len(data)))
+        self.end_headers()
+        self.wfile.write(data)
+        return True
 
     def do_POST(self):
         if self.path.startswith("/form/enquiry.php"):
@@ -92,4 +114,5 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
 
 if __name__ == "__main__":
+    http.server.ThreadingHTTPServer.request_queue_size = 64   # Lighthouse opens many sockets at once
     http.server.ThreadingHTTPServer(("127.0.0.1", PORT), Handler).serve_forever()
