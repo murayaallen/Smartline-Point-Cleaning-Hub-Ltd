@@ -555,7 +555,7 @@ PAGES = [
          "mobile": "Call and WhatsApp buttons first, then the form, then the address.", "needs": []},
         {"id": "K-03", "name": "Map", "type": "map",
          "p": {"heading": "Find us",
-               "body": "ICIPE Road, Kasarani, Nairobi. Static map image linking to Google Maps — no third-party iframe, so the CSP stays tight and the page stays fast."},
+               "body": "ICIPE Road, Kasarani, Nairobi. Live Google map, lazy-loaded (nothing from Google until the visitor scrolls near it), with Get directions and Open in Google Maps; CSP allows frames from www.google.com only."},
          "what": "Static map with an Open in Google Maps link.",
          "mobile": "Full-width map, 4:3.", "needs": []},
         {"id": "K-04", "name": "Areas we serve", "type": "chips",
@@ -712,9 +712,9 @@ BUILD_STANDARDS = [
     ]),
     ("Security and hosting", [
         ".htaccess: HTTPS and www \u2192 apex 301s, clean URLs, gzip, long cache on versioned assets",
-        "Headers: CSP default-src self (Google Analytics allowed only for the consented script), HSTS, X-Content-Type-Options, Referrer-Policy, Permissions-Policy, frame-ancestors none",
+        "Headers: CSP default-src self (Google Analytics allowed only for the consented script), HSTS, X-Content-Type-Options, Referrer-Policy, Permissions-Policy, frame-ancestors none, frame-src Google Maps only",
         "Form handler: honeypot, minimum fill time, per-IP rate limit, server-side validation, authenticated SMTP to info@",
-        "No third-party embeds: static map image, no iframes",
+        "One third-party embed: the Google map on /contact (lazy; frame-src www.google.com only), disclosed in the privacy notice",
     ]),
 ]
 

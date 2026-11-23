@@ -49,6 +49,13 @@ GA_ID = None
 PRICES = None
 
 MAP_URL = "https://www.google.com/maps/search/?api=1&query=ICIPE+Road+Kasarani+Nairobi"
+# Live map on /contact (23/11/2026). The /maps/embed address is the one Google allows in a frame;
+# the older ?output=embed form 301s through a SAMEORIGIN response. Swap the query for the client's
+# exact pin (or their Google Business Profile name) when they send it.
+MAP_QUERY = "ICIPE Road, Kasarani, Nairobi"
+MAP_EMBED = ("https://www.google.com/maps/embed?origin=mfe&pb=!1m3!2m1!1s" + MAP_QUERY.replace(" ", "+")
+             + "!6i15!3m1!1sen!5m1!1sen")
+MAP_DIRECTIONS = "https://www.google.com/maps/dir/?api=1&destination=" + MAP_QUERY.replace(" ", "+").replace(",", "%2C")
 WA_TEXT = "Hello Smartline, I'd like a quote for "
 
 
@@ -205,7 +212,9 @@ PRIVACY = [
      "consent, given on the form, and on taking the steps you have asked for before a contract."),
     ("Cookies",
      "This site uses no advertising cookies. If analytics is switched on, it runs only after you accept it in the "
-     "cookie notice, and you can change your mind at any time from the link in the footer."),
+     "cookie notice, and you can change your mind at any time from the link in the footer. The map on the contact "
+     "page is Google Maps: it loads from Google as you approach it on that page, so Google receives your IP address and may "
+     "set its own cookies under Google's privacy policy. Everything else on this site is served by us."),
     ("Who we share it with",
      "No one, except as needed to run this website and our email. We do not sell or rent personal data."),
     ("How long we keep it",

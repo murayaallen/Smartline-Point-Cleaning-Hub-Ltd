@@ -237,7 +237,7 @@ def footer():
         ("mailto:%s?subject=%s" % (C.CAREERS_EMAIL, quote("Job application")), "Careers"),
         ("/privacy", "Privacy notice")])
     contact = ('<li><a href="tel:%s">%s%s</a></li><li><a href="%s" target="_blank" rel="noopener">%sWhatsApp %s</a></li>'
-               '<li><a href="mailto:%s">%s%s</a></li><li><span>%s%s, %s</span></li><li><span>%s%s</span></li>'
+               '<li><a href="mailto:%s">%s%s</a></li><li><a href="/contact#find-us">%s%s, %s</a></li><li><span>%s%s</span></li>'
                % (C.PHONE_E164, icon("phone"), E(C.PHONE), E(C.wa_link()), icon("message-circle"), E(C.PHONE),
                   C.EMAIL, icon("mail"), C.EMAIL, icon("map-pin"), E(C.STREET), E(C.LOCALITY), icon("file-text"), E(C.POSTAL)))
     cookie_btn = '<button type="button" data-cookie-settings>Cookie settings</button>' if C.GA_ID else ""
@@ -957,7 +957,7 @@ def contact(pg):
             '<ul class="clist"><li><a href="tel:%s">%s<span><small>Call</small>%s</span></a></li>'
             '<li><a href="%s" target="_blank" rel="noopener">%s<span><small>WhatsApp</small>%s</span></a></li>'
             '<li><a href="mailto:%s">%s<span><small>Email</small>%s</span></a></li>'
-            '<li><span>%s<span><small>Office</small>%s<br>%s</span></span></li>'
+            '<li><a href="#find-us">%s<span><small>Office</small>%s<br>%s</span></a></li>'
             '<li><span>%s<span><small>Postal</small>%s</span></span></li>'
             '<li><span>%s<span><small>Reply time</small>Within one working day</span></span></li></ul>'
             '<div class="qr"><img src="/assets/img/wa-qr.svg" width="120" height="120" alt="QR code that opens a WhatsApp chat with Smartline" loading="lazy">'
@@ -966,11 +966,22 @@ def contact(pg):
                E(C.wa_link()), icon("message-circle"), E(C.PHONE), C.EMAIL, icon("mail"), C.EMAIL,
                icon("map-pin"), E(C.STREET), E(C.LOCALITY), icon("file-text"), E(C.POSTAL), icon("clock")))
     out.append('<section class="sec sec--paper"><div class="wrap form-wrap"><div data-reveal>%s</div>%s</div></section>' % (quote_form(), card))
-    out.append('<section class="sec sec--white"><div class="wrap mapcard"><div class="mapcard__map" data-reveal="wipe">'
-               '<img src="/assets/img/map.svg" width="800" height="600" alt="Schematic map: our office on ICIPE Road, off Thika Road in Kasarani" loading="lazy"></div>'
-               '<div>%s<h2 class="d2" data-split>Find us</h2><p class="body-lg" data-reveal>%s, %s. Just off Thika Road, beside the Moi International Sports Centre.</p>'
-               '<div class="btns" data-reveal><a class="btn btn--navy" href="%s" target="_blank" rel="noopener">Open in Google Maps %s</a></div></div></div></section>'
-               % (eyebrow("Office"), E(C.STREET), E(C.LOCALITY), E(C.MAP_URL), icon("arrow-up-right")))
+    # Find us: a live Google map (lazy — nothing loads from Google until the visitor scrolls near it)
+    out.append('<section class="sec sec--white" id="find-us"><div class="wrap mapcard">'
+               '<div class="mapcard__map" data-reveal="wipe"><div class="mapcard__bar">'
+               '<span class="mapcard__dot" aria-hidden="true"></span>'
+               '<span class="mapcard__who"><b>%s</b><small>%s, %s</small></span>'
+               '<a class="mapcard__go" href="%s" target="_blank" rel="noopener"><span class="mapcard__go-t">Directions</span> %s</a></div>'
+               '<div class="mapcard__embed"><iframe src="%s" title="Google map: %s on %s, %s" loading="lazy" '
+               'referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div></div>'
+               '<div>%s<h2 class="d2" data-split>Find us</h2><p class="body-lg" data-reveal>%s, %s &mdash; just off Thika Road. '
+               'Call or WhatsApp before you visit and we will guide you in.</p>'
+               '<div class="btns" data-reveal><a class="btn btn--sun" href="%s" target="_blank" rel="noopener">Get directions %s</a>'
+               '<a class="btn btn--ghost" href="%s" target="_blank" rel="noopener">Open in Google Maps %s</a></div></div></div></section>'
+               % (E(C.BRAND), E(C.STREET), E(C.LOCALITY), E(C.MAP_DIRECTIONS), icon("arrow-up-right"),
+                  E(C.MAP_EMBED), E(C.BRAND), E(C.STREET), E(C.LOCALITY),
+                  eyebrow("Office"), E(C.STREET), E(C.LOCALITY), E(C.MAP_DIRECTIONS), icon("arrow-up-right"),
+                  E(C.MAP_URL), icon("arrow-up-right")))
     out.append('<section class="sec sec--paper"><div class="wrap two-head"><div>%s</div><div>%s</div></div></section>'
                % (sec_head("Coverage", "Areas we serve",
                            "Based in Kasarani, working across Nairobi and Kiambu. Outside these areas? Ask &mdash; for contract work we often can."),
@@ -1021,44 +1032,11 @@ def not_found(pg):
     return "".join(out)
 
 
-def map_svg():
-    """A schematic locator in the brand palette. Not to scale and labelled as such:
-    it shows where we are relative to landmarks a Nairobi visitor already knows."""
-    svg = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Schematic map: ICIPE Road off Thika Road, Kasarani">'
-           '<rect width="800" height="600" fill="#EEEEF6"/>'
-           '<g stroke="#DCDCEA" stroke-width="10" fill="none">'
-           '<path d="M0 120 L800 160"/><path d="M0 470 L800 430"/><path d="M180 0 L140 600"/><path d="M640 0 L690 600"/>'
-           '<path d="M0 300 L300 290"/><path d="M420 0 L460 260"/></g>'
-           '<rect x="470" y="300" width="210" height="150" rx="6" fill="#DDEBDD"/>'
-           '<text x="575" y="372" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#4C6250">Moi International</text>'
-           '<text x="575" y="392" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="15" fill="#4C6250">Sports Centre</text>'
-           '<path d="M-20 560 L820 40" stroke="#FFFFFF" stroke-width="34" fill="none"/>'
-           '<path d="M-20 560 L820 40" stroke="#C3C3D6" stroke-width="2" stroke-dasharray="14 12" fill="none"/>'
-           '<text transform="translate(205 395) rotate(-31.8)" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="700" '
-           'letter-spacing="4" fill="#101238">THIKA ROAD</text>'
-           '<path d="M392 318 C430 300 452 280 470 262 L560 214" stroke="#FFFFFF" stroke-width="18" fill="none"/>'
-           '<text transform="translate(470 238) rotate(-26)" font-family="Segoe UI, Arial, sans-serif" font-size="14" font-weight="700" '
-           'letter-spacing="2" fill="#101238">ICIPE ROAD</text>'
-           '<path d="M470 262 L470 300" stroke="#FFFFFF" stroke-width="12" fill="none"/>'
-           '<text x="300" y="540" font-family="Segoe UI, Arial, sans-serif" font-size="30" font-weight="800" fill="#2F2483">Kasarani</text>'
-           '<circle cx="470" cy="262" r="34" fill="#F8951A" opacity=".18"/>'
-           '<path d="M470 220 C455 220 444 231 444 246 C444 266 470 290 470 290 C470 290 496 266 496 246 C496 231 485 220 470 220 Z" '
-           'fill="#101238" stroke="#F8951A" stroke-width="2"/><circle cx="470" cy="246" r="8" fill="#F8951A"/>'
-           '<rect x="510" y="96" width="250" height="78" rx="3" fill="#FFFFFF" stroke="#E1E1EC"/>'
-           '<rect x="510" y="96" width="3" height="78" fill="#F8951A"/>'
-           '<text x="530" y="128" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="800" fill="#101238">Smartline</text>'
-           '<text x="530" y="154" font-family="Segoe UI, Arial, sans-serif" font-size="13" fill="#5B5D78">ICIPE Road, Kasarani, Nairobi</text>'
-           '<text x="24" y="584" font-family="Segoe UI, Arial, sans-serif" font-size="12" fill="#8587A0">Schematic — not to scale</text>'
-           '</svg>')
-    with open(os.path.join(SITE, "assets", "img", "map.svg"), "w", encoding="utf-8") as f:
-        f.write(svg)
-
 
 
 # ================================================================== head + JSON-LD
 BIZ = C.ORIGIN + "/#business"
 SITE_ID = C.ORIGIN + "/#website"
-
 
 def business_node():
     return {
@@ -1203,7 +1181,7 @@ Header always set X-Frame-Options "DENY"
 Header always set Referrer-Policy "strict-origin-when-cross-origin"
 Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=()"
 Header always set Cross-Origin-Opener-Policy "same-origin"
-Header always set Content-Security-Policy "default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self'; img-src 'self' data: https://www.googletagmanager.com https://*.google-analytics.com; font-src 'self'; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests"
+Header always set Content-Security-Policy "default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self'; img-src 'self' data: https://www.googletagmanager.com https://*.google-analytics.com; font-src 'self'; frame-src https://www.google.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests"
 # Chromium prefetches a page when a visitor hovers its link (rules in a file, so the CSP stays strict)
 Header set Speculation-Rules "\"/speculation-rules.json\""
 Header unset X-Powered-By
@@ -1414,7 +1392,6 @@ def write(rel, text):
 
 
 def build():
-    map_svg()
     pages = {}
     for pg in L.PAGES:
         s = pg["slug"]

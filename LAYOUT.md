@@ -365,9 +365,9 @@ Six required fields in all. Step 1 asks about the job (low commitment, so people
 **Security and hosting**
 
 - .htaccess: HTTPS and www → apex 301s, clean URLs, gzip, long cache on versioned assets
-- Headers: CSP default-src self (Google Analytics allowed only for the consented script), HSTS, X-Content-Type-Options, Referrer-Policy, Permissions-Policy, frame-ancestors none
+- Headers: CSP default-src self (Google Analytics allowed only for the consented script), HSTS, X-Content-Type-Options, Referrer-Policy, Permissions-Policy, frame-ancestors none, frame-src Google Maps only
 - Form handler: honeypot, minimum fill time, per-IP rate limit, server-side validation, authenticated SMTP to info@
-- No third-party embeds: static map image, no iframes
+- One third-party embed: the Google map on /contact (lazy; frame-src www.google.com only), disclosed in the privacy notice
 
 ## 5. Component inventory
 

@@ -109,6 +109,7 @@ Local check: `python make_pages.py`, serve `dist/pages` under `/Smartline-Point-
 | Response headers | CSP, HSTS, `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy`, `Speculation-Rules` |
 | `/speculation-rules.json` | 200, `application/speculationrules+json` (every other `.json` stays 403) |
 | securityheaders.com | A or A+ |
+| /contact map | The Google map loads at *Find us* (CSP `frame-src https://www.google.com`); no CSP error in the console |
 | Rich Results Test, home + one service page | LocalBusiness, Breadcrumb, FAQ detected, no errors |
 | PageSpeed Insights, phone | 90+ performance, 100 the rest |
 | A real phone | menu, form, WhatsApp button, tap-to-call |

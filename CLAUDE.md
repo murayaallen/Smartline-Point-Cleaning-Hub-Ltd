@@ -412,6 +412,15 @@ third that is striking"; "where did the loading screen with the logo and company
 - This machine's `build_cache/mona-*.ttf` were pre-v8 (heavy) — delete them if share cards ever come
   out bold; build_assets regenerates the slim instances.
 - Verified: verify OK, make_pages OK, qa_browser ALL CHECKS PASSED, make_social 46 images, upload zip OK.
+- **Live Google map on /contact** (Allen: "embed a map of the location") — *Find us* (`#find-us`) is a framed
+  Google Maps embed: address bar with a pulsing dot and Directions, iframe `loading="lazy"`, 4:3 (1:1 on
+  phones), "Get directions" + "Open in Google Maps". URLs in `site_content.MAP_QUERY/MAP_EMBED/MAP_DIRECTIONS`
+  — use the `/maps/embed?origin=mfe&pb=` form (the `?output=embed` form 301s through X-Frame-Options
+  SAMEORIGIN). Pin currently geocodes "ICIPE Road, Kasarani, Nairobi" (Icipe Rd by Kasarani Police
+  Station) — **swap MAP_QUERY for the client's exact pin or GBP name when they send it.** CSP gains
+  `frame-src https://www.google.com` (only that). Privacy notice discloses Google Maps. The contact-card
+  office line and the footer address link to the map. The schematic `map.svg` is retired. QA ignores
+  Google's own map traffic and checks the frame is lazy, loads at #find-us and fills its box.
 
 ## Open
 - Client: sign-off on drafted copy (13 services, 20 FAQs, re-clean promise, standards,

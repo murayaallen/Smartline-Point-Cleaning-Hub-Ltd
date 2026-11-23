@@ -28,6 +28,8 @@ async function launch() {          // an Edge mid-update refuses to start headle
 }
 const OUT = process.argv[2] || "qa_out";
 const BASE = process.argv[3] || "http://127.0.0.1:8765";
+// the Google map on /contact runs its own background requests; their failures are Google's, not ours
+const MAPS = /^https:\/\/([a-z0-9-]+\.)*(google\.com|gstatic\.com|googleapis\.com|ggpht\.com|googleusercontent\.com)\//;
 const PAGES = ["/", "/about", "/services", "/commercial-cleaning", "/residential-apartment-cleaning",
   "/post-construction-cleaning", "/clients", "/contact", "/thank-you", "/privacy", "/no-such-page"];
 const DEVICES = {
@@ -58,11 +60,11 @@ async function newPage(browser, device, motion) {
   page.on("pageerror", (e) => page._problems.push("exception: " + e.message));
   page.on("requestfailed", (r) => {
     const u = r.url();
-    if (!u.includes("googletagmanager")) page._problems.push("request failed: " + u + " " + (r.failure() || {}).errorText);
+    if (!u.includes("googletagmanager") && !MAPS.test(u)) page._problems.push("request failed: " + u + " " + (r.failure() || {}).errorText);
   });
   page.on("response", (r) => {
     const u = r.url();
-    if (r.status() >= 400 && !u.endsWith("/no-such-page")) page._problems.push("HTTP " + r.status() + ": " + u);
+    if (r.status() >= 400 && !u.endsWith("/no-such-page") && !MAPS.test(u)) page._problems.push("HTTP " + r.status() + ": " + u);
   });
   return page;
 }
@@ -256,6 +258,33 @@ async function overflow(page) {
     await page.keyboard.press("Escape");
     page._problems.forEach((x) => fail("clients " + x));
     log("ok  clients: deep-link filter, filter buttons, lightbox");
+    await page.close();
+  }
+  // contact: the live Google map is lazy (no Google frame at first paint), loads at #find-us, and fits its frame
+  for (const dev of ["desktop", "mobile"]) {
+    const page = await newPage(browser, dev, false);
+    await page.goto(BASE + "/contact", { waitUntil: "load" });
+    // native lazy loading: Chrome starts the frame once it is within ~1250-2500px of the viewport,
+    // so on a tall desktop it may already be loading at first paint. Check the attribute, not the timing.
+    const lazy = await page.$eval(".mapcard__embed iframe", (f) => f.getAttribute("loading"));
+    if (lazy !== "lazy") fail(`map [${dev}]: iframe is not loading="lazy"`);
+    await page.evaluate(() => document.getElementById("find-us").scrollIntoView({ block: "center", behavior: "instant" }));
+    let loaded = false;
+    for (let i = 0; i < 40 && !loaded; i++) {
+      await sleep(250);
+      loaded = page.frames().some((f) => f.url().startsWith("https://www.google.com/maps/embed"));
+    }
+    if (!loaded) fail(`map [${dev}]: Google frame never loaded at #find-us`);
+    await sleep(2500);
+    const box = await page.$eval(".mapcard__embed iframe", (f) => {
+      const r = f.getBoundingClientRect(), p = f.parentElement.getBoundingClientRect();
+      return { w: Math.round(r.width), h: Math.round(r.height), pw: Math.round(p.width), ph: Math.round(p.height), title: f.title };
+    });
+    if (box.w !== box.pw || box.h !== box.ph || box.h < 250) fail(`map [${dev}]: frame ${box.w}x${box.h} in ${box.pw}x${box.ph}`);
+    if (!/ICIPE Road/.test(box.title)) fail(`map [${dev}]: frame title "${box.title}"`);
+    await page.screenshot({ path: path.join(OUT, `ix-map-${dev}.png`) });
+    page._problems.forEach((x) => fail(`map [${dev}] ` + x));
+    log(`ok  map [${dev}]: lazy, loads at #find-us, ${box.w}x${box.h}`);
     await page.close();
   }
   // motion ON: the loader must clear itself, no errors with animations running
